@@ -207,9 +207,9 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
       <label class="flabel" data-i18n="password">Mot de passe</label>
       <input class="inp" id="u-password" type="password" placeholder="••••••">
     </div>
-    <button class="btn-g" id="btn-login" data-i18n="login_btn">Se connecter</button>
+    <!-- FIX: onclick direct sur le bouton, pas de addEventListener externe -->
+    <button class="btn-g" id="btn-login" type="button" onclick="doLogin()">Se connecter</button>
   </div>
- 
 </div>
 
 <div id="screen-app" style="display:none">
@@ -367,7 +367,7 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
 </div>
 
 <div class="modal-wrap" id="mwrap" onclick="if(event.target===this)closeM()">
-<div class="modal" id="mcontent"></div>
+  <div class="modal" id="mcontent"></div>
 </div>
 
 <div class="photo-modal" id="photo-modal" onclick="if(event.target===this)closePhotoModal()">
@@ -377,429 +377,37 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
 
 </div>
 
+<!-- ============================================================
+     SCRIPT 1 : i18n — doit être en premier
+     ============================================================ -->
+
 <script>
-const I18N = {
+var I18N = {
   fr: {
-    app_title: "Oberoi Marrakech",
-    app_sub: "Gestion des espaces verts",
-    username: "Nom d'utilisateur",
-    password: "Mot de passe",
-    login_btn: "Se connecter",
-    login_error: "Identifiants incorrects.",
-    readonly_msg: "Vue limitée à vos tâches.",
-    my_tasks: "Mes tâches du jour",
-    done: "complétées",
-    photos_missing: "Photos manquantes",
-    to_add: "à ajouter",
-    recouches: "Recouches",
-    in_progress: "en cours",
-    zones: "Zones",
-    priority_tasks: "Tâches prioritaires",
-    alert_zones: "Zones en alerte",
-    tasks: "Travaux",
-    f_mine: "Mes tâches",
-    f_team: "Équipe",
-    f_all: "Toutes",
-    f_urg: "Urgentes",
-    f_nophoto: "Sans photo",
-    f_done: "Faites",
-    journal: "Journal de travaux",
-    j_all: "Tout",
-    j_maintenance: "Entretien",
-    j_planting: "Plantation",
-    j_treatment: "Traitement",
-    j_incident: "Incident",
-    room_touchups: "Recouches chambres",
-    room_rule: "N° chambre + photo obligatoires.",
-    r_pending: "En attente",
-    r_valid: "Validées",
-    other_modules: "Autres modules",
-    zones_sub: "Clusters & espaces",
-    audits: "Audits",
-    audits_sub: "Fiches par zone",
-    phyto: "Phytosanitaires",
-    phyto_sub: "Stock & traitements",
-    team: "Équipe",
-    team_sub: "20 personnes",
-    accounts: "Comptes utilisateurs",
-    accounts_sub: "Gestion des accès",
-    zones_full: "Zones Oberoi",
-    audit_sheets: "Fiches d'audit",
-    phyto_full: "Produits phytosanitaires",
-    inventory: "Inventaire",
-    treatment_history: "Historique traitements",
-    full_team: "Équipe complète",
-    add_account: "+ Compte",
-    manager_only_warning: "Réservé au manager.",
-    nav_home: "Accueil",
-    nav_tasks: "Tâches",
-    nav_journal: "Journal",
-    nav_rooms: "Recouches",
-    nav_more: "Plus",
-    online: "En ligne",
-    offline: "Hors ligne",
-    manager: "Manager",
-    chef: "Chef",
-    gardener: "Jardinier",
-    no_task: "Aucune tâche.",
-    no_urgent: "Aucune tâche urgente.",
-    no_entry: "Aucune entrée.",
-    no_recouche: "Aucune recouche.",
-    no_audit: "Aucun audit.",
-    no_treatment: "Aucun traitement.",
-    all_ok: "Toutes les zones sont OK.",
-    cancel: "Annuler",
-    create: "Créer",
-    save: "Enregistrer",
-    validate: "Valider",
-    new_task: "Nouvelle tâche",
-    description: "Description",
-    zone: "Zone",
-    assigned_to: "Assigné à",
-    priority: "Priorité",
-    date: "Date",
-    urgent: "Urgente",
-    normal: "Normale",
-    low: "Basse",
-    today: "Aujourd'hui",
-    tomorrow: "Demain",
-    this_week: "Cette semaine",
-    photo_required: "Photo obligatoire",
-    photo_missing: "⚠ Photo obligatoire.",
-    take_photo: "📷 Prendre une photo",
-    or_gallery: "Ou choisir dans la galerie",
-    new_journal_entry: "Nouvelle entrée",
-    title: "Titre",
-    type: "Type",
-    notes: "Notes",
-    new_recouche: "Nouvelle recouche",
-    room_number: "N° chambre / villa",
-    work: "Travail",
-    final_photo: "Photo travail terminé",
-    no_photo_no_valid: "Sans photo : non validée",
-    audit_sheet: "Fiche d'audit",
-    cleanliness: "Propreté",
-    pruning: "Taille",
-    irrigation: "Irrigation",
-    plants_state: "État plantes",
-    safety: "Sécurité",
-    observations: "Observations",
-    product_use: "Utilisation produit",
-    product: "Produit",
-    dose: "Dose",
-    new_account: "Nouveau compte",
-    full_name: "Nom complet",
-    role: "Rôle",
-    management: "Management",
-    no_zones_alert: "Toutes les zones sont OK.",
-    complete_task: "Valider la tâche",
-    uploading: "Envoi...",
-    room_number_required: "⚠ N° de chambre obligatoire.",
-    upload_error: "Erreur upload",
-    only_my_team: "Vous ne pouvez modifier que les tâches de votre équipe.",
-    only_manager_cancel: "Seul le manager peut annuler une validation.",
-    task_creation_restricted: "Création de tâche réservée au manager et chefs.",
-    audit_manager_only: "Audit réservé au manager.",
-    manager_only: "Réservé au manager.",
-    all_fields_required: "Tous les champs requis.",
-    username_exists: "Ce username existe déjà.",
-    account_created: "Compte créé.",
-    password_updated: "Mot de passe mis à jour",
-    new_password_prompt: "Nouveau mot de passe pour",
-    modify: "Modifier",
-    today_short: "Auj.",
-    yesterday: "Hier",
-    loading: "Chargement...",
-    weather_desc: "météo en cours",
-    weather_hot: "Température élevée — prévoir arrosage supplémentaire",
-    weather_rain: "Pluie prévue — pas d'arrosage nécessaire"
+    app_title:"Oberoi Marrakech",app_sub:"Gestion des espaces verts",username:"Nom d'utilisateur",password:"Mot de passe",login_btn:"Se connecter",login_error:"Identifiants incorrects.",readonly_msg:"Vue limitée à vos tâches.",my_tasks:"Mes tâches du jour",done:"complétées",photos_missing:"Photos manquantes",to_add:"à ajouter",recouches:"Recouches",in_progress:"en cours",zones:"Zones",priority_tasks:"Tâches prioritaires",alert_zones:"Zones en alerte",tasks:"Travaux",f_mine:"Mes tâches",f_team:"Équipe",f_all:"Toutes",f_urg:"Urgentes",f_nophoto:"Sans photo",f_done:"Faites",journal:"Journal de travaux",j_all:"Tout",j_maintenance:"Entretien",j_planting:"Plantation",j_treatment:"Traitement",j_incident:"Incident",room_touchups:"Recouches chambres",room_rule:"N° chambre + photo obligatoires.",r_pending:"En attente",r_valid:"Validées",other_modules:"Autres modules",zones_sub:"Clusters & espaces",audits:"Audits",audits_sub:"Fiches par zone",phyto:"Phytosanitaires",phyto_sub:"Stock & traitements",team:"Équipe",team_sub:"20 personnes",accounts:"Comptes utilisateurs",accounts_sub:"Gestion des accès",zones_full:"Zones Oberoi",audit_sheets:"Fiches d'audit",phyto_full:"Produits phytosanitaires",inventory:"Inventaire",treatment_history:"Historique traitements",full_team:"Équipe complète",add_account:"+ Compte",manager_only_warning:"Réservé au manager.",nav_home:"Accueil",nav_tasks:"Tâches",nav_journal:"Journal",nav_rooms:"Recouches",nav_more:"Plus",online:"En ligne",offline:"Hors ligne",manager:"Manager",chef:"Chef",gardener:"Jardinier",no_task:"Aucune tâche.",no_urgent:"Aucune tâche urgente.",no_entry:"Aucune entrée.",no_recouche:"Aucune recouche.",no_audit:"Aucun audit.",no_treatment:"Aucun traitement.",all_ok:"Toutes les zones sont OK.",cancel:"Annuler",create:"Créer",save:"Enregistrer",validate:"Valider",new_task:"Nouvelle tâche",description:"Description",zone:"Zone",assigned_to:"Assigné à",priority:"Priorité",date:"Date",urgent:"Urgente",normal:"Normale",low:"Basse",today:"Aujourd'hui",tomorrow:"Demain",this_week:"Cette semaine",photo_required:"Photo obligatoire",photo_missing:"⚠ Photo obligatoire.",take_photo:"📷 Prendre une photo",or_gallery:"Ou choisir dans la galerie",new_journal_entry:"Nouvelle entrée",title:"Titre",type:"Type",notes:"Notes",new_recouche:"Nouvelle recouche",room_number:"N° chambre / villa",work:"Travail",final_photo:"Photo travail terminé",no_photo_no_valid:"Sans photo : non validée",audit_sheet:"Fiche d'audit",cleanliness:"Propreté",pruning:"Taille",irrigation:"Irrigation",plants_state:"État plantes",safety:"Sécurité",observations:"Observations",product_use:"Utilisation produit",product:"Produit",dose:"Dose",new_account:"Nouveau compte",full_name:"Nom complet",role:"Rôle",management:"Management",no_zones_alert:"Toutes les zones sont OK.",complete_task:"Valider la tâche",uploading:"Envoi...",room_number_required:"⚠ N° de chambre obligatoire.",upload_error:"Erreur upload",only_my_team:"Vous ne pouvez modifier que les tâches de votre équipe.",only_manager_cancel:"Seul le manager peut annuler une validation.",task_creation_restricted:"Création de tâche réservée au manager et chefs.",audit_manager_only:"Audit réservé au manager.",manager_only:"Réservé au manager.",all_fields_required:"Tous les champs requis.",username_exists:"Ce username existe déjà.",account_created:"Compte créé.",password_updated:"Mot de passe mis à jour",new_password_prompt:"Nouveau mot de passe pour",modify:"Modifier",today_short:"Auj.",yesterday:"Hier",loading:"Chargement...",weather_desc:"météo en cours",weather_hot:"Température élevée — prévoir arrosage supplémentaire",weather_rain:"Pluie prévue — pas d'arrosage nécessaire"
   },
   en: {
-    app_title: "Oberoi Marrakech",
-    app_sub: "Landscape Management",
-    username: "Username",
-    password: "Password",
-    login_btn: "Login",
-    login_error: "Invalid credentials.",
-    readonly_msg: "Limited view — your tasks only.",
-    my_tasks: "My tasks today",
-    done: "completed",
-    photos_missing: "Photos missing",
-    to_add: "to add",
-    recouches: "Room touch-ups",
-    in_progress: "in progress",
-    zones: "Zones",
-    priority_tasks: "Priority tasks",
-    alert_zones: "Alert zones",
-    tasks: "Tasks",
-    f_mine: "Mine",
-    f_team: "Team",
-    f_all: "All",
-    f_urg: "Urgent",
-    f_nophoto: "No photo",
-    f_done: "Done",
-    journal: "Work journal",
-    j_all: "All",
-    j_maintenance: "Maintenance",
-    j_planting: "Planting",
-    j_treatment: "Treatment",
-    j_incident: "Incident",
-    room_touchups: "Room touch-ups",
-    room_rule: "Room number + photo required.",
-    r_pending: "Pending",
-    r_valid: "Validated",
-    other_modules: "Other modules",
-    zones_sub: "Clusters & areas",
-    audits: "Audits",
-    audits_sub: "Sheets by zone",
-    phyto: "Phytosanitary",
-    phyto_sub: "Stock & treatments",
-    team: "Team",
-    team_sub: "20 people",
-    accounts: "User accounts",
-    accounts_sub: "Access management",
-    zones_full: "Oberoi zones",
-    audit_sheets: "Audit sheets",
-    phyto_full: "Phytosanitary products",
-    inventory: "Inventory",
-    treatment_history: "Treatment history",
-    full_team: "Full team",
-    add_account: "+ Account",
-    manager_only_warning: "Manager only.",
-    nav_home: "Home",
-    nav_tasks: "Tasks",
-    nav_journal: "Journal",
-    nav_rooms: "Rooms",
-    nav_more: "More",
-    online: "Online",
-    offline: "Offline",
-    manager: "Manager",
-    chef: "Supervisor",
-    gardener: "Gardener",
-    no_task: "No tasks.",
-    no_urgent: "No urgent tasks.",
-    no_entry: "No entries.",
-    no_recouche: "No touch-ups.",
-    no_audit: "No audits.",
-    no_treatment: "No treatments.",
-    all_ok: "All zones are OK.",
-    cancel: "Cancel",
-    create: "Create",
-    save: "Save",
-    validate: "Validate",
-    new_task: "New task",
-    description: "Description",
-    zone: "Zone",
-    assigned_to: "Assigned to",
-    priority: "Priority",
-    date: "Date",
-    urgent: "Urgent",
-    normal: "Normal",
-    low: "Low",
-    today: "Today",
-    tomorrow: "Tomorrow",
-    this_week: "This week",
-    photo_required: "Photo required",
-    photo_missing: "⚠ Photo required.",
-    take_photo: "📷 Take photo",
-    or_gallery: "Or choose from gallery",
-    new_journal_entry: "New entry",
-    title: "Title",
-    type: "Type",
-    notes: "Notes",
-    new_recouche: "New touch-up",
-    room_number: "Room / villa number",
-    work: "Work",
-    final_photo: "Finished work photo",
-    no_photo_no_valid: "No photo: not validated",
-    audit_sheet: "Audit sheet",
-    cleanliness: "Cleanliness",
-    pruning: "Pruning",
-    irrigation: "Irrigation",
-    plants_state: "Plants state",
-    safety: "Safety",
-    observations: "Observations",
-    product_use: "Product usage",
-    product: "Product",
-    dose: "Dose",
-    new_account: "New account",
-    full_name: "Full name",
-    role: "Role",
-    management: "Management",
-    no_zones_alert: "All zones are OK.",
-    complete_task: "Complete task",
-    uploading: "Uploading...",
-    room_number_required: "⚠ Room number required.",
-    upload_error: "Upload error",
-    only_my_team: "You can only modify your team's tasks.",
-    only_manager_cancel: "Only manager can cancel validation.",
-    task_creation_restricted: "Task creation is restricted to manager and supervisors.",
-    audit_manager_only: "Audit reserved for manager.",
-    manager_only: "Manager only.",
-    all_fields_required: "All fields required.",
-    username_exists: "Username already exists.",
-    account_created: "Account created.",
-    password_updated: "Password updated",
-    new_password_prompt: "New password for",
-    modify: "Modify",
-    today_short: "Today",
-    yesterday: "Yesterday",
-    loading: "Loading...",
-    weather_desc: "loading weather",
-    weather_hot: "High temperature — extra watering needed",
-    weather_rain: "Rain expected — no watering needed"
+    app_title:"Oberoi Marrakech",app_sub:"Landscape Management",username:"Username",password:"Password",login_btn:"Login",login_error:"Invalid credentials.",readonly_msg:"Limited view — your tasks only.",my_tasks:"My tasks today",done:"completed",photos_missing:"Photos missing",to_add:"to add",recouches:"Room touch-ups",in_progress:"in progress",zones:"Zones",priority_tasks:"Priority tasks",alert_zones:"Alert zones",tasks:"Tasks",f_mine:"Mine",f_team:"Team",f_all:"All",f_urg:"Urgent",f_nophoto:"No photo",f_done:"Done",journal:"Work journal",j_all:"All",j_maintenance:"Maintenance",j_planting:"Planting",j_treatment:"Treatment",j_incident:"Incident",room_touchups:"Room touch-ups",room_rule:"Room number + photo required.",r_pending:"Pending",r_valid:"Validated",other_modules:"Other modules",zones_sub:"Clusters & areas",audits:"Audits",audits_sub:"Sheets by zone",phyto:"Phytosanitary",phyto_sub:"Stock & treatments",team:"Team",team_sub:"20 people",accounts:"User accounts",accounts_sub:"Access management",zones_full:"Oberoi zones",audit_sheets:"Audit sheets",phyto_full:"Phytosanitary products",inventory:"Inventory",treatment_history:"Treatment history",full_team:"Full team",add_account:"+ Account",manager_only_warning:"Manager only.",nav_home:"Home",nav_tasks:"Tasks",nav_journal:"Journal",nav_rooms:"Rooms",nav_more:"More",online:"Online",offline:"Offline",manager:"Manager",chef:"Supervisor",gardener:"Gardener",no_task:"No tasks.",no_urgent:"No urgent tasks.",no_entry:"No entries.",no_recouche:"No touch-ups.",no_audit:"No audits.",no_treatment:"No treatments.",all_ok:"All zones are OK.",cancel:"Cancel",create:"Create",save:"Save",validate:"Validate",new_task:"New task",description:"Description",zone:"Zone",assigned_to:"Assigned to",priority:"Priority",date:"Date",urgent:"Urgent",normal:"Normal",low:"Low",today:"Today",tomorrow:"Tomorrow",this_week:"This week",photo_required:"Photo required",photo_missing:"⚠ Photo required.",take_photo:"📷 Take photo",or_gallery:"Or choose from gallery",new_journal_entry:"New entry",title:"Title",type:"Type",notes:"Notes",new_recouche:"New touch-up",room_number:"Room / villa number",work:"Work",final_photo:"Finished work photo",no_photo_no_valid:"No photo: not validated",audit_sheet:"Audit sheet",cleanliness:"Cleanliness",pruning:"Pruning",irrigation:"Irrigation",plants_state:"Plants state",safety:"Safety",observations:"Observations",product_use:"Product usage",product:"Product",dose:"Dose",new_account:"New account",full_name:"Full name",role:"Role",management:"Management",no_zones_alert:"All zones are OK.",complete_task:"Complete task",uploading:"Uploading...",room_number_required:"⚠ Room number required.",upload_error:"Upload error",only_my_team:"You can only modify your team's tasks.",only_manager_cancel:"Only manager can cancel validation.",task_creation_restricted:"Task creation is restricted to manager and supervisors.",audit_manager_only:"Audit reserved for manager.",manager_only:"Manager only.",all_fields_required:"All fields required.",username_exists:"Username already exists.",account_created:"Account created.",password_updated:"Password updated",new_password_prompt:"New password for",modify:"Modify",today_short:"Today",yesterday:"Yesterday",loading:"Loading...",weather_desc:"loading weather",weather_hot:"High temperature — extra watering needed",weather_rain:"Rain expected — no watering needed"
   },
   ar: {
-    app_title: "الأوبروي مراكش",
-    app_sub: "إدارة المساحات الخضراء",
-    username: "اسم المستخدم",
-    password: "كلمة المرور",
-    login_btn: "تسجيل الدخول",
-    login_error: "معلومات خاطئة.",
-    readonly_msg: "عرض محدود على مهامك.",
-    my_tasks: "مهامي اليوم",
-    done: "مكتملة",
-    photos_missing: "صور ناقصة",
-    to_add: "للإضافة",
-    recouches: "تعديلات الغرف",
-    in_progress: "قيد التنفيذ",
-    zones: "المناطق",
-    priority_tasks: "المهام العاجلة",
-    alert_zones: "مناطق في تأهب",
-    tasks: "الأعمال",
-    f_mine: "مهامي",
-    f_team: "الفريق",
-    f_all: "الكل",
-    f_urg: "عاجل",
-    f_nophoto: "بدون صورة",
-    f_done: "منجزة",
-    journal: "سجل الأعمال",
-    j_all: "الكل",
-    j_maintenance: "صيانة",
-    j_planting: "غرس",
-    j_treatment: "معالجة",
-    j_incident: "حادث",
-    room_touchups: "تعديلات الغرف",
-    room_rule: "رقم الغرفة + الصورة إجباريان.",
-    r_pending: "في الانتظار",
-    r_valid: "مصادق عليها",
-    other_modules: "أقسام أخرى",
-    zones_sub: "مجموعات ومساحات",
-    audits: "تقييمات",
-    audits_sub: "بطاقات حسب المنطقة",
-    phyto: "المبيدات",
-    phyto_sub: "المخزون والمعالجات",
-    team: "الفريق",
-    team_sub: "20 شخصاً",
-    accounts: "حسابات المستخدمين",
-    accounts_sub: "إدارة الوصول",
-    zones_full: "مناطق الأوبروي",
-    audit_sheets: "بطاقات التقييم",
-    phyto_full: "المنتجات الصحية",
-    inventory: "المخزون",
-    treatment_history: "سجل المعالجات",
-    full_team: "الفريق الكامل",
-    add_account: "+ حساب",
-    manager_only_warning: "للمدير فقط.",
-    nav_home: "الرئيسية",
-    nav_tasks: "المهام",
-    nav_journal: "السجل",
-    nav_rooms: "الغرف",
-    nav_more: "المزيد",
-    online: "متصل",
-    offline: "غير متصل",
-    manager: "مدير",
-    chef: "مشرف",
-    gardener: "بستاني",
-    no_task: "لا توجد مهام.",
-    no_urgent: "لا توجد مهام عاجلة.",
-    no_entry: "لا توجد تسجيلات.",
-    no_recouche: "لا توجد تعديلات.",
-    no_audit: "لا توجد تقييمات.",
-    no_treatment: "لا توجد معالجات.",
-    all_ok: "جميع المناطق بخير.",
-    cancel: "إلغاء",
-    create: "إنشاء",
-    save: "حفظ",
-    validate: "تأكيد",
-    new_task: "مهمة جديدة",
-    description: "الوصف",
-    zone: "المنطقة",
-    assigned_to: "مُسندة إلى",
-    priority: "الأولوية",
-    date: "التاريخ",
-    urgent: "عاجلة",
-    normal: "عادية",
-    low: "منخفضة",
-    today: "اليوم",
-    tomorrow: "غداً",
-    this_week: "هذا الأسبوع",
-    photo_required: "الصورة إجبارية",
-    photo_missing: "⚠ الصورة إجبارية.",
-    take_photo: "📷 التقاط صورة",
-    or_gallery: "أو الاختيار من المعرض",
-    new_journal_entry: "تسجيل جديد",
-    title: "العنوان",
-    type: "النوع",
-    notes: "ملاحظات",
-    new_recouche: "تعديل جديد",
-    room_number: "رقم الغرفة / الفيلا",
-    work: "العمل",
-    final_photo: "صورة العمل المنجز",
-    no_photo_no_valid: "بدون صورة: غير مصادق عليها",
-    audit_sheet: "بطاقة تقييم",
-    cleanliness: "النظافة",
-    pruning: "التقليم",
-    irrigation: "الري",
-    plants_state: "حالة النباتات",
-    safety: "السلامة",
-    observations: "ملاحظات",
-    product_use: "استخدام منتج",
-    product: "المنتج",
-    dose: "الجرعة",
-    new_account: "حساب جديد",
-    full_name: "الاسم الكامل",
-    role: "الدور",
-    management: "الإدارة",
-    no_zones_alert: "جميع المناطق بخير.",
-    complete_task: "تأكيد المهمة",
-    uploading: "جارٍ الإرسال...",
-    room_number_required: "⚠ رقم الغرفة إجباري.",
-    upload_error: "خطأ في الرفع",
-    only_my_team: "لا يمكنك تعديل سوى مهام فريقك.",
-    only_manager_cancel: "المدير وحده يمكنه إلغاء المصادقة.",
-    task_creation_restricted: "إنشاء المهام للمدير والمشرفين فقط.",
-    audit_manager_only: "التقييم للمدير فقط.",
-    manager_only: "للمدير فقط.",
-    all_fields_required: "جميع الحقول مطلوبة.",
-    username_exists: "اسم المستخدم موجود.",
-    account_created: "تم إنشاء الحساب.",
-    password_updated: "تم تحديث كلمة المرور",
-    new_password_prompt: "كلمة مرور جديدة لـ",
-    modify: "تعديل",
-    today_short: "اليوم",
-    yesterday: "أمس",
-    loading: "جارٍ التحميل...",
-    weather_desc: "جارٍ تحميل الطقس",
-    weather_hot: "درجة حرارة عالية — ري إضافي مطلوب",
-    weather_rain: "أمطار متوقعة — لا حاجة للري"
+    app_title:"الأوبروي مراكش",app_sub:"إدارة المساحات الخضراء",username:"اسم المستخدم",password:"كلمة المرور",login_btn:"تسجيل الدخول",login_error:"معلومات خاطئة.",readonly_msg:"عرض محدود على مهامك.",my_tasks:"مهامي اليوم",done:"مكتملة",photos_missing:"صور ناقصة",to_add:"للإضافة",recouches:"تعديلات الغرف",in_progress:"قيد التنفيذ",zones:"المناطق",priority_tasks:"المهام العاجلة",alert_zones:"مناطق في تأهب",tasks:"الأعمال",f_mine:"مهامي",f_team:"الفريق",f_all:"الكل",f_urg:"عاجل",f_nophoto:"بدون صورة",f_done:"منجزة",journal:"سجل الأعمال",j_all:"الكل",j_maintenance:"صيانة",j_planting:"غرس",j_treatment:"معالجة",j_incident:"حادث",room_touchups:"تعديلات الغرف",room_rule:"رقم الغرفة + الصورة إجباريان.",r_pending:"في الانتظار",r_valid:"مصادق عليها",other_modules:"أقسام أخرى",zones_sub:"مجموعات ومساحات",audits:"تقييمات",audits_sub:"بطاقات حسب المنطقة",phyto:"المبيدات",phyto_sub:"المخزون والمعالجات",team:"الفريق",team_sub:"20 شخصاً",accounts:"حسابات المستخدمين",accounts_sub:"إدارة الوصول",zones_full:"مناطق الأوبروي",audit_sheets:"بطاقات التقييم",phyto_full:"المنتجات الصحية",inventory:"المخزون",treatment_history:"سجل المعالجات",full_team:"الفريق الكامل",add_account:"+ حساب",manager_only_warning:"للمدير فقط.",nav_home:"الرئيسية",nav_tasks:"المهام",nav_journal:"السجل",nav_rooms:"الغرف",nav_more:"المزيد",online:"متصل",offline:"غير متصل",manager:"مدير",chef:"مشرف",gardener:"بستاني",no_task:"لا توجد مهام.",no_urgent:"لا توجد مهام عاجلة.",no_entry:"لا توجد تسجيلات.",no_recouche:"لا توجد تعديلات.",no_audit:"لا توجد تقييمات.",no_treatment:"لا توجد معالجات.",all_ok:"جميع المناطق بخير.",cancel:"إلغاء",create:"إنشاء",save:"حفظ",validate:"تأكيد",new_task:"مهمة جديدة",description:"الوصف",zone:"المنطقة",assigned_to:"مُسندة إلى",priority:"الأولوية",date:"التاريخ",urgent:"عاجلة",normal:"عادية",low:"منخفضة",today:"اليوم",tomorrow:"غداً",this_week:"هذا الأسبوع",photo_required:"الصورة إجبارية",photo_missing:"⚠ الصورة إجبارية.",take_photo:"📷 التقاط صورة",or_gallery:"أو الاختيار من المعرض",new_journal_entry:"تسجيل جديد",title:"العنوان",type:"النوع",notes:"ملاحظات",new_recouche:"تعديل جديد",room_number:"رقم الغرفة / الفيلا",work:"العمل",final_photo:"صورة العمل المنجز",no_photo_no_valid:"بدون صورة: غير مصادق عليها",audit_sheet:"بطاقة تقييم",cleanliness:"النظافة",pruning:"التقليم",irrigation:"الري",plants_state:"حالة النباتات",safety:"السلامة",observations:"ملاحظات",product_use:"استخدام منتج",product:"المنتج",dose:"الجرعة",new_account:"حساب جديد",full_name:"الاسم الكامل",role:"الدور",management:"الإدارة",no_zones_alert:"جميع المناطق بخير.",complete_task:"تأكيد المهمة",uploading:"جارٍ الإرسال...",room_number_required:"⚠ رقم الغرفة إجباري.",upload_error:"خطأ في الرفع",only_my_team:"لا يمكنك تعديل سوى مهام فريقك.",only_manager_cancel:"المدير وحده يمكنه إلغاء المصادقة.",task_creation_restricted:"إنشاء المهام للمدير والمشرفين فقط.",audit_manager_only:"التقييم للمدير فقط.",manager_only:"للمدير فقط.",all_fields_required:"جميع الحقول مطلوبة.",username_exists:"اسم المستخدم موجود.",account_created:"تم إنشاء الحساب.",password_updated:"تم تحديث كلمة المرور",new_password_prompt:"كلمة مرور جديدة لـ",modify:"تعديل",today_short:"اليوم",yesterday:"أمس",loading:"جارٍ التحميل...",weather_desc:"جارٍ تحميل الطقس",weather_hot:"درجة حرارة عالية — ري إضافي مطلوب",weather_rain:"أمطار متوقعة — لا حاجة للري"
   }
 };
 
-let currentLang = localStorage.getItem('lang') || 'fr';
+var currentLang = localStorage.getItem('lang') || 'fr';
 
-function t(key){ return I18N[currentLang][key] || I18N.fr[key] || key; }
+function t(key){ return (I18N[currentLang] && I18N[currentLang][key]) || (I18N.fr && I18N.fr[key]) || key; }
 
 function setLang(lang){
   currentLang = lang;
   localStorage.setItem('lang', lang);
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key = el.getAttribute('data-i18n');
-    if(I18N[lang][key]) el.textContent = I18N[lang][key];
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key = el.getAttribute('data-i18n');
+    if(I18N[lang] && I18N[lang][key]) el.textContent = I18N[lang][key];
   });
-  document.querySelectorAll('.lang-btn, .lang-dot').forEach(b=>{
+  document.querySelectorAll('.lang-btn, .lang-dot').forEach(function(b){
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   if(window.currentUser) renderAll();
@@ -809,14 +417,39 @@ window.setLang = setLang;
 setLang(currentLang);
 </script>
 
-<script>
-const SB_URL='https://aiwbqvxnzvodlcuaxick.supabase.co';
-const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0';
-const SB_H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+<!-- ============================================================
+     SCRIPT 2 : Backend (Supabase + localStorage)
+     ============================================================ -->
 
-const _DU={'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'},'mustapha.elguous':{password:'jardin2026',nom:'Mustapha El Guous',role:'jardinier',avatar:'ME'},'said.biaabich':{password:'jardin2026',nom:'Said Biaabich',role:'jardinier',avatar:'SB'},'abdelatif':{password:'jardin2026',nom:'Abdelatif Aghoujdan',role:'jardinier',avatar:'AA'},'abderazzak':{password:'jardin2026',nom:'Abderazzak Benzaiter',role:'jardinier',avatar:'AB'},'omar.angari':{password:'jardin2026',nom:'Omar Angari',role:'jardinier',avatar:'OA'},'khalid':{password:'jardin2026',nom:'Khalid Ghaoua',role:'jardinier',avatar:'KG'},'slimane':{password:'jardin2026',nom:'Slimane Boufahain',role:'jardinier',avatar:'SB'},'abdelfatah':{password:'jardin2026',nom:'Abdelfatah Elghafoui',role:'jardinier',avatar:'AE'},'said.elkabach':{password:'jardin2026',nom:'Said Elkabach',role:'jardinier',avatar:'SE'},'rachid':{password:'jardin2026',nom:'Rachid Itissir',role:'jardinier',avatar:'RI'},'mohamed':{password:'jardin2026',nom:'Mohamed Ahetab',role:'jardinier',avatar:'MA'},'abdesamad':{password:'jardin2026',nom:'Abdesamad Elabssi',role:'jardinier',avatar:'AE'},'ahmad':{password:'jardin2026',nom:'Ahmad Elaarach',role:'jardinier',avatar:'AE'},'ali':{password:'jardin2026',nom:'Ali Outtaleb',role:'jardinier',avatar:'AO'},'mustapha.zair':{password:'jardin2026',nom:'Mustapha Zair',role:'jardinier',avatar:'MZ'},'abdelhak':{password:'jardin2026',nom:'Abdelhak Erraguig',role:'jardinier',avatar:'AE'},'omar.rahmat':{password:'jardin2026',nom:'Omar Rahmat',role:'jardinier',avatar:'OR'}};
-const _ZN=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
-const _TABLES=['users','taches','journal','recouches','audits','zones','phyto_stock','phyto_hist'];
+<script>
+var SB_URL='https://aiwbqvxnzvodlcuaxick.supabase.co';
+var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0';
+var SB_H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
+
+var _DU={
+  'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},
+  'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},
+  'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'},
+  'mustapha.elguous':{password:'jardin2026',nom:'Mustapha El Guous',role:'jardinier',avatar:'ME'},
+  'said.biaabich':{password:'jardin2026',nom:'Said Biaabich',role:'jardinier',avatar:'SB'},
+  'abdelatif':{password:'jardin2026',nom:'Abdelatif Aghoujdan',role:'jardinier',avatar:'AA'},
+  'abderazzak':{password:'jardin2026',nom:'Abderazzak Benzaiter',role:'jardinier',avatar:'AB'},
+  'omar.angari':{password:'jardin2026',nom:'Omar Angari',role:'jardinier',avatar:'OA'},
+  'khalid':{password:'jardin2026',nom:'Khalid Ghaoua',role:'jardinier',avatar:'KG'},
+  'slimane':{password:'jardin2026',nom:'Slimane Boufahain',role:'jardinier',avatar:'SB'},
+  'abdelfatah':{password:'jardin2026',nom:'Abdelfatah Elghafoui',role:'jardinier',avatar:'AE'},
+  'said.elkabach':{password:'jardin2026',nom:'Said Elkabach',role:'jardinier',avatar:'SE'},
+  'rachid':{password:'jardin2026',nom:'Rachid Itissir',role:'jardinier',avatar:'RI'},
+  'mohamed':{password:'jardin2026',nom:'Mohamed Ahetab',role:'jardinier',avatar:'MA'},
+  'abdesamad':{password:'jardin2026',nom:'Abdesamad Elabssi',role:'jardinier',avatar:'AE'},
+  'ahmad':{password:'jardin2026',nom:'Ahmad Elaarach',role:'jardinier',avatar:'AE'},
+  'ali':{password:'jardin2026',nom:'Ali Outtaleb',role:'jardinier',avatar:'AO'},
+  'mustapha.zair':{password:'jardin2026',nom:'Mustapha Zair',role:'jardinier',avatar:'MZ'},
+  'abdelhak':{password:'jardin2026',nom:'Abdelhak Erraguig',role:'jardinier',avatar:'AE'},
+  'omar.rahmat':{password:'jardin2026',nom:'Omar Rahmat',role:'jardinier',avatar:'OR'}
+};
+var _ZN=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
+var _TABLES=['users','taches','journal','recouches','audits','zones','phyto_stock','phyto_hist'];
 
 function _lGet(k){try{return JSON.parse(localStorage.getItem('ob_'+k)||'null');}catch(e){return null;}}
 function _lSet(k,v){try{localStorage.setItem('ob_'+k,JSON.stringify(v));}catch(e){}}
@@ -824,65 +457,79 @@ function _lSet(k,v){try{localStorage.setItem('ob_'+k,JSON.stringify(v));}catch(e
 (function _initLocal(){
   if(_lGet('init'))return;
   _lSet('users',_DU);
-  const z={};_ZN.forEach((n,i)=>{z['z'+i]={id:'z'+i,name:n,statut:'ok',audit:85};});_lSet('zones',z);
-  _lSet('phyto_stock',{'p1':{id:'p1',nom:'Confidor 200 OD',cat:'Insecticide',stock:65,unite:'ml',alerte:100,usage:'Pucerons'},'p2':{id:'p2',nom:'Score 250 EC',cat:'Fongicide',stock:40,unite:'ml',alerte:200,usage:'Oïdium'},'p3':{id:'p3',nom:'Roundup Max',cat:'Herbicide',stock:800,unite:'ml',alerte:500,usage:'Désherbage'},'p4':{id:'p4',nom:'Engrais NPK 20-20-20',cat:'Fertilisant',stock:15,unite:'kg',alerte:10,usage:'Général'},'p5':{id:'p5',nom:'Huile blanche',cat:'Insecticide',stock:1200,unite:'ml',alerte:300,usage:'Cochenilles'}});
+  var z={};
+  _ZN.forEach(function(n,i){z['z'+i]={id:'z'+i,name:n,statut:'ok',audit:85};});
+  _lSet('zones',z);
+  _lSet('phyto_stock',{
+    'p1':{id:'p1',nom:'Confidor 200 OD',cat:'Insecticide',stock:65,unite:'ml',alerte:100,usage:'Pucerons'},
+    'p2':{id:'p2',nom:'Score 250 EC',cat:'Fongicide',stock:40,unite:'ml',alerte:200,usage:'Oïdium'},
+    'p3':{id:'p3',nom:'Roundup Max',cat:'Herbicide',stock:800,unite:'ml',alerte:500,usage:'Désherbage'},
+    'p4':{id:'p4',nom:'Engrais NPK 20-20-20',cat:'Fertilisant',stock:15,unite:'kg',alerte:10,usage:'Général'},
+    'p5':{id:'p5',nom:'Huile blanche',cat:'Insecticide',stock:1200,unite:'ml',alerte:300,usage:'Cochenilles'}
+  });
   _lSet('taches',{});_lSet('journal',{});_lSet('recouches',{});_lSet('audits',{});_lSet('phyto_hist',{});
   _lSet('init',1);
 })();
 
-const _listeners={};
+var _listeners={};
 
-async function _sbFetch(t){try{const r=await fetch(SB_URL+'/rest/v1/'+t+'?select=*',{headers:SB_H});return r.ok?await r.json():null;}catch(e){return null;}}
-async function _sbUpsert(t,row){try{await fetch(SB_URL+'/rest/v1/'+t+'?on_conflict=id',{method:'POST',headers:{...SB_H,Prefer:'resolution=merge-duplicates'},body:JSON.stringify(row)});}catch(e){}}
+async function _sbFetch(t){try{var r=await fetch(SB_URL+'/rest/v1/'+t+'?select=*',{headers:SB_H});return r.ok?await r.json():null;}catch(e){return null;}}
+async function _sbUpsert(t,row){try{await fetch(SB_URL+'/rest/v1/'+t+'?on_conflict=id',{method:'POST',headers:Object.assign({},SB_H,{Prefer:'resolution=merge-duplicates'}),body:JSON.stringify(row)});}catch(e){}}
 
 async function _syncFromServer(){
-  for(const t of _TABLES){
-    const rows=await _sbFetch(t);
+  for(var i=0;i<_TABLES.length;i++){
+    var tbl=_TABLES[i];
+    var rows=await _sbFetch(tbl);
     if(!rows||!rows.length)continue;
-    const obj={};rows.forEach(r=>{obj[r.id]=r.data||r;});
-    const merged={..._lGet(t)||{},...obj};
-    _lSet(t,merged);
-    if(_listeners[t])_listeners[t](merged);
+    var obj={};
+    rows.forEach(function(r){obj[r.id]=r.data||r;});
+    var merged=Object.assign({},_lGet(tbl)||{},obj);
+    _lSet(tbl,merged);
+    if(_listeners[tbl])_listeners[tbl](merged);
   }
 }
 
 window.fbOnValue=function(k,cb){_listeners[k]=cb;cb(_lGet(k)||{});};
 window.fbGetData=function(k){return _lGet(k)||{};};
 window.fbPushData=async function(k,item){
-  const id='id'+Date.now()+Math.random().toString(36).substr(2,6);
-  item.id=id;const d=_lGet(k)||{};d[id]=item;_lSet(k,d);
+  var id='id'+Date.now()+Math.random().toString(36).substr(2,6);
+  item.id=id;var d=_lGet(k)||{};d[id]=item;_lSet(k,d);
   if(_listeners[k])_listeners[k](d);
-  _sbUpsert(k,{id,data:item});return id;
+  _sbUpsert(k,{id:id,data:item});return id;
 };
 window.fbUpdateData=async function(k,id,updates){
-  const d=_lGet(k)||{};if(d[id])Object.assign(d[id],updates);_lSet(k,d);
-  if(_listeners[k])_listeners[k](d);_sbUpsert(k,{id,data:d[id]});
+  var d=_lGet(k)||{};if(d[id])Object.assign(d[id],updates);_lSet(k,d);
+  if(_listeners[k])_listeners[k](d);_sbUpsert(k,{id:id,data:d[id]});
 };
 window.fbUpdateUser=async function(u,updates){
-  const d=_lGet('users')||{};if(d[u])Object.assign(d[u],updates);_lSet('users',d);
+  var d=_lGet('users')||{};if(d[u])Object.assign(d[u],updates);_lSet('users',d);
   if(_listeners['users'])_listeners['users'](d);_sbUpsert('users',{id:u,data:d[u]});
 };
 window.fbSetUser=async function(u,data){
-  const d=_lGet('users')||{};d[u]=data;_lSet('users',d);
-  if(_listeners['users'])_listeners['users'](d);_sbUpsert('users',{id:u,data});
+  var d=_lGet('users')||{};d[u]=data;_lSet('users',d);
+  if(_listeners['users'])_listeners['users'](d);_sbUpsert('users',{id:u,data:data});
 };
 
-// DÉMARRAGE INSTANTANÉ — l'app s'ouvre immédiatement
+// Démarrage instantané
 document.getElementById('loading').style.display='none';
 document.getElementById('app').style.display='block';
-const _su=localStorage.getItem('currentUser');
-if(_su){try{window.currentUser=JSON.parse(_su);window.showApp();}catch(e){document.getElementById('screen-login').style.display='flex';}}
-else{document.getElementById('screen-login').style.display='flex';}
+var _su=localStorage.getItem('currentUser');
+if(_su){
+  try{window.currentUser=JSON.parse(_su);window.showApp();}
+  catch(e){document.getElementById('screen-login').style.display='flex';}
+}else{
+  document.getElementById('screen-login').style.display='flex';
+}
 
-// SYNC SUPABASE EN ARRIÈRE-PLAN — après affichage
+// Sync Supabase en arrière-plan
 setTimeout(async function(){
   try{
-    // Init Supabase si vide
-    const users=await _sbFetch('users');
+    var users=await _sbFetch('users');
     if(!users||!users.length){
-      for(const[k,v]of Object.entries(_DU))await _sbUpsert('users',{id:k,data:{...v,id:k}});
-      const z=_lGet('zones')||{};for(const[k,v]of Object.entries(z))await _sbUpsert('zones',{id:k,data:v});
-      const ph=_lGet('phyto_stock')||{};for(const[k,v]of Object.entries(ph))await _sbUpsert('phyto_stock',{id:k,data:v});
+      var du=_DU;
+      for(var k in du)await _sbUpsert('users',{id:k,data:Object.assign({},du[k],{id:k})});
+      var zz=_lGet('zones')||{};for(var kk in zz)await _sbUpsert('zones',{id:kk,data:zz[kk]});
+      var ph=_lGet('phyto_stock')||{};for(var kkk in ph)await _sbUpsert('phyto_stock',{id:kkk,data:ph[kkk]});
     }
     await _syncFromServer();
     setInterval(_syncFromServer,15000);
@@ -890,165 +537,142 @@ setTimeout(async function(){
 },1500);
 </script>
 
-</script>
+<!-- ============================================================
+     SCRIPT 3 : Application principale
+     ============================================================ -->
 
 <script>
-let currentUser=null;
-let USERS={};
-let ZONES={};
-let TACHES={};
-let JOURNAL={};
-let RECOUCHES={};
-let AUDITS={};
-let PHYTO_STOCK={};
-let PHYTO_HIST={};
+var currentUser = null;
+var USERS={}, ZONES={}, TACHES={}, JOURNAL={}, RECOUCHES={}, AUDITS={}, PHYTO_STOCK={}, PHYTO_HIST={};
 
-const WEATHER_ICONS = {
-  0: '☀️', 1: '🌤', 2: '⛅', 3: '☁️',
-  45: '🌫', 48: '🌫',
-  51: '🌦', 53: '🌦', 55: '🌦',
-  61: '🌧', 63: '🌧', 65: '🌧',
-  71: '🌨', 73: '🌨', 75: '🌨',
-  80: '🌦', 81: '🌧', 82: '⛈',
-  95: '⛈', 96: '⛈', 99: '⛈'
-};
-
-const WEATHER_DESC = {
-  fr: {0:'Ensoleillé',1:'Peu nuageux',2:'Partiellement nuageux',3:'Couvert',45:'Brouillard',48:'Brouillard givrant',51:'Bruine légère',53:'Bruine',55:'Bruine dense',61:'Pluie légère',63:'Pluie modérée',65:'Pluie forte',71:'Neige légère',73:'Neige',75:'Neige forte',80:'Averses',81:'Averses fortes',82:'Averses violentes',95:'Orage',96:'Orage et grêle',99:'Orage violent'},
-  en: {0:'Sunny',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Rime fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Heavy showers',82:'Violent showers',95:'Thunderstorm',96:'Thunder + hail',99:'Violent storm'},
-  ar: {0:'مشمس',1:'غائم قليلاً',2:'غائم جزئياً',3:'غائم',45:'ضباب',48:'ضباب متجمد',51:'رذاذ خفيف',53:'رذاذ',55:'رذاذ كثيف',61:'مطر خفيف',63:'مطر',65:'مطر غزير',71:'ثلج خفيف',73:'ثلج',75:'ثلج كثيف',80:'زخات',81:'زخات قوية',82:'زخات عنيفة',95:'عاصفة رعدية',96:'رعد وبرد',99:'عاصفة عنيفة'}
+var WEATHER_ICONS={0:'☀️',1:'🌤',2:'⛅',3:'☁️',45:'🌫',48:'🌫',51:'🌦',53:'🌦',55:'🌦',61:'🌧',63:'🌧',65:'🌧',71:'🌨',73:'🌨',75:'🌨',80:'🌦',81:'🌧',82:'⛈',95:'⛈',96:'⛈',99:'⛈'};
+var WEATHER_DESC={
+  fr:{0:'Ensoleillé',1:'Peu nuageux',2:'Partiellement nuageux',3:'Couvert',45:'Brouillard',48:'Brouillard givrant',51:'Bruine légère',53:'Bruine',55:'Bruine dense',61:'Pluie légère',63:'Pluie modérée',65:'Pluie forte',71:'Neige légère',73:'Neige',75:'Neige forte',80:'Averses',81:'Averses fortes',82:'Averses violentes',95:'Orage',96:'Orage et grêle',99:'Orage violent'},
+  en:{0:'Sunny',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Rime fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Heavy showers',82:'Violent showers',95:'Thunderstorm',96:'Thunder + hail',99:'Violent storm'},
+  ar:{0:'مشمس',1:'غائم قليلاً',2:'غائم جزئياً',3:'غائم',45:'ضباب',48:'ضباب متجمد',51:'رذاذ خفيف',53:'رذاذ',55:'رذاذ كثيف',61:'مطر خفيف',63:'مطر',65:'مطر غزير',71:'ثلج خفيف',73:'ثلج',75:'ثلج كثيف',80:'زخات',81:'زخات قوية',82:'زخات عنيفة',95:'عاصفة رعدية',96:'رعد وبرد',99:'عاصفة عنيفة'}
 };
 
 async function fetchWeather(){
   try{
-    const url='https://api.open-meteo.com/v1/forecast?latitude=31.6295&longitude=-7.9811&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Africa%2FCasablanca&forecast_days=5';
-    const res=await fetch(url);
-    const data=await res.json();
+    var res=await fetch('https://api.open-meteo.com/v1/forecast?latitude=31.6295&longitude=-7.9811&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Africa%2FCasablanca&forecast_days=5');
+    var data=await res.json();
     renderWeather(data);
-  }catch(e){
-    console.error('Weather fetch failed:',e);
-    document.getElementById('w-desc').textContent='—';
-  }
+  }catch(e){document.getElementById('w-desc').textContent='—';}
 }
 
 function renderWeather(data){
   if(!data||!data.current)return;
-  const tempNow=Math.round(data.current.temperature_2m);
-  const codeNow=data.current.weather_code;
+  var tempNow=Math.round(data.current.temperature_2m);
+  var codeNow=data.current.weather_code;
   document.getElementById('w-temp').textContent=tempNow+'°';
   document.getElementById('w-icon').textContent=WEATHER_ICONS[codeNow]||'☀️';
   document.getElementById('w-desc').textContent=(WEATHER_DESC[currentLang]||WEATHER_DESC.fr)[codeNow]||'';
-  
-  const days=data.daily;
-  const dayNames={fr:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],ar:['أحد','إثن','ثلا','أرب','خمي','جمع','سبت']};
-  const dn=dayNames[currentLang]||dayNames.fr;
-  let html='';
-  for(let i=0;i<days.time.length;i++){
-    const d=new Date(days.time[i]);
-    const label=i===0?t('today_short'):dn[d.getDay()];
-    html+=`<div class="weather-day"><div class="wd-name">${label}</div><div class="wd-ic">${WEATHER_ICONS[days.weather_code[i]]||'☀️'}</div><div class="wd-t">${Math.round(days.temperature_2m_max[i])}°</div><div style="font-size:10px;opacity:0.8">${Math.round(days.temperature_2m_min[i])}°</div></div>`;
+  var days=data.daily;
+  var dayNames={fr:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],ar:['أحد','إثن','ثلا','أرب','خمي','جمع','سبت']};
+  var dn=dayNames[currentLang]||dayNames.fr;
+  var html='';
+  for(var i=0;i<days.time.length;i++){
+    var d=new Date(days.time[i]);
+    var label=i===0?t('today_short'):dn[d.getDay()];
+    html+='<div class="weather-day"><div class="wd-name">'+label+'</div><div class="wd-ic">'+(WEATHER_ICONS[days.weather_code[i]]||'☀️')+'</div><div class="wd-t">'+Math.round(days.temperature_2m_max[i])+'°</div><div style="font-size:10px;opacity:0.8">'+Math.round(days.temperature_2m_min[i])+'°</div></div>';
   }
   document.getElementById('w-days').innerHTML=html;
-  
-  const alertEl=document.getElementById('w-alert');
-  const maxTomorrow=days.temperature_2m_max[1]||0;
-  const rainTomorrow=days.precipitation_sum[1]||0;
-  if(rainTomorrow>3){
-    alertEl.innerHTML=`💧 ${t('weather_rain')} (${rainTomorrow.toFixed(1)}mm)`;
-    alertEl.style.display='flex';
-  }else if(maxTomorrow>35){
-    alertEl.innerHTML=`🌡 ${t('weather_hot')} (${Math.round(maxTomorrow)}°)`;
-    alertEl.style.display='flex';
-  }else{
-    alertEl.style.display='none';
-  }
+  var alertEl=document.getElementById('w-alert');
+  var maxTomorrow=days.temperature_2m_max[1]||0;
+  var rainTomorrow=days.precipitation_sum[1]||0;
+  if(rainTomorrow>3){alertEl.innerHTML='💧 '+t('weather_rain')+' ('+rainTomorrow.toFixed(1)+'mm)';alertEl.style.display='flex';}
+  else if(maxTomorrow>35){alertEl.innerHTML='🌡 '+t('weather_hot')+' ('+Math.round(maxTomorrow)+'°)';alertEl.style.display='flex';}
+  else{alertEl.style.display='none';}
 }
 
 function setupListeners(){
-  window.fbOnValue('users', data=>{USERS=data||{};if(currentUser)renderAll();});
-  window.fbOnValue('zones', data=>{ZONES=data||{};if(currentUser)renderAll();});
-  window.fbOnValue('taches', data=>{TACHES=data||{};if(currentUser)renderAll();});
-  window.fbOnValue('journal', data=>{JOURNAL=data||{};if(currentUser)renderAll();});
-  window.fbOnValue('recouches', data=>{RECOUCHES=data||{};if(currentUser)renderAll();});
-  window.fbOnValue('audits', data=>{AUDITS=data||{};if(currentUser)renderAll();});
-  window.fbOnValue('phyto_stock', data=>{PHYTO_STOCK=data||{};if(currentUser)renderPhyto();});
-  window.fbOnValue('phyto_hist', data=>{PHYTO_HIST=data||{};if(currentUser)renderPhyto();});
+  window.fbOnValue('users',function(data){USERS=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('zones',function(data){ZONES=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('taches',function(data){TACHES=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('journal',function(data){JOURNAL=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('recouches',function(data){RECOUCHES=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('audits',function(data){AUDITS=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('phyto_stock',function(data){PHYTO_STOCK=data||{};if(currentUser)renderPhyto();});
+  window.fbOnValue('phyto_hist',function(data){PHYTO_HIST=data||{};if(currentUser)renderPhyto();});
 }
 
-async function doLogin(){
-  const u=document.getElementById('u-username').value.trim().toLowerCase();
-  const p=document.getElementById('u-password').value;
+// ===== LOGIN — FONCTION GLOBALE PURE =====
+// Le bouton appelle directement doLogin() via onclick="doLogin()"
+// Pas d'addEventListener, pas de DOMContentLoaded, pas de setTimeout
+function doLogin(){
+  var u=document.getElementById('u-username').value.trim().toLowerCase();
+  var p=document.getElementById('u-password').value;
+  var errEl=document.getElementById('login-error');
+  var btn=document.getElementById('btn-login');
+
+  errEl.classList.remove('show');
+
   if(!u||!p){
-    document.getElementById('login-error').textContent=t('login_error');
-    document.getElementById('login-error').classList.add('show');
+    errEl.textContent=t('login_error');
+    errEl.classList.add('show');
     return;
   }
-  const btn=document.getElementById('btn-login');
+
   btn.disabled=true;
   btn.textContent='...';
-  try{
-    // Essayer d'abord le cache
-    let users=window.fbGetData('users');
-    // Si cache vide, aller directement sur Supabase
-    if(!users||Object.keys(users).length===0){
-      const rows=await fetch('https://aiwbqvxnzvodlcuaxick.supabase.co/rest/v1/users?select=*&id=eq.'+encodeURIComponent(u),{
-        headers:{apikey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0',
-                Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0'}
-      });
-      const data=await rows.json();
-      if(data&&data.length>0){
-        const ud=data[0].data||data[0];
-        if(ud.password===p){
-          currentUser={username:u,...ud};
-          localStorage.setItem('currentUser',JSON.stringify(currentUser));
-          btn.disabled=false;btn.textContent=t('login_btn');
-          showApp();
-          return;
-        }
-      }
-      // Aussi essayer les users par défaut (au cas où Supabase pas encore init)
-      const _DEF={'issam':'admin2026','abdelhay':'chef2026','said.chef':'chef2026','mustapha.elguous':'jardin2026','said.biaabich':'jardin2026','abdelatif':'jardin2026','abderazzak':'jardin2026','omar.angari':'jardin2026','khalid':'jardin2026','slimane':'jardin2026','abdelfatah':'jardin2026','said.elkabach':'jardin2026','rachid':'jardin2026','mohamed':'jardin2026','abdesamad':'jardin2026','ahmad':'jardin2026','ali':'jardin2026','mustapha.zair':'jardin2026','abdelhak':'jardin2026','omar.rahmat':'jardin2026'};
-      if(_DEF[u]===p){
-        // Login avec données par défaut pendant que Supabase charge
-        const _UDATA={'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'},'mustapha.elguous':{password:'jardin2026',nom:'Mustapha El Guous',role:'jardinier',avatar:'ME'},'said.biaabich':{password:'jardin2026',nom:'Said Biaabich',role:'jardinier',avatar:'SB'},'abdelatif':{password:'jardin2026',nom:'Abdelatif Aghoujdan',role:'jardinier',avatar:'AA'},'abderazzak':{password:'jardin2026',nom:'Abderazzak Benzaiter',role:'jardinier',avatar:'AB'},'omar.angari':{password:'jardin2026',nom:'Omar Angari',role:'jardinier',avatar:'OA'},'khalid':{password:'jardin2026',nom:'Khalid Ghaoua',role:'jardinier',avatar:'KG'},'slimane':{password:'jardin2026',nom:'Slimane Boufahain',role:'jardinier',avatar:'SB'},'abdelfatah':{password:'jardin2026',nom:'Abdelfatah Elghafoui',role:'jardinier',avatar:'AE'},'said.elkabach':{password:'jardin2026',nom:'Said Elkabach',role:'jardinier',avatar:'SE'},'rachid':{password:'jardin2026',nom:'Rachid Itissir',role:'jardinier',avatar:'RI'},'mohamed':{password:'jardin2026',nom:'Mohamed Ahetab',role:'jardinier',avatar:'MA'},'abdesamad':{password:'jardin2026',nom:'Abdesamad Elabssi',role:'jardinier',avatar:'AE'},'ahmad':{password:'jardin2026',nom:'Ahmad Elaarach',role:'jardinier',avatar:'AE'},'ali':{password:'jardin2026',nom:'Ali Outtaleb',role:'jardinier',avatar:'AO'},'mustapha.zair':{password:'jardin2026',nom:'Mustapha Zair',role:'jardinier',avatar:'MZ'},'abdelhak':{password:'jardin2026',nom:'Abdelhak Erraguig',role:'jardinier',avatar:'AE'},'omar.rahmat':{password:'jardin2026',nom:'Omar Rahmat',role:'jardinier',avatar:'OR'}};
-        currentUser={username:u,..._UDATA[u]};
-        localStorage.setItem('currentUser',JSON.stringify(currentUser));
-        btn.disabled=false;btn.textContent=t('login_btn');
-        showApp();
-        return;
-      }
-      document.getElementById('login-error').textContent=t('login_error');
-      document.getElementById('login-error').classList.add('show');
-    }else{
-      // Cache disponible — login normal
-      if(users[u]&&users[u].password===p){
-        currentUser={username:u,...users[u]};
-        localStorage.setItem('currentUser',JSON.stringify(currentUser));
-        btn.disabled=false;btn.textContent=t('login_btn');
-        showApp();
-      }else{
-        document.getElementById('login-error').textContent=t('login_error');
-        document.getElementById('login-error').classList.add('show');
-      }
-    }
-  }catch(e){
-    // Fallback complet si réseau KO
-    const _DEF2={'issam':'admin2026','abdelhay':'chef2026','said.chef':'chef2026'};
-    const _UDATA2={'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'}};
-    if(_DEF2[u]===p&&_UDATA2[u]){
-      currentUser={username:u,..._UDATA2[u]};
-      localStorage.setItem('currentUser',JSON.stringify(currentUser));
-      showApp();
-    }else{
-      document.getElementById('login-error').textContent=t('login_error');
-      document.getElementById('login-error').classList.add('show');
-    }
-  }finally{
+
+  function loginSuccess(userData){
+    window.currentUser={username:u};
+    Object.assign(window.currentUser, userData);
+    currentUser = window.currentUser;
+    localStorage.setItem('currentUser',JSON.stringify(currentUser));
+    btn.disabled=false;
+    btn.textContent=t('login_btn');
+    showApp();
+  }
+
+  function loginFail(){
+    errEl.textContent=t('login_error');
+    errEl.classList.add('show');
     btn.disabled=false;
     btn.textContent=t('login_btn');
   }
+
+  // 1. Essai depuis le cache localStorage
+  var cached = window.fbGetData('users');
+  if(cached && cached[u]){
+    if(cached[u].password === p){
+      loginSuccess(cached[u]);
+      return;
+    } else {
+      loginFail();
+      return;
+    }
+  }
+
+  // 2. Cache vide → essai Supabase + fallback données par défaut
+  fetch(SB_URL+'/rest/v1/users?select=*&id=eq.'+encodeURIComponent(u),{headers:SB_H})
+    .then(function(r){return r.json();})
+    .then(function(data){
+      if(data && data.length>0){
+        var ud=data[0].data||data[0];
+        if(ud.password===p){loginSuccess(ud);return;}
+        loginFail();return;
+      }
+      // Supabase vide → données par défaut
+      var defUsers=window.fbGetData('users');
+      if(defUsers[u] && defUsers[u].password===p){
+        loginSuccess(defUsers[u]);
+      } else {
+        loginFail();
+      }
+    })
+    .catch(function(){
+      // Réseau KO → fallback local strict
+      var loc=window.fbGetData('users');
+      if(loc[u] && loc[u].password===p){
+        loginSuccess(loc[u]);
+      } else {
+        loginFail();
+      }
+    });
 }
-window.doLogin=doLogin;
+window.doLogin = doLogin;
 
 function doLogout(){
   currentUser=null;
@@ -1065,7 +689,7 @@ function showApp(){
   document.getElementById('screen-login').style.display='none';
   document.getElementById('screen-app').style.display='block';
   document.getElementById('user-info').textContent=currentUser.nom;
-  const rb=document.getElementById('role-badge');
+  var rb=document.getElementById('role-badge');
   if(currentUser.role==='manager'){rb.textContent=t('manager');rb.className='role-badge role-manager';}
   else if(currentUser.role==='chef'){rb.textContent=t('chef');rb.className='role-badge role-chef';}
   else{rb.textContent=t('gardener');rb.className='role-badge role-jard';}
@@ -1073,7 +697,7 @@ function showApp(){
   document.getElementById('row-users').style.display=currentUser.role==='manager'?'flex':'none';
   setupListeners();
   fetchWeather();
-  setInterval(fetchWeather, 30*60*1000);
+  setInterval(fetchWeather,30*60*1000);
 }
 window.showApp=showApp;
 
@@ -1089,82 +713,60 @@ function renderAll(){
   renderUsers();
 }
 
-function canEditTask(t){
+function canEditTask(tk){
   if(!currentUser)return false;
   if(currentUser.role==='manager'||currentUser.role==='chef')return true;
-  return t.assigne===currentUser.username;
+  return tk.assigne===currentUser.username;
 }
 
 function renderDash(){
-  const tachesArr=Object.entries(TACHES).map(([id,x])=>({id,...x}));
-  let myT;
+  var tachesArr=Object.entries(TACHES).map(function(e){return Object.assign({id:e[0]},e[1]);});
+  var myT;
   if(currentUser.role==='manager'||currentUser.role==='chef')myT=tachesArr;
-  else myT=tachesArr.filter(x=>x.assigne===currentUser.username);
-  const myDone=myT.filter(x=>x.statut==='done');
-  const noPhoto=myT.filter(x=>!x.photo&&x.statut!=='done');
+  else myT=tachesArr.filter(function(x){return x.assigne===currentUser.username;});
+  var myDone=myT.filter(function(x){return x.statut==='done';});
+  var noPhoto=myT.filter(function(x){return !x.photo&&x.statut!=='done';});
   document.getElementById('d-mytaches').textContent=myT.length;
   document.getElementById('d-mydone').innerHTML=myDone.length+' <span>'+t('done')+'</span>';
   document.getElementById('d-nophoto').textContent=noPhoto.length;
-  const recArr=Object.entries(RECOUCHES).map(([id,r])=>({id,...r}));
-  let myRec;
+  var recArr=Object.entries(RECOUCHES).map(function(e){return Object.assign({id:e[0]},e[1]);});
+  var myRec;
   if(currentUser.role==='manager'||currentUser.role==='chef')myRec=recArr;
-  else myRec=recArr.filter(r=>r.jardinier===currentUser.username);
+  else myRec=recArr.filter(function(r){return r.jardinier===currentUser.username;});
   document.getElementById('d-rec').textContent=myRec.length;
-  const myPending=myT.filter(x=>x.prio==='haute'&&x.statut!=='done').slice(0,4);
-  document.getElementById('dash-mytasks').innerHTML=myPending.length?myPending.map(x=>{
-    const aName=USERS[x.assigne]?.nom||x.assigne;
-    return `<div class="ti" style="margin-bottom:5px">
-      <div class="tcb ${x.statut==='done'?'done':''}" onclick="toggleT('${x.id}')">✓</div>
-      <div style="flex:1">
-        <div class="tn">${x.nom}</div>
-        <div class="tm">${x.zone}${currentUser.role!=='jardinier'?' · '+aName:''}</div>
-        ${!x.photo?'<div class="photo-req">📷 '+t('photo_required')+'</div>':''}
-      </div>
-    </div>`;
+  var myPending=myT.filter(function(x){return x.prio==='haute'&&x.statut!=='done';}).slice(0,4);
+  document.getElementById('dash-mytasks').innerHTML=myPending.length?myPending.map(function(x){
+    var aName=(USERS[x.assigne]&&USERS[x.assigne].nom)||x.assigne;
+    return '<div class="ti" style="margin-bottom:5px"><div class="tcb '+(x.statut==='done'?'done':'')+'" onclick="toggleT(\''+x.id+'\')">✓</div><div style="flex:1"><div class="tn">'+x.nom+'</div><div class="tm">'+x.zone+(currentUser.role!=='jardinier'?' · '+aName:'')+'</div>'+((!x.photo)?'<div class="photo-req">📷 '+t('photo_required')+'</div>':'')+'</div></div>';
   }).join(''):'<div style="font-size:11px;color:var(--color-text-secondary);padding:4px">'+t('no_urgent')+'</div>';
-  const zonesArr=Object.values(ZONES);
-  const alertZones=zonesArr.filter(z=>z.statut!=='ok');
-  document.getElementById('dash-urgences').innerHTML=alertZones.length?alertZones.map(z=>`
-    <div style="font-size:11px;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between">
-      <span>${z.name}</span>
-      <span class="${z.statut==='warn'?'s-warn':'s-urg'}">${z.statut==='warn'?'⚠':'🔴'}</span>
-    </div>
-  `).join(''):'<div style="font-size:11px;color:var(--color-text-secondary);padding:4px">'+t('no_zones_alert')+'</div>';
+  var zonesArr=Object.values(ZONES);
+  var alertZones=zonesArr.filter(function(z){return z.statut!=='ok';});
+  document.getElementById('dash-urgences').innerHTML=alertZones.length?alertZones.map(function(z){
+    return '<div style="font-size:11px;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between"><span>'+z.name+'</span><span class="'+(z.statut==='warn'?'s-warn':'s-urg')+'">'+(z.statut==='warn'?'⚠':'🔴')+'</span></div>';
+  }).join(''):'<div style="font-size:11px;color:var(--color-text-secondary);padding:4px">'+t('no_zones_alert')+'</div>';
 }
 
-function renderTaches(f='mine'){
-  const tachesArr=Object.entries(TACHES).map(([id,x])=>({id,...x})).sort((a,b)=>(b.created||0)-(a.created||0));
-  let list=tachesArr;
+function renderTaches(f){
+  f=f||'mine';
+  var tachesArr=Object.entries(TACHES).map(function(e){return Object.assign({id:e[0]},e[1]);}).sort(function(a,b){return (b.created||0)-(a.created||0);});
+  var list=tachesArr;
   if(f==='mine'){
-    if(currentUser.role==='manager'||currentUser.role==='chef')list=tachesArr;
-    else list=tachesArr.filter(x=>x.assigne===currentUser.username);
-  } else if(f==='team'){
-    list=tachesArr;
-  } else if(f==='all'){
-    list=currentUser.role==='jardinier'?tachesArr.filter(x=>x.assigne===currentUser.username):tachesArr;
-  } else if(f==='urg')list=tachesArr.filter(x=>x.prio==='haute'&&x.statut!=='done');
-  else if(f==='nophoto')list=tachesArr.filter(x=>!x.photo&&x.statut!=='done');
-  else if(f==='done')list=tachesArr.filter(x=>x.statut==='done');
+    if(currentUser.role==='jardinier')list=tachesArr.filter(function(x){return x.assigne===currentUser.username;});
+  }else if(f==='all'){
+    if(currentUser.role==='jardinier')list=tachesArr.filter(function(x){return x.assigne===currentUser.username;});
+  }else if(f==='urg'){list=tachesArr.filter(function(x){return x.prio==='haute'&&x.statut!=='done';});}
+  else if(f==='nophoto'){list=tachesArr.filter(function(x){return !x.photo&&x.statut!=='done';});}
+  else if(f==='done'){list=tachesArr.filter(function(x){return x.statut==='done';});}
   document.getElementById('tache-count').textContent=list.length;
-  document.getElementById('taches-list').innerHTML=list.map(x=>{
-    const canToggle=canEditTask(x);
-    const aUser=USERS[x.assigne];
-    const aName=aUser?.nom||x.assigne;
-    return `<div class="ti">
-      <div class="tcb ${x.statut==='done'?'done':''}" onclick="${canToggle?"toggleT('"+x.id+"')":""}" style="${!canToggle?'opacity:0.3;cursor:not-allowed':''}">✓</div>
-      <div style="flex:1">
-        <div class="tn ${x.statut==='done'?'done':''}">${x.nom}</div>
-        <div class="tm">${x.zone} · ${aName} · ${x.date||''}</div>
-        ${x.statut!=='done'&&!x.photo?'<div class="photo-req">📷 '+t('photo_required')+'</div>':''}
-        ${x.photo?`<img src="${x.photo}" class="photo-view" onclick="viewPhoto('${x.photo}')">`:''}
-      </div>
-      <span class="${x.prio==='haute'?'s-urg':x.prio==='med'?'s-warn':'s-ok'}" style="flex-shrink:0">${x.prio==='haute'?t('urgent').slice(0,4):x.prio==='med'?t('normal').slice(0,4):t('low').slice(0,4)}</span>
-    </div>`;
-  }).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_task')+'</div>';
+  document.getElementById('taches-list').innerHTML=list.map(function(x){
+    var canToggle=canEditTask(x);
+    var aName=(USERS[x.assigne]&&USERS[x.assigne].nom)||x.assigne;
+    return '<div class="ti"><div class="tcb '+(x.statut==='done'?'done':'')+'" onclick="'+(canToggle?"toggleT('"+x.id+"')":"")+'" style="'+((!canToggle)?'opacity:0.3;cursor:not-allowed':'')+'">✓</div><div style="flex:1"><div class="tn '+(x.statut==='done'?'done':'')+'">'+x.nom+'</div><div class="tm">'+x.zone+' · '+aName+' · '+(x.date||'')+'</div>'+(x.statut!=='done'&&!x.photo?'<div class="photo-req">📷 '+t('photo_required')+'</div>':'')+(x.photo?'<img src="'+x.photo+'" class="photo-view" onclick="viewPhoto(\''+x.photo+'\')">':'')+'</div><span class="'+(x.prio==='haute'?'s-urg':x.prio==='med'?'s-warn':'s-ok')+'" style="flex-shrink:0">'+(x.prio==='haute'?t('urgent').slice(0,4):x.prio==='med'?t('normal').slice(0,4):t('low').slice(0,4))+'</span></div>';
+  }).join('')||'<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_task')+'</div>';
 }
 
-async function toggleT(id){
-  const task={id,...(TACHES[id]||{})};
+function toggleT(id){
+  var task=Object.assign({id:id},TACHES[id]||{});
   if(!TACHES[id])return;
   if(!canEditTask(task)){alert(t('only_my_team'));return;}
   if(task.statut!=='done'){openM('complete',id);return;}
@@ -1173,165 +775,90 @@ async function toggleT(id){
 }
 window.toggleT=toggleT;
 
-function renderJournal(f='all'){
-  const arr=Object.entries(JOURNAL).map(([id,j])=>({id,...j})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
-  let base;
+function renderJournal(f){
+  f=f||'all';
+  var arr=Object.entries(JOURNAL).map(function(e){return Object.assign({id:e[0]},e[1]);}).sort(function(a,b){return (b.timestamp||0)-(a.timestamp||0);});
+  var base;
   if(currentUser.role==='manager'||currentUser.role==='chef')base=arr;
-  else base=arr.filter(j=>j.jardinier===currentUser.username);
-  let list=f==='all'?base:base.filter(j=>j.type===f);
-  document.getElementById('journal-list').innerHTML=list.map(j=>{
-    const jName=USERS[j.jardinier]?.nom||j.jardinier;
-    const typeLabels={entretien:t('j_maintenance'),plantation:t('j_planting'),traitement:t('j_treatment'),incident:t('j_incident')};
-    return `<div class="journal-entry">
-      <div class="je-date">${j.date} · ${j.zone} · ${jName}</div>
-      <div class="je-title">${j.titre}</div>
-      <div class="je-body">${j.notes||''}</div>
-      ${j.photo?`<img src="${j.photo}" class="photo-view" onclick="viewPhoto('${j.photo}')">`:''}
-      <div class="je-tags">
-        <span class="${j.type==='traitement'?'s-warn':j.type==='plantation'?'s-info':j.type==='incident'?'s-urg':'s-ok'}">${typeLabels[j.type]||j.type}</span>
-        ${j.photo?'<span class="s-ok">✓</span>':''}
-      </div>
-    </div>`;
-  }).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_entry')+'</div>';
+  else base=arr.filter(function(j){return j.jardinier===currentUser.username;});
+  var list=f==='all'?base:base.filter(function(j){return j.type===f;});
+  var typeLabels={entretien:t('j_maintenance'),plantation:t('j_planting'),traitement:t('j_treatment'),incident:t('j_incident')};
+  document.getElementById('journal-list').innerHTML=list.map(function(j){
+    var jName=(USERS[j.jardinier]&&USERS[j.jardinier].nom)||j.jardinier;
+    return '<div class="journal-entry"><div class="je-date">'+j.date+' · '+j.zone+' · '+jName+'</div><div class="je-title">'+j.titre+'</div><div class="je-body">'+(j.notes||'')+'</div>'+(j.photo?'<img src="'+j.photo+'" class="photo-view" onclick="viewPhoto(\''+j.photo+'\')">':'')+'<div class="je-tags"><span class="'+(j.type==='traitement'?'s-warn':j.type==='plantation'?'s-info':j.type==='incident'?'s-urg':'s-ok')+'">'+(typeLabels[j.type]||j.type)+'</span>'+(j.photo?'<span class="s-ok">✓</span>':'')+'</div></div>';
+  }).join('')||'<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_entry')+'</div>';
 }
 
-function renderRecouches(f='all'){
-  const arr=Object.entries(RECOUCHES).map(([id,r])=>({id,...r})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
-  let base;
+function renderRecouches(f){
+  f=f||'all';
+  var arr=Object.entries(RECOUCHES).map(function(e){return Object.assign({id:e[0]},e[1]);}).sort(function(a,b){return (b.timestamp||0)-(a.timestamp||0);});
+  var base;
   if(currentUser.role==='manager'||currentUser.role==='chef')base=arr;
-  else base=arr.filter(r=>r.jardinier===currentUser.username);
-  let list=f==='all'?base:base.filter(r=>r.statut===f);
-  document.getElementById('rec-list').innerHTML=list.map(r=>{
-    const jName=USERS[r.jardinier]?.nom||r.jardinier;
-    const roomLabel = currentLang==='ar'?'غرفة':currentLang==='en'?'Room':'Chambre';
-    return `<div class="recouche-card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-        <span class="chambre-badge">${roomLabel} ${r.chambre}</span>
-        <span class="${r.statut==='valide'?'s-ok':'s-warn'}">${r.statut==='valide'?'✓ '+t('r_valid'):t('r_pending')}</span>
-      </div>
-      <div style="font-size:12px;font-weight:500">${r.travail}</div>
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">${r.zone} · ${jName} · ${r.date}</div>
-      ${r.photo?`<img src="${r.photo}" class="photo-view" onclick="viewPhoto('${r.photo}')">`:'<div style="background:#FAECE7;border-radius:4px;padding:5px 8px;font-size:11px;color:#993C1D;margin-top:6px">⚠ '+t('photo_required')+'</div>'}
-    </div>`;
-  }).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_recouche')+'</div>';
+  else base=arr.filter(function(r){return r.jardinier===currentUser.username;});
+  var list=f==='all'?base:base.filter(function(r){return r.statut===f;});
+  var roomLabel=currentLang==='ar'?'غرفة':currentLang==='en'?'Room':'Chambre';
+  document.getElementById('rec-list').innerHTML=list.map(function(r){
+    var jName=(USERS[r.jardinier]&&USERS[r.jardinier].nom)||r.jardinier;
+    return '<div class="recouche-card"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span class="chambre-badge">'+roomLabel+' '+r.chambre+'</span><span class="'+(r.statut==='valide'?'s-ok':'s-warn')+'">'+(r.statut==='valide'?'✓ '+t('r_valid'):t('r_pending'))+'</span></div><div style="font-size:12px;font-weight:500">'+r.travail+'</div><div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">'+r.zone+' · '+jName+' · '+r.date+'</div>'+(r.photo?'<img src="'+r.photo+'" class="photo-view" onclick="viewPhoto(\''+r.photo+'\')">':'<div style="background:#FAECE7;border-radius:4px;padding:5px 8px;font-size:11px;color:#993C1D;margin-top:6px">⚠ '+t('photo_required')+'</div>')+'</div>';
+  }).join('')||'<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_recouche')+'</div>';
 }
 
 function renderZones(){
-  const arr=Object.values(ZONES);
-  document.getElementById('zones-grid').innerHTML=arr.map(z=>`
-    <div class="fi">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
-        <div class="fn" style="font-size:11px">${z.name}</div>
-        <span class="${z.statut==='ok'?'s-ok':z.statut==='warn'?'s-warn':'s-urg'}">${z.statut==='ok'?'OK':z.statut==='warn'?'⚠':'🔴'}</span>
-      </div>
-      <div class="fm">Audit: ${z.audit||85}%</div>
-      <div class="pg" style="height:3px"><div class="pgf ${(z.audit||85)<70?'d':(z.audit||85)<85?'w':''}" style="width:${z.audit||85}%"></div></div>
-    </div>
-  `).join('');
+  document.getElementById('zones-grid').innerHTML=Object.values(ZONES).map(function(z){
+    return '<div class="fi"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px"><div class="fn" style="font-size:11px">'+z.name+'</div><span class="'+(z.statut==='ok'?'s-ok':z.statut==='warn'?'s-warn':'s-urg')+'">'+(z.statut==='ok'?'OK':z.statut==='warn'?'⚠':'🔴')+'</span></div><div class="fm">Audit: '+(z.audit||85)+'%</div><div class="pg" style="height:3px"><div class="pgf '+((z.audit||85)<70?'d':(z.audit||85)<85?'w':'')+'" style="width:'+(z.audit||85)+'%"></div></div></div>';
+  }).join('');
 }
 
 function renderAudit(){
-  const arr=Object.entries(AUDITS).map(([id,a])=>({id,...a})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
-  document.getElementById('audit-list').innerHTML=arr.map(a=>`
-    <div class="card" style="padding:.75rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-        <div style="font-size:13px;font-weight:500">${a.zone}</div>
-        <span style="font-size:16px;font-weight:500;color:${a.score>=85?'#0F6E56':a.score>=70?'#854F0B':'#D85A30'}">${a.score}%</span>
-      </div>
-      <div class="pg" style="margin-bottom:6px"><div class="pgf ${a.score<70?'d':a.score<85?'w':''}" style="width:${a.score}%"></div></div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:10px;color:var(--color-text-secondary)">
-        <span>${t('cleanliness')}: ${a.criteres.proprete}/5</span>
-        <span>${t('pruning')}: ${a.criteres.taille}/5</span>
-        <span>${t('irrigation')}: ${a.criteres.irrigation}/5</span>
-        <span>${t('plants_state')}: ${a.criteres.etatPlantes}/5</span>
-        <span>${t('safety')}: ${a.criteres.securite}/5</span>
-      </div>
-      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:4px">${a.date}</div>
-    </div>
-  `).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_audit')+'</div>';
+  var arr=Object.entries(AUDITS).map(function(e){return Object.assign({id:e[0]},e[1]);}).sort(function(a,b){return (b.timestamp||0)-(a.timestamp||0);});
+  document.getElementById('audit-list').innerHTML=arr.map(function(a){
+    return '<div class="card" style="padding:.75rem"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div style="font-size:13px;font-weight:500">'+a.zone+'</div><span style="font-size:16px;font-weight:500;color:'+(a.score>=85?'#0F6E56':a.score>=70?'#854F0B':'#D85A30')+'">'+a.score+'%</span></div><div class="pg" style="margin-bottom:6px"><div class="pgf '+(a.score<70?'d':a.score<85?'w':'')+'" style="width:'+a.score+'%"></div></div><div style="display:flex;gap:6px;flex-wrap:wrap;font-size:10px;color:var(--color-text-secondary)"><span>'+t('cleanliness')+': '+a.criteres.proprete+'/5</span><span>'+t('pruning')+': '+a.criteres.taille+'/5</span><span>'+t('irrigation')+': '+a.criteres.irrigation+'/5</span><span>'+t('plants_state')+': '+a.criteres.etatPlantes+'/5</span><span>'+t('safety')+': '+a.criteres.securite+'/5</span></div><div style="font-size:10px;color:var(--color-text-tertiary);margin-top:4px">'+a.date+'</div></div>';
+  }).join('')||'<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_audit')+'</div>';
 }
 
 function renderPhyto(){
-  const arr=Object.values(PHYTO_STOCK);
-  document.getElementById('phyto-list').innerHTML=arr.map(p=>{
-    const pct=Math.round(Math.min(p.stock/p.alerte*80,100));
-    const bas=p.stock<p.alerte;
-    return `<div class="phyto-row">
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <div style="font-size:12px;font-weight:500">${p.nom}</div>
-        <span style="font-size:11px;color:${bas?'#D85A30':'var(--color-text-secondary)'};font-weight:${bas?500:400}">${p.stock} ${p.unite}${bas?' ⚠':''}</span>
-      </div>
-      <div style="font-size:10px;color:var(--color-text-secondary)">${p.cat} · ${p.usage}</div>
-      <div class="stock-bar"><div class="stock-fill" style="width:${pct}%;background:${bas?'#D85A30':'#1D9E75'}"></div></div>
-    </div>`;
+  document.getElementById('phyto-list').innerHTML=Object.values(PHYTO_STOCK).map(function(p){
+    var pct=Math.round(Math.min(p.stock/p.alerte*80,100));
+    var bas=p.stock<p.alerte;
+    return '<div class="phyto-row"><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:12px;font-weight:500">'+p.nom+'</div><span style="font-size:11px;color:'+(bas?'#D85A30':'var(--color-text-secondary)')+';font-weight:'+(bas?500:400)+'">'+p.stock+' '+p.unite+(bas?' ⚠':'')+'</span></div><div style="font-size:10px;color:var(--color-text-secondary)">'+p.cat+' · '+p.usage+'</div><div class="stock-bar"><div class="stock-fill" style="width:'+pct+'%;background:'+(bas?'#D85A30':'#1D9E75')+'"></div></div></div>';
   }).join('');
-  const histArr=Object.entries(PHYTO_HIST).map(([id,h])=>({id,...h})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
-  document.getElementById('phyto-hist').innerHTML=histArr.map(h=>{
-    const jName=USERS[h.jardinier]?.nom||h.jardinier;
-    return `<div class="journal-entry" style="border-left-color:#378ADD">
-      <div class="je-date">${h.date} · ${h.zone} · ${jName}</div>
-      <div class="je-title">${h.produit}</div>
-      <div class="je-body">${t('dose')}: ${h.dose}</div>
-      ${h.photo?`<img src="${h.photo}" class="photo-view" onclick="viewPhoto('${h.photo}')">`:''}
-    </div>`;
-  }).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_treatment')+'</div>';
+  var histArr=Object.entries(PHYTO_HIST).map(function(e){return Object.assign({id:e[0]},e[1]);}).sort(function(a,b){return (b.timestamp||0)-(a.timestamp||0);});
+  document.getElementById('phyto-hist').innerHTML=histArr.map(function(h){
+    var jName=(USERS[h.jardinier]&&USERS[h.jardinier].nom)||h.jardinier;
+    return '<div class="journal-entry" style="border-left-color:#378ADD"><div class="je-date">'+h.date+' · '+h.zone+' · '+jName+'</div><div class="je-title">'+h.produit+'</div><div class="je-body">'+t('dose')+': '+h.dose+'</div>'+(h.photo?'<img src="'+h.photo+'" class="photo-view" onclick="viewPhoto(\''+h.photo+'\')">':'')+'</div>';
+  }).join('')||'<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_treatment')+'</div>';
 }
 
 function renderEquipe(){
-  const userEntries=Object.entries(USERS);
-  const manager=userEntries.filter(([k,u])=>u.role==='manager');
-  const chefs=userEntries.filter(([k,u])=>u.role==='chef');
-  const jardiniers=userEntries.filter(([k,u])=>u.role==='jardinier');
-  let html=`<div class="team-hdr">${t('management')}</div>`;
-  html+=manager.concat(chefs).map(([k,u])=>`
-    <div class="ji-row">
-      <div class="jav ${u.role==='manager'?'manager':u.role==='chef'?'chef':''}">${u.avatar}</div>
-      <div style="flex:1"><div class="jn">${u.nom}</div><div class="jm">${u.role==='manager'?'Landscape Manager':t('chef')} · @${k}</div></div>
-      <span class="role-badge ${u.role==='manager'?'role-manager':'role-chef'}">${u.role==='manager'?t('manager'):t('chef')}</span>
-    </div>
-  `).join('');
-  html+=`<div class="team-section"><div class="team-hdr">${t('gardener')} (${jardiniers.length})</div></div>`;
-  html+=jardiniers.map(([k,u])=>`
-    <div class="ji-row">
-      <div class="jav">${u.avatar}</div>
-      <div style="flex:1"><div class="jn">${u.nom}</div><div class="jm">${t('gardener')} · @${k}</div></div>
-      <span class="role-badge role-jard">${t('gardener').slice(0,4)}</span>
-    </div>
-  `).join('');
+  var userEntries=Object.entries(USERS);
+  var managers=userEntries.filter(function(e){return e[1].role==='manager';});
+  var chefs=userEntries.filter(function(e){return e[1].role==='chef';});
+  var jardiniers=userEntries.filter(function(e){return e[1].role==='jardinier';});
+  var html='<div class="team-hdr">'+t('management')+'</div>';
+  html+=managers.concat(chefs).map(function(e){var k=e[0],u=e[1];return '<div class="ji-row"><div class="jav '+(u.role==='manager'?'manager':u.role==='chef'?'chef':'')+'">'+u.avatar+'</div><div style="flex:1"><div class="jn">'+u.nom+'</div><div class="jm">'+(u.role==='manager'?'Landscape Manager':t('chef'))+' · @'+k+'</div></div><span class="role-badge '+(u.role==='manager'?'role-manager':'role-chef')+'">'+(u.role==='manager'?t('manager'):t('chef'))+'</span></div>';}).join('');
+  html+='<div class="team-section"><div class="team-hdr">'+t('gardener')+' ('+jardiniers.length+')</div></div>';
+  html+=jardiniers.map(function(e){var k=e[0],u=e[1];return '<div class="ji-row"><div class="jav">'+u.avatar+'</div><div style="flex:1"><div class="jn">'+u.nom+'</div><div class="jm">'+t('gardener')+' · @'+k+'</div></div><span class="role-badge role-jard">'+t('gardener').slice(0,4)+'</span></div>';}).join('');
   document.getElementById('equipe-list').innerHTML=html;
 }
 
 function renderUsers(){
-  if(currentUser?.role!=='manager')return;
-  const list=Object.entries(USERS);
-  document.getElementById('users-list').innerHTML=list.map(([k,u])=>`
-    <div class="ji-row">
-      <div class="jav ${u.role==='manager'?'manager':u.role==='chef'?'chef':''}">${u.avatar}</div>
-      <div style="flex:1">
-        <div class="jn">${u.nom}</div>
-        <div class="jm">@${k} · ${u.role==='manager'?t('manager'):u.role==='chef'?t('chef'):t('gardener')}</div>
-      </div>
-      <button class="btn-s" style="font-size:10px;padding:4px 8px" onclick="editUser('${k}')">${t('modify')}</button>
-    </div>
-  `).join('');
+  if(!currentUser||currentUser.role!=='manager')return;
+  document.getElementById('users-list').innerHTML=Object.entries(USERS).map(function(e){var k=e[0],u=e[1];return '<div class="ji-row"><div class="jav '+(u.role==='manager'?'manager':u.role==='chef'?'chef':'')+'">'+u.avatar+'</div><div style="flex:1"><div class="jn">'+u.nom+'</div><div class="jm">@'+k+' · '+(u.role==='manager'?t('manager'):u.role==='chef'?t('chef'):t('gardener'))+'</div></div><button class="btn-s" style="font-size:10px;padding:4px 8px" onclick="editUser(\''+k+'\')">'+t('modify')+'</button></div>';}).join('');
 }
 
-async function editUser(k){
+function editUser(k){
   if(currentUser.role!=='manager'){alert(t('manager_only'));return;}
-  const u=USERS[k];
-  const newPass=prompt(t('new_password_prompt')+' '+u.nom+' (@'+k+'):',u.password);
-  if(newPass&&newPass.trim()){
-    window.fbUpdateUser(k,{password:newPass.trim()});
-    alert(t('password_updated'));
-  }
+  var u=USERS[k];
+  var newPass=prompt(t('new_password_prompt')+' '+u.nom+' (@'+k+'):',u.password);
+  if(newPass&&newPass.trim()){window.fbUpdateUser(k,{password:newPass.trim()});alert(t('password_updated'));}
 }
 window.editUser=editUser;
 
 function goSec(s){
-  document.querySelectorAll('.sec').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.sec').forEach(function(x){x.classList.remove('active');});
   document.getElementById('sec-'+s).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
-  const target=document.querySelector('.nav-btn[data-sec='+s+']');
+  document.querySelectorAll('.nav-btn').forEach(function(x){x.classList.remove('active');});
+  var target=document.querySelector('.nav-btn[data-sec='+s+']');
   if(target)target.classList.add('active');
   else document.querySelector('.nav-btn[data-sec=plus]').classList.add('active');
   document.getElementById('fab').style.display=['dash','plus','zones','equipe','users'].includes(s)?'none':'flex';
@@ -1340,97 +867,52 @@ function goSec(s){
 window.goSec=goSec;
 
 function fabAction(){
-  const active=document.querySelector('.sec.active')?.id?.replace('sec-','');
-  if(active==='taches')openM('tache');
-  else if(active==='journal')openM('journal');
-  else if(active==='recouches')openM('recouche');
-  else if(active==='audit'&&currentUser.role==='manager')openM('audit');
-  else if(active==='phyto')openM('phyto');
+  var active=document.querySelector('.sec.active');
+  var id=active?active.id.replace('sec-',''):'';
+  if(id==='taches')openM('tache');
+  else if(id==='journal')openM('journal');
+  else if(id==='recouches')openM('recouche');
+  else if(id==='audit'&&currentUser.role==='manager')openM('audit');
+  else if(id==='phyto')openM('phyto');
 }
 window.fabAction=fabAction;
 
-const ZONES_LIST=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
+var ZONES_LIST=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
 
 function openM(type,id){
-  const w=document.getElementById('mwrap');
-  const c=document.getElementById('mcontent');
+  var w=document.getElementById('mwrap');
+  var c=document.getElementById('mcontent');
   if(type==='tache'){
     if(currentUser.role==='jardinier'){alert(t('task_creation_restricted'));return;}
-    const assigneeOpts=Object.entries(USERS).filter(([k,u])=>u.role!=='manager');
-    c.innerHTML=`
-      <div class="modal-title">${t('new_task')}</div>
-      <div class="frow"><label class="flabel">${t('description')}</label><input class="inp" id="f-nom"></div>
-      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="f-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
-      <div class="frow"><label class="flabel">${t('assigned_to')}</label><select class="inp" id="f-assign">${assigneeOpts.map(([k,u])=>`<option value="${k}">${u.nom}</option>`).join('')}</select></div>
-      <div class="frow"><label class="flabel">${t('priority')}</label><select class="inp" id="f-prio"><option value="haute">${t('urgent')}</option><option value="med">${t('normal')}</option><option value="low">${t('low')}</option></select></div>
-      <div class="frow"><label class="flabel">${t('date')}</label><select class="inp" id="f-date"><option>${t('today')}</option><option>${t('tomorrow')}</option><option>${t('this_week')}</option></select></div>
-      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addTache()">${t('create')}</button></div>
-    `;
-  } else if(type==='complete'){
-    const task=TACHES[id];
-    c.innerHTML=`
-      <div class="modal-title">${t('complete_task')}</div>
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:10px">${task.nom}<br><span style="font-size:10px">${task.zone}</span></div>
-      <div class="frow">
-        <label class="flabel">${t('photo_required')}</label>
-        <div class="upload-zone" onclick="document.getElementById('c-photo').click()" id="c-upload">
-          <input type="file" id="c-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'c-prev','c-upload')">
-          <div class="uz-text">${t('take_photo')}</div>
-          <div class="uz-sub">${t('or_gallery')}</div>
-        </div>
-        <img id="c-prev" class="photo-preview">
-      </div>
-      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-validate" onclick="validateTache('${id}')">${t('validate')}</button></div>
-    `;
-  } else if(type==='journal'){
-    c.innerHTML=`
-      <div class="modal-title">${t('new_journal_entry')}</div>
-      <div class="frow"><label class="flabel">${t('title')}</label><input class="inp" id="j-titre"></div>
-      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="j-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
-      <div class="frow"><label class="flabel">${t('type')}</label><select class="inp" id="j-type"><option value="entretien">${t('j_maintenance')}</option><option value="plantation">${t('j_planting')}</option><option value="traitement">${t('j_treatment')}</option><option value="incident">${t('j_incident')}</option></select></div>
-      <div class="frow"><label class="flabel">${t('notes')}</label><textarea class="inp" id="j-notes" rows="3"></textarea></div>
+    var assigneeOpts=Object.entries(USERS).filter(function(e){return e[1].role!=='manager';});
+    c.innerHTML='<div class="modal-title">'+t('new_task')+'</div><div class="frow"><label class="flabel">'+t('description')+'</label><input class="inp" id="f-nom"></div><div class="frow"><label class="flabel">'+t('zone')+'</label><select class="inp" id="f-zone">'+ZONES_LIST.map(function(z){return '<option>'+z+'</option>';}).join('')+'</select></div><div class="frow"><label class="flabel">'+t('assigned_to')+'</label><select class="inp" id="f-assign">'+assigneeOpts.map(function(e){return '<option value="'+e[0]+'">'+e[1].nom+'</option>';}).join('')+'</select></div><div class="frow"><label class="flabel">'+t('priority')+'</label><select class="inp" id="f-prio"><option value="haute">'+t('urgent')+'</option><option value="med">'+t('normal')+'</option><option value="low">'+t('low')+'</option></select></div><div class="frow"><label class="flabel">'+t('date')+'</label><select class="inp" id="f-date"><option>'+t('today')+'</option><option>'+t('tomorrow')+'</option><option>'+t('this_week')+'</option></select></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" onclick="addTache()">'+t('create')+'</button></div>';
+  }else if(type==='complete'){
+    var task=TACHES[id];
+    c.innerHTML='<div class="modal-title">'+t('complete_task')+'</div><div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:10px">'+task.nom+'<br><span style="font-size:10px">'+task.zone+'</span></div><div class="frow"><label class="flabel">'+t('photo_required')+'</label><div class="upload-zone" onclick="document.getElementById(\'c-photo\').click()" id="c-upload"><input type="file" id="c-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'c-prev\',\'c-upload\')"><div class="uz-text">'+t('take_photo')+'</div><div class="uz-sub">'+t('or_gallery')+'</div></div><img id="c-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" id="btn-validate" onclick="validateTache(\''+id+'\')">'+t('validate')+'</button></div>';
+  }else if(type==='journal'){
+    c.innerHTML='<div class="modal-title">'+t('new_journal_entry')+'</div><div class="frow"><label class="flabel">'+t('title')+'</label><input class="inp" id="j-titre"></div><div class="frow"><label class="flabel">'+t('zone')+'</label><select class="inp" id="j-zone">'+ZONES_LIST.map(function(z){return '<option>'+z+'</option>';}).join('')+'</select></div><div class="frow"><label class="flabel">'+t('type')+'</label><select class="inp" id="j-type"><option value="entretien">'+t('j_maintenance')+'</option><option value="plantation">'+t('j_planting')+'</option><option value="traitement">'+t('j_treatment')+'</option><option value="incident">'+t('j_incident')+'</option></select></div><div class="frow"><label class="flabel">'+t('notes')+'</label><textarea class="inp" id="j-notes" rows="3"></textarea></div><div class="frow"><label class="flabel">'+t('photo_required')+'</label><div class="upload-zone" onclick="document.getElementById(\'j-photo\').click()" id="j-upload"><input type="file" id="j-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'j-prev\',\'j-upload\')"><div class="uz-text">'+t('take_photo')+'</div></div><img id="j-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" id="btn-journal" onclick="addJournal()">'+t('save')+'</button></div>';
 
-```
-  <div class="frow">
-    <label class="flabel">${t('photo_required')}</label>
-    <div class="upload-zone" onclick="document.getElementById('j-photo').click()" id="j-upload">
-      <input type="file" id="j-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'j-prev','j-upload')">
-      <div class="uz-text">${t('take_photo')}</div>
-    </div>
-    <img id="j-prev" class="photo-preview">
-  </div>
-  <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-journal" onclick="addJournal()">${t('save')}</button></div>
-`;
-```
-
-} else if(type===‘recouche’){
-c.innerHTML=` <div class="modal-title">${t('new_recouche')}</div> <div style="background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 10px;font-size:11px;color:#0C447C;margin-bottom:10px">${t('room_rule')}</div> <div class="frow"><label class="flabel">${t('room_number')}</label><input class="inp" id="r-chambre"></div> <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="r-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div> <div class="frow"><label class="flabel">${t('work')}</label><input class="inp" id="r-travail"></div> <div class="frow"> <label class="flabel">${t('final_photo')}</label> <div class="upload-zone" onclick="document.getElementById('r-photo').click()" id="r-upload"> <input type="file" id="r-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'r-prev','r-upload')"> <div class="uz-text">${t('take_photo')}</div> <div class="uz-sub">${t('no_photo_no_valid')}</div> </div> <img id="r-prev" class="photo-preview"> </div> <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-rec" onclick="addRecouche()">${t('save')}</button></div> `;
-} else if(type===‘audit’){
+}else if(type===‘recouche’){
+c.innerHTML=’<div class="modal-title">’+t(‘new_recouche’)+’</div><div style="background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 10px;font-size:11px;color:#0C447C;margin-bottom:10px">’+t(‘room_rule’)+’</div><div class="frow"><label class="flabel">’+t(‘room_number’)+’</label><input class="inp" id="r-chambre"></div><div class="frow"><label class="flabel">’+t(‘zone’)+’</label><select class="inp" id="r-zone">’+ZONES_LIST.map(function(z){return ‘<option>’+z+’</option>’;}).join(’’)+’</select></div><div class="frow"><label class="flabel">’+t(‘work’)+’</label><input class="inp" id="r-travail"></div><div class="frow"><label class="flabel">’+t(‘final_photo’)+’</label><div class="upload-zone" onclick="document.getElementById(\'r-photo\').click()" id="r-upload"><input type="file" id="r-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'r-prev\',\'r-upload\')"><div class="uz-text">’+t(‘take_photo’)+’</div><div class="uz-sub">’+t(‘no_photo_no_valid’)+’</div></div><img id="r-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">’+t(‘cancel’)+’</button><button class="btn-g" id="btn-rec" onclick="addRecouche()">’+t(‘save’)+’</button></div>’;
+}else if(type===‘audit’){
 if(currentUser.role!==‘manager’){alert(t(‘audit_manager_only’));return;}
-c.innerHTML=` <div class="modal-title">${t('audit_sheet')}</div> <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="a-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div> ${[t('cleanliness'),t('pruning'),t('irrigation'),t('plants_state'),t('safety')].map((k,i)=>`
-<div class="frow">
-<label class="flabel">${k}</label>
-<div style="display:flex;gap:6px;margin-top:4px;align-items:center">
-${[1,2,3,4,5].map(s=>`<div class="star" id="as-${i}-${s}" onclick="setStar(${i},${s})"></div>`).join(’’)}
-<span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px" id="as-lbl-${i}">3/5</span>
-</div>
-</div>
-`).join('')} <div class="frow"><label class="flabel">${t('observations')}</label><textarea class="inp" id="a-notes" rows="2"></textarea></div> <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addAudit()">${t('validate')}</button></div> `;
-[0,1,2,3,4].forEach(i=>setStar(i,3));
-} else if(type===‘phyto’){
-c.innerHTML=` <div class="modal-title">${t('product_use')}</div> <div class="frow"><label class="flabel">${t('product')}</label><select class="inp" id="p-prod">${Object.values(PHYTO_STOCK).map(p=>`<option>${p.nom}</option>`).join('')}</select></div> <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="p-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div> <div class="frow"><label class="flabel">${t('dose')}</label><input class="inp" id="p-dose"></div> <div class="frow"> <label class="flabel">${t('photo_required')}</label> <div class="upload-zone" onclick="document.getElementById('p-photo').click()" id="p-upload"> <input type="file" id="p-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'p-prev','p-upload')"> <div class="uz-text">${t('take_photo')}</div> </div> <img id="p-prev" class="photo-preview"> </div> <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-phyto" onclick="addPhytoUse()">${t('save')}</button></div> `;
-} else if(type===‘user’){
-c.innerHTML=`<div class="modal-title">${t('new_account')}</div> <div class="frow"><label class="flabel">${t('full_name')}</label><input class="inp" id="uu-nom"></div> <div class="frow"><label class="flabel">${t('username')}</label><input class="inp" id="uu-user" autocapitalize="none"></div> <div class="frow"><label class="flabel">${t('password')}</label><input class="inp" id="uu-pass"></div> <div class="frow"><label class="flabel">${t('role')}</label><select class="inp" id="uu-role"><option value="jardinier">${t('gardener')}</option><option value="chef">${t('chef')}</option></select></div> <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addUser()">${t('create')}</button></div>`;
+var criteresNames=[t(‘cleanliness’),t(‘pruning’),t(‘irrigation’),t(‘plants_state’),t(‘safety’)];
+c.innerHTML=’<div class="modal-title">’+t(‘audit_sheet’)+’</div><div class="frow"><label class="flabel">’+t(‘zone’)+’</label><select class="inp" id="a-zone">’+ZONES_LIST.map(function(z){return ‘<option>’+z+’</option>’;}).join(’’)+’</select></div>’+criteresNames.map(function(k,i){return ‘<div class="frow"><label class="flabel">’+k+’</label><div style="display:flex;gap:6px;margin-top:4px;align-items:center">’+[1,2,3,4,5].map(function(s){return ‘<div class="star" id="as-'+i+'-'+s+'" onclick="setStar('+i+','+s+')"></div>’;}).join(’’)+’<span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px" id="as-lbl-'+i+'">3/5</span></div></div>’;}).join(’’)+’<div class="frow"><label class="flabel">’+t(‘observations’)+’</label><textarea class="inp" id="a-notes" rows="2"></textarea></div><div class="mfoot"><button class="btn-s" onclick="closeM()">’+t(‘cancel’)+’</button><button class="btn-g" onclick="addAudit()">’+t(‘validate’)+’</button></div>’;
+[0,1,2,3,4].forEach(function(i){setStar(i,3);});
+}else if(type===‘phyto’){
+c.innerHTML=’<div class="modal-title">’+t(‘product_use’)+’</div><div class="frow"><label class="flabel">’+t(‘product’)+’</label><select class="inp" id="p-prod">’+Object.values(PHYTO_STOCK).map(function(p){return ‘<option>’+p.nom+’</option>’;}).join(’’)+’</select></div><div class="frow"><label class="flabel">’+t(‘zone’)+’</label><select class="inp" id="p-zone">’+ZONES_LIST.map(function(z){return ‘<option>’+z+’</option>’;}).join(’’)+’</select></div><div class="frow"><label class="flabel">’+t(‘dose’)+’</label><input class="inp" id="p-dose"></div><div class="frow"><label class="flabel">’+t(‘photo_required’)+’</label><div class="upload-zone" onclick="document.getElementById(\'p-photo\').click()" id="p-upload"><input type="file" id="p-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'p-prev\',\'p-upload\')"><div class="uz-text">’+t(‘take_photo’)+’</div></div><img id="p-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">’+t(‘cancel’)+’</button><button class="btn-g" id="btn-phyto" onclick="addPhytoUse()">’+t(‘save’)+’</button></div>’;
+}else if(type===‘user’){
+c.innerHTML=’<div class="modal-title">’+t(‘new_account’)+’</div><div class="frow"><label class="flabel">’+t(‘full_name’)+’</label><input class="inp" id="uu-nom"></div><div class="frow"><label class="flabel">’+t(‘username’)+’</label><input class="inp" id="uu-user" autocapitalize="none"></div><div class="frow"><label class="flabel">’+t(‘password’)+’</label><input class="inp" id="uu-pass"></div><div class="frow"><label class="flabel">’+t(‘role’)+’</label><select class="inp" id="uu-role"><option value="jardinier">’+t(‘gardener’)+’</option><option value="chef">’+t(‘chef’)+’</option></select></div><div class="mfoot"><button class="btn-s" onclick="closeM()">’+t(‘cancel’)+’</button><button class="btn-g" onclick="addUser()">’+t(‘create’)+’</button></div>’;
 }
 w.classList.add(‘open’);
 }
 window.openM=openM;
 
 function prevPhoto(input,previewId,uploadId){
-const file=input.files[0];if(!file)return;
-const reader=new FileReader();
-reader.onload=e=>{
-const img=document.getElementById(previewId);
+var file=input.files[0];if(!file)return;
+var reader=new FileReader();
+reader.onload=function(e){
+var img=document.getElementById(previewId);
 img.src=e.target.result;img.style.display=‘block’;
 if(uploadId)document.getElementById(uploadId).classList.add(‘has-file’);
 };
@@ -1438,15 +920,15 @@ reader.readAsDataURL(file);
 }
 window.prevPhoto=prevPhoto;
 
-const auditStars=[3,3,3,3,3];
+var auditStars=[3,3,3,3,3];
 function setStar(row,val){
 auditStars[row]=val;
-for(let s=1;s<=5;s++){const el=document.getElementById(‘as-’+row+’-’+s);if(el)el.className=‘star’+(s<=val?’ on’:’’);}
-const lbl=document.getElementById(‘as-lbl-’+row);if(lbl)lbl.textContent=val+’/5’;
+for(var s=1;s<=5;s++){var el=document.getElementById(‘as-’+row+’-’+s);if(el)el.className=‘star’+(s<=val?’ on’:’’);}
+var lbl=document.getElementById(‘as-lbl-’+row);if(lbl)lbl.textContent=val+’/5’;
 }
 window.setStar=setStar;
 
-function closeM(){document.getElementById(‘mwrap’).classList.remove(‘open’)}
+function closeM(){document.getElementById(‘mwrap’).classList.remove(‘open’);}
 window.closeM=closeM;
 
 function viewPhoto(url){document.getElementById(‘photo-modal-img’).src=url;document.getElementById(‘photo-modal’).classList.add(‘open’);}
@@ -1456,15 +938,14 @@ function closePhotoModal(){document.getElementById(‘photo-modal’).classList.
 window.closePhotoModal=closePhotoModal;
 
 async function compressImage(file){
-return new Promise((resolve,reject)=>{
-const img=new Image();
-const reader=new FileReader();
-reader.onload=e=>{
-img.onload=()=>{
+return new Promise(function(resolve,reject){
+var img=new Image();
+var reader=new FileReader();
+reader.onload=function(e){
+img.onload=function(){
 try{
-const canvas=document.createElement(‘canvas’);
-let w=img.width,h=img.height;
-const maxSize=800;
+var canvas=document.createElement(‘canvas’);
+var w=img.width,h=img.height,maxSize=800;
 if(w>h&&w>maxSize){h=Math.round(h*maxSize/w);w=maxSize;}
 else if(h>maxSize){w=Math.round(w*maxSize/h);h=maxSize;}
 canvas.width=w;canvas.height=h;
@@ -1481,12 +962,12 @@ reader.readAsDataURL(file);
 }
 
 async function validateTache(id){
-const fileInput=document.getElementById(‘c-photo’);
-if(!fileInput?.files?.length){alert(t(‘photo_missing’));return;}
-const btn=document.getElementById(‘btn-validate’);
+var fileInput=document.getElementById(‘c-photo’);
+if(!fileInput||!fileInput.files.length){alert(t(‘photo_missing’));return;}
+var btn=document.getElementById(‘btn-validate’);
 btn.disabled=true;btn.textContent=t(‘uploading’);
 try{
-const photoUrl=await compressImage(fileInput.files[0]);
+var photoUrl=await compressImage(fileInput.files[0]);
 window.fbUpdateData(‘taches’,id,{statut:‘done’,photo:photoUrl,completedAt:Date.now()});
 closeM();
 }catch(e){alert(t(‘upload_error’)+’: ’+e.message);btn.disabled=false;btn.textContent=t(‘validate’);}
@@ -1494,84 +975,62 @@ closeM();
 window.validateTache=validateTache;
 
 async function addTache(){
-const nom=document.getElementById(‘f-nom’)?.value?.trim();if(!nom)return;
-window.fbPushData(‘taches’,{
-nom,zone:document.getElementById(‘f-zone’).value,assigne:document.getElementById(‘f-assign’).value,
-prio:document.getElementById(‘f-prio’).value,statut:‘open’,date:document.getElementById(‘f-date’).value,
-photo:null,type:‘entretien’,created:Date.now(),createdBy:currentUser.username
-});
+var nom=document.getElementById(‘f-nom’);if(!nom||!nom.value.trim())return;
+window.fbPushData(‘taches’,{nom:nom.value.trim(),zone:document.getElementById(‘f-zone’).value,assigne:document.getElementById(‘f-assign’).value,prio:document.getElementById(‘f-prio’).value,statut:‘open’,date:document.getElementById(‘f-date’).value,photo:null,type:‘entretien’,created:Date.now(),createdBy:currentUser.username});
 closeM();
 }
 window.addTache=addTache;
 
 async function addJournal(){
-const titre=document.getElementById(‘j-titre’)?.value?.trim();if(!titre)return;
-const fileInput=document.getElementById(‘j-photo’);
-if(!fileInput?.files?.length){alert(t(‘photo_missing’));return;}
-const btn=document.getElementById(‘btn-journal’);
-btn.disabled=true;btn.textContent=t(‘uploading’);
+var titre=document.getElementById(‘j-titre’);if(!titre||!titre.value.trim())return;
+var fileInput=document.getElementById(‘j-photo’);
+if(!fileInput||!fileInput.files.length){alert(t(‘photo_missing’));return;}
+var btn=document.getElementById(‘btn-journal’);btn.disabled=true;btn.textContent=t(‘uploading’);
 try{
-const photoUrl=await compressImage(fileInput.files[0]);
-const now=new Date();
-const dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ‘+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
-window.fbPushData(‘journal’,{
-date:dateStr,titre,zone:document.getElementById(‘j-zone’).value,type:document.getElementById(‘j-type’).value,
-jardinier:currentUser.username,notes:document.getElementById(‘j-notes’).value||’—’,photo:photoUrl,timestamp:Date.now()
-});
+var photoUrl=await compressImage(fileInput.files[0]);
+var now=new Date();
+var dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ‘+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
+window.fbPushData(‘journal’,{date:dateStr,titre:titre.value.trim(),zone:document.getElementById(‘j-zone’).value,type:document.getElementById(‘j-type’).value,jardinier:currentUser.username,notes:document.getElementById(‘j-notes’).value||’—’,photo:photoUrl,timestamp:Date.now()});
 closeM();
 }catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
 }
 window.addJournal=addJournal;
 
 async function addRecouche(){
-const ch=document.getElementById(‘r-chambre’)?.value?.trim();
-const tr=document.getElementById(‘r-travail’)?.value?.trim();
-if(!ch){alert(t(‘room_number_required’));return;}
-if(!tr)return;
-const fileInput=document.getElementById(‘r-photo’);
-if(!fileInput?.files?.length){alert(t(‘photo_missing’));return;}
-const btn=document.getElementById(‘btn-rec’);
-btn.disabled=true;btn.textContent=t(‘uploading’);
+var ch=document.getElementById(‘r-chambre’);var tr=document.getElementById(‘r-travail’);
+if(!ch||!ch.value.trim()){alert(t(‘room_number_required’));return;}
+if(!tr||!tr.value.trim())return;
+var fileInput=document.getElementById(‘r-photo’);
+if(!fileInput||!fileInput.files.length){alert(t(‘photo_missing’));return;}
+var btn=document.getElementById(‘btn-rec’);btn.disabled=true;btn.textContent=t(‘uploading’);
 try{
-const photoUrl=await compressImage(fileInput.files[0]);
-const now=new Date();
-const dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ’+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
-window.fbPushData(‘recouches’,{
-chambre:ch,zone:document.getElementById(‘r-zone’).value,travail:tr,jardinier:currentUser.username,
-date:dateStr,photo:photoUrl,statut:‘valide’,timestamp:Date.now()
-});
+var photoUrl=await compressImage(fileInput.files[0]);
+var now=new Date();
+var dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ’+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
+window.fbPushData(‘recouches’,{chambre:ch.value.trim(),zone:document.getElementById(‘r-zone’).value,travail:tr.value.trim(),jardinier:currentUser.username,date:dateStr,photo:photoUrl,statut:‘valide’,timestamp:Date.now()});
 closeM();
 }catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
 }
 window.addRecouche=addRecouche;
 
 async function addAudit(){
-const zone=document.getElementById(‘a-zone’)?.value;
-const score=Math.round(auditStars.reduce((a,b)=>a+b,0)/25*100);
-const now=new Date();
-const dateStr=now.toLocaleDateString(‘fr-FR’);
-window.fbPushData(‘audits’,{
-zone,date:dateStr,score,
-criteres:{proprete:auditStars[0],taille:auditStars[1],irrigation:auditStars[2],etatPlantes:auditStars[3],securite:auditStars[4]},
-notes:document.getElementById(‘a-notes’)?.value||’—’,auditor:currentUser.username,timestamp:Date.now()
-});
+var zone=document.getElementById(‘a-zone’);if(!zone)return;
+var score=Math.round(auditStars.reduce(function(a,b){return a+b;},0)/25*100);
+var now=new Date();
+window.fbPushData(‘audits’,{zone:zone.value,date:now.toLocaleDateString(‘fr-FR’),score:score,criteres:{proprete:auditStars[0],taille:auditStars[1],irrigation:auditStars[2],etatPlantes:auditStars[3],securite:auditStars[4]},notes:document.getElementById(‘a-notes’).value||’—’,auditor:currentUser.username,timestamp:Date.now()});
 closeM();
 }
 window.addAudit=addAudit;
 
 async function addPhytoUse(){
-const fileInput=document.getElementById(‘p-photo’);
-if(!fileInput?.files?.length){alert(t(‘photo_missing’));return;}
-const btn=document.getElementById(‘btn-phyto’);
-btn.disabled=true;btn.textContent=t(‘uploading’);
+var fileInput=document.getElementById(‘p-photo’);
+if(!fileInput||!fileInput.files.length){alert(t(‘photo_missing’));return;}
+var btn=document.getElementById(‘btn-phyto’);btn.disabled=true;btn.textContent=t(‘uploading’);
 try{
-const photoUrl=await compressImage(fileInput.files[0]);
-const now=new Date();
-const dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ‘+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
-window.fbPushData(‘phyto_hist’,{
-date:dateStr,produit:document.getElementById(‘p-prod’).value,zone:document.getElementById(‘p-zone’).value,
-dose:document.getElementById(‘p-dose’).value||’—’,jardinier:currentUser.username,photo:photoUrl,timestamp:Date.now()
-});
+var photoUrl=await compressImage(fileInput.files[0]);
+var now=new Date();
+var dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ‘+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
+window.fbPushData(‘phyto_hist’,{date:dateStr,produit:document.getElementById(‘p-prod’).value,zone:document.getElementById(‘p-zone’).value,dose:document.getElementById(‘p-dose’).value||’—’,jardinier:currentUser.username,photo:photoUrl,timestamp:Date.now()});
 closeM();
 }catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
 }
@@ -1579,56 +1038,44 @@ window.addPhytoUse=addPhytoUse;
 
 async function addUser(){
 if(currentUser.role!==‘manager’){alert(t(‘manager_only’));return;}
-const n=document.getElementById(‘uu-nom’).value.trim();
-const u=document.getElementById(‘uu-user’).value.trim().toLowerCase();
-const p=document.getElementById(‘uu-pass’).value;
+var n=document.getElementById(‘uu-nom’).value.trim();
+var u=document.getElementById(‘uu-user’).value.trim().toLowerCase();
+var p=document.getElementById(‘uu-pass’).value;
 if(!n||!u||!p){alert(t(‘all_fields_required’));return;}
 if(USERS[u]){alert(t(‘username_exists’));return;}
-const parts=n.split(’ ’);
-const avatar=parts.length>1?(parts[0][0]+parts[1][0]).toUpperCase():n[0].toUpperCase();
-window.fbSetUser(u,{password:p,nom:n,role:document.getElementById(‘uu-role’).value,avatar});
+var parts=n.split(’ ’);
+var avatar=parts.length>1?(parts[0][0]+parts[1][0]).toUpperCase():n[0].toUpperCase();
+window.fbSetUser(u,{password:p,nom:n,role:document.getElementById(‘uu-role’).value,avatar:avatar});
 closeM();alert(t(‘account_created’));
 }
 window.addUser=addUser;
 
-document.querySelectorAll(’.nav-btn’).forEach(b=>b.addEventListener(‘click’,function(){goSec(this.dataset.sec)}));
-document.querySelectorAll(’.tab[data-f]’).forEach(x=>x.addEventListener(‘click’,function(){
-document.querySelectorAll(’.tab[data-f]’).forEach(y=>y.classList.remove(‘active’));
-this.classList.add(‘active’);renderTaches(this.dataset.f);
-}));
-document.querySelectorAll(’.tab[data-jf]’).forEach(x=>x.addEventListener(‘click’,function(){
-document.querySelectorAll(’.tab[data-jf]’).forEach(y=>y.classList.remove(‘active’));
-this.classList.add(‘active’);renderJournal(this.dataset.jf);
-}));
-document.querySelectorAll(’.tab[data-rf]’).forEach(x=>x.addEventListener(‘click’,function(){
-document.querySelectorAll(’.tab[data-rf]’).forEach(y=>y.classList.remove(‘active’));
-this.classList.add(‘active’);renderRecouches(this.dataset.rf);
-}));
-document.getElementById(‘u-password’).addEventListener(‘keypress’,e=>{if(e.key===‘Enter’)doLogin();});
-
-// Bouton login — compatible Safari iPhone
-document.addEventListener(‘DOMContentLoaded’, function(){
-var btn = document.getElementById(‘btn-login’);
-if(btn){
-btn.onclick = null;
-btn.addEventListener(‘click’, function(e){
-e.preventDefault();
-e.stopPropagation();
-doLogin();
-}, false);
-}
-var inp = document.getElementById(‘u-username’);
-if(inp) inp.addEventListener(‘keypress’,e=>{if(e.key===‘Enter’)doLogin();});
+// Navigation
+document.querySelectorAll(’.nav-btn’).forEach(function(b){
+b.addEventListener(‘click’,function(){goSec(this.dataset.sec);});
+});
+document.querySelectorAll(’.tab[data-f]’).forEach(function(x){
+x.addEventListener(‘click’,function(){
+document.querySelectorAll(’.tab[data-f]’).forEach(function(y){y.classList.remove(‘active’);});
+x.classList.add(‘active’);renderTaches(x.dataset.f);
+});
+});
+document.querySelectorAll(’.tab[data-jf]’).forEach(function(x){
+x.addEventListener(‘click’,function(){
+document.querySelectorAll(’.tab[data-jf]’).forEach(function(y){y.classList.remove(‘active’);});
+x.classList.add(‘active’);renderJournal(x.dataset.jf);
+});
+});
+document.querySelectorAll(’.tab[data-rf]’).forEach(function(x){
+x.addEventListener(‘click’,function(){
+document.querySelectorAll(’.tab[data-rf]’).forEach(function(y){y.classList.remove(‘active’);});
+x.classList.add(‘active’);renderRecouches(x.dataset.rf);
+});
 });
 
-// Fallback immédiat aussi
-setTimeout(function(){
-var btn = document.getElementById(‘btn-login’);
-if(btn && !btn._loginAttached){
-btn._loginAttached = true;
-btn.addEventListener(‘click’, function(){doLogin();}, false);
-}
-}, 500);
+// Enter sur les champs login
+document.getElementById(‘u-username’).addEventListener(‘keypress’,function(e){if(e.key===‘Enter’)doLogin();});
+document.getElementById(‘u-password’).addEventListener(‘keypress’,function(e){if(e.key===‘Enter’)doLogin();});
 </script>
 
 </body>
