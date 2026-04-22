@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -234,127 +233,125 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
 
   <div class="main-m" id="main-content">
 
-```
-<div class="sec active" id="sec-dash">
-  <div class="read-only-msg" id="ro-dash" style="display:none">
-    <span>👁</span><span data-i18n="readonly_msg">Vue limitée à vos tâches.</span>
-  </div>
-  <div class="weather-card" id="weather-card">
-    <div class="weather-top">
-      <div>
-        <div class="weather-now" id="w-temp">—°</div>
-        <div class="weather-desc" id="w-desc">Chargement...</div>
-        <div class="weather-city">Marrakech, Maroc</div>
+    <div class="sec active" id="sec-dash">
+      <div class="read-only-msg" id="ro-dash" style="display:none">
+        <span>👁</span><span data-i18n="readonly_msg">Vue limitée à vos tâches.</span>
       </div>
-      <div class="weather-ic" id="w-icon">☀️</div>
+      <div class="weather-card" id="weather-card">
+        <div class="weather-top">
+          <div>
+            <div class="weather-now" id="w-temp">—°</div>
+            <div class="weather-desc" id="w-desc">Chargement...</div>
+            <div class="weather-city">Marrakech, Maroc</div>
+          </div>
+          <div class="weather-ic" id="w-icon">☀️</div>
+        </div>
+        <div class="weather-row" id="w-days"></div>
+        <div class="weather-alert" id="w-alert" style="display:none"></div>
+      </div>
+      <div class="cr">
+        <div class="mc"><div class="ml" data-i18n="my_tasks">Mes tâches du jour</div><div class="mv" id="d-mytaches">0</div><div class="ms" id="d-mydone">0 <span data-i18n="done">complétées</span></div></div>
+        <div class="mc"><div class="ml" data-i18n="photos_missing">Photos manquantes</div><div class="mv" style="color:#D85A30" id="d-nophoto">0</div><div class="ms" data-i18n="to_add">à ajouter</div></div>
+        <div class="mc"><div class="ml" data-i18n="recouches">Recouches</div><div class="mv" id="d-rec">0</div><div class="ms" data-i18n="in_progress">en cours</div></div>
+        <div class="mc"><div class="ml" data-i18n="zones">Zones</div><div class="mv">20</div><div class="ms">Oberoi</div></div>
+      </div>
+      <div class="card">
+        <div class="ct" data-i18n="priority_tasks">Tâches prioritaires</div>
+        <div id="dash-mytasks"></div>
+      </div>
+      <div class="card">
+        <div class="ct" data-i18n="alert_zones">Zones en alerte</div>
+        <div id="dash-urgences"></div>
+      </div>
     </div>
-    <div class="weather-row" id="w-days"></div>
-    <div class="weather-alert" id="w-alert" style="display:none"></div>
-  </div>
-  <div class="cr">
-    <div class="mc"><div class="ml" data-i18n="my_tasks">Mes tâches du jour</div><div class="mv" id="d-mytaches">0</div><div class="ms" id="d-mydone">0 <span data-i18n="done">complétées</span></div></div>
-    <div class="mc"><div class="ml" data-i18n="photos_missing">Photos manquantes</div><div class="mv" style="color:#D85A30" id="d-nophoto">0</div><div class="ms" data-i18n="to_add">à ajouter</div></div>
-    <div class="mc"><div class="ml" data-i18n="recouches">Recouches</div><div class="mv" id="d-rec">0</div><div class="ms" data-i18n="in_progress">en cours</div></div>
-    <div class="mc"><div class="ml" data-i18n="zones">Zones</div><div class="mv">20</div><div class="ms">Oberoi</div></div>
-  </div>
-  <div class="card">
-    <div class="ct" data-i18n="priority_tasks">Tâches prioritaires</div>
-    <div id="dash-mytasks"></div>
-  </div>
-  <div class="card">
-    <div class="ct" data-i18n="alert_zones">Zones en alerte</div>
-    <div id="dash-urgences"></div>
-  </div>
-</div>
 
-<div class="sec" id="sec-taches">
-  <div class="rb">
-    <span style="font-size:13px;font-weight:500" data-i18n="tasks">Travaux</span>
-    <span class="role-badge role-jard" id="tache-count">0</span>
-  </div>
-  <div class="tab-row" id="tache-tabs">
-    <button class="tab active" data-f="mine" data-i18n="f_mine">Mes tâches</button>
-    <button class="tab" data-f="team" data-i18n="f_team">Équipe</button>
-    <button class="tab" data-f="all" data-i18n="f_all">Toutes</button>
-    <button class="tab" data-f="urg" data-i18n="f_urg">Urgentes</button>
-    <button class="tab" data-f="nophoto" data-i18n="f_nophoto">Sans photo</button>
-    <button class="tab" data-f="done" data-i18n="f_done">Faites</button>
-  </div>
-  <div id="taches-list"></div>
-</div>
+    <div class="sec" id="sec-taches">
+      <div class="rb">
+        <span style="font-size:13px;font-weight:500" data-i18n="tasks">Travaux</span>
+        <span class="role-badge role-jard" id="tache-count">0</span>
+      </div>
+      <div class="tab-row" id="tache-tabs">
+        <button class="tab active" data-f="mine" data-i18n="f_mine">Mes tâches</button>
+        <button class="tab" data-f="team" data-i18n="f_team">Équipe</button>
+        <button class="tab" data-f="all" data-i18n="f_all">Toutes</button>
+        <button class="tab" data-f="urg" data-i18n="f_urg">Urgentes</button>
+        <button class="tab" data-f="nophoto" data-i18n="f_nophoto">Sans photo</button>
+        <button class="tab" data-f="done" data-i18n="f_done">Faites</button>
+      </div>
+      <div id="taches-list"></div>
+    </div>
 
-<div class="sec" id="sec-journal">
-  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="journal">Journal de travaux</span></div>
-  <div class="tab-row" id="journal-tabs">
-    <button class="tab active" data-jf="all" data-i18n="j_all">Tout</button>
-    <button class="tab" data-jf="entretien" data-i18n="j_maintenance">Entretien</button>
-    <button class="tab" data-jf="plantation" data-i18n="j_planting">Plantation</button>
-    <button class="tab" data-jf="traitement" data-i18n="j_treatment">Traitement</button>
-    <button class="tab" data-jf="incident" data-i18n="j_incident">Incident</button>
-  </div>
-  <div id="journal-list"></div>
-</div>
+    <div class="sec" id="sec-journal">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="journal">Journal de travaux</span></div>
+      <div class="tab-row" id="journal-tabs">
+        <button class="tab active" data-jf="all" data-i18n="j_all">Tout</button>
+        <button class="tab" data-jf="entretien" data-i18n="j_maintenance">Entretien</button>
+        <button class="tab" data-jf="plantation" data-i18n="j_planting">Plantation</button>
+        <button class="tab" data-jf="traitement" data-i18n="j_treatment">Traitement</button>
+        <button class="tab" data-jf="incident" data-i18n="j_incident">Incident</button>
+      </div>
+      <div id="journal-list"></div>
+    </div>
 
-<div class="sec" id="sec-recouches">
-  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="room_touchups">Recouches chambres</span></div>
-  <div style="background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:var(--border-radius-md);padding:7px 10px;font-size:10px;color:#0C447C" data-i18n="room_rule">
-    N° chambre + photo obligatoires.
-  </div>
-  <div class="tab-row" id="rec-tabs">
-    <button class="tab active" data-rf="all" data-i18n="f_all">Toutes</button>
-    <button class="tab" data-rf="attente" data-i18n="r_pending">En attente</button>
-    <button class="tab" data-rf="valide" data-i18n="r_valid">Validées</button>
-  </div>
-  <div id="rec-list"></div>
-</div>
+    <div class="sec" id="sec-recouches">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="room_touchups">Recouches chambres</span></div>
+      <div style="background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:var(--border-radius-md);padding:7px 10px;font-size:10px;color:#0C447C" data-i18n="room_rule">
+        N° chambre + photo obligatoires.
+      </div>
+      <div class="tab-row" id="rec-tabs">
+        <button class="tab active" data-rf="all" data-i18n="f_all">Toutes</button>
+        <button class="tab" data-rf="attente" data-i18n="r_pending">En attente</button>
+        <button class="tab" data-rf="valide" data-i18n="r_valid">Validées</button>
+      </div>
+      <div id="rec-list"></div>
+    </div>
 
-<div class="sec" id="sec-plus">
-  <div class="ct" data-i18n="other_modules">Autres modules</div>
-  <div class="card" style="padding:0">
-    <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('zones')"><div style="font-size:22px;width:36px">🗺</div><div style="flex:1"><div class="jn" data-i18n="zones">Zones (20)</div><div class="jm" data-i18n="zones_sub">Clusters & espaces</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-    <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('audit')"><div style="font-size:22px;width:36px">✓</div><div style="flex:1"><div class="jn" data-i18n="audits">Audits</div><div class="jm" data-i18n="audits_sub">Fiches par zone</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-    <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('phyto')"><div style="font-size:22px;width:36px">🧪</div><div style="flex:1"><div class="jn" data-i18n="phyto">Phytosanitaires</div><div class="jm" data-i18n="phyto_sub">Stock & traitements</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-    <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('equipe')"><div style="font-size:22px;width:36px">👥</div><div style="flex:1"><div class="jn" data-i18n="team">Équipe</div><div class="jm" data-i18n="team_sub">20 personnes</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-    <div class="ji-row" id="row-users" style="padding:12px;cursor:pointer;display:none" onclick="goSec('users')"><div style="font-size:22px;width:36px">🔐</div><div style="flex:1"><div class="jn" data-i18n="accounts">Comptes utilisateurs</div><div class="jm" data-i18n="accounts_sub">Gestion des accès</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-  </div>
-</div>
+    <div class="sec" id="sec-plus">
+      <div class="ct" data-i18n="other_modules">Autres modules</div>
+      <div class="card" style="padding:0">
+        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('zones')"><div style="font-size:22px;width:36px">🗺</div><div style="flex:1"><div class="jn" data-i18n="zones">Zones (20)</div><div class="jm" data-i18n="zones_sub">Clusters & espaces</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('audit')"><div style="font-size:22px;width:36px">✓</div><div style="flex:1"><div class="jn" data-i18n="audits">Audits</div><div class="jm" data-i18n="audits_sub">Fiches par zone</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('phyto')"><div style="font-size:22px;width:36px">🧪</div><div style="flex:1"><div class="jn" data-i18n="phyto">Phytosanitaires</div><div class="jm" data-i18n="phyto_sub">Stock & traitements</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('equipe')"><div style="font-size:22px;width:36px">👥</div><div style="flex:1"><div class="jn" data-i18n="team">Équipe</div><div class="jm" data-i18n="team_sub">20 personnes</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+        <div class="ji-row" id="row-users" style="padding:12px;cursor:pointer;display:none" onclick="goSec('users')"><div style="font-size:22px;width:36px">🔐</div><div style="flex:1"><div class="jn" data-i18n="accounts">Comptes utilisateurs</div><div class="jm" data-i18n="accounts_sub">Gestion des accès</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+      </div>
+    </div>
 
-<div class="sec" id="sec-zones">
-  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="zones_full">Zones Oberoi</span></div>
-  <div id="zones-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
-</div>
+    <div class="sec" id="sec-zones">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="zones_full">Zones Oberoi</span></div>
+      <div id="zones-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+    </div>
 
-<div class="sec" id="sec-audit">
-  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="audit_sheets">Fiches d'audit</span></div>
-  <div id="audit-list" style="display:flex;flex-direction:column;gap:8px"></div>
-</div>
+    <div class="sec" id="sec-audit">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="audit_sheets">Fiches d'audit</span></div>
+      <div id="audit-list" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
 
-<div class="sec" id="sec-phyto">
-  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="phyto_full">Produits phytosanitaires</span></div>
-  <div class="card"><div class="ct" data-i18n="inventory">Inventaire</div><div id="phyto-list"></div></div>
-  <div class="card"><div class="ct" data-i18n="treatment_history">Historique traitements</div><div id="phyto-hist"></div></div>
-</div>
+    <div class="sec" id="sec-phyto">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="phyto_full">Produits phytosanitaires</span></div>
+      <div class="card"><div class="ct" data-i18n="inventory">Inventaire</div><div id="phyto-list"></div></div>
+      <div class="card"><div class="ct" data-i18n="treatment_history">Historique traitements</div><div id="phyto-hist"></div></div>
+    </div>
 
-<div class="sec" id="sec-equipe">
-  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="full_team">Équipe complète</span></div>
-  <div class="card" id="equipe-list"></div>
-</div>
+    <div class="sec" id="sec-equipe">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="full_team">Équipe complète</span></div>
+      <div class="card" id="equipe-list"></div>
+    </div>
 
-<div class="sec" id="sec-users">
-  <div class="rb">
-    <span style="font-size:13px;font-weight:500" data-i18n="accounts">Comptes utilisateurs</span>
-    <button class="btn-s" onclick="openM('user')" data-i18n="add_account">+ Compte</button>
-  </div>
-  <div style="background:#FAEEDA;border-radius:var(--border-radius-md);padding:8px 10px;font-size:10px;color:#633806" data-i18n="manager_only_warning">
-    Réservé au manager.
-  </div>
-  <div class="card" id="users-list"></div>
-</div>
-```
+    <div class="sec" id="sec-users">
+      <div class="rb">
+        <span style="font-size:13px;font-weight:500" data-i18n="accounts">Comptes utilisateurs</span>
+        <button class="btn-s" onclick="openM('user')" data-i18n="add_account">+ Compte</button>
+      </div>
+      <div style="background:#FAEEDA;border-radius:var(--border-radius-md);padding:8px 10px;font-size:10px;color:#633806" data-i18n="manager_only_warning">
+        Réservé au manager.
+      </div>
+      <div class="card" id="users-list"></div>
+    </div>
 
   </div>
 
-<button class="fab" id="fab" onclick="fabAction()">+</button>
+  <button class="fab" id="fab" onclick="fabAction()">+</button>
 
   <div class="nav-mobile">
     <button class="nav-btn active" data-sec="dash"><span class="nav-ic">🏠</span><span data-i18n="nav_home">Accueil</span></button>
@@ -379,7 +376,6 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
 <!-- ============================================================
      SCRIPT 1 : i18n — doit être en premier
      ============================================================ -->
-
 <script>
 var I18N = {
   fr: {
@@ -419,7 +415,6 @@ setLang(currentLang);
 <!-- ============================================================
      SCRIPT 2 : Backend (Supabase + localStorage)
      ============================================================ -->
-
 <script>
 var SB_URL='https://aiwbqvxnzvodlcuaxick.supabase.co';
 var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0';
@@ -539,7 +534,6 @@ setTimeout(async function(){
 <!-- ============================================================
      SCRIPT 3 : Application principale
      ============================================================ -->
-
 <script>
 var currentUser = null;
 var USERS={}, ZONES={}, TACHES={}, JOURNAL={}, RECOUCHES={}, AUDITS={}, PHYTO_STOCK={}, PHYTO_HIST={};
@@ -889,194 +883,193 @@ function openM(type,id){
     c.innerHTML='<div class="modal-title">'+t('complete_task')+'</div><div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:10px">'+task.nom+'<br><span style="font-size:10px">'+task.zone+'</span></div><div class="frow"><label class="flabel">'+t('photo_required')+'</label><div class="upload-zone" onclick="document.getElementById(\'c-photo\').click()" id="c-upload"><input type="file" id="c-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'c-prev\',\'c-upload\')"><div class="uz-text">'+t('take_photo')+'</div><div class="uz-sub">'+t('or_gallery')+'</div></div><img id="c-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" id="btn-validate" onclick="validateTache(\''+id+'\')">'+t('validate')+'</button></div>';
   }else if(type==='journal'){
     c.innerHTML='<div class="modal-title">'+t('new_journal_entry')+'</div><div class="frow"><label class="flabel">'+t('title')+'</label><input class="inp" id="j-titre"></div><div class="frow"><label class="flabel">'+t('zone')+'</label><select class="inp" id="j-zone">'+ZONES_LIST.map(function(z){return '<option>'+z+'</option>';}).join('')+'</select></div><div class="frow"><label class="flabel">'+t('type')+'</label><select class="inp" id="j-type"><option value="entretien">'+t('j_maintenance')+'</option><option value="plantation">'+t('j_planting')+'</option><option value="traitement">'+t('j_treatment')+'</option><option value="incident">'+t('j_incident')+'</option></select></div><div class="frow"><label class="flabel">'+t('notes')+'</label><textarea class="inp" id="j-notes" rows="3"></textarea></div><div class="frow"><label class="flabel">'+t('photo_required')+'</label><div class="upload-zone" onclick="document.getElementById(\'j-photo\').click()" id="j-upload"><input type="file" id="j-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'j-prev\',\'j-upload\')"><div class="uz-text">'+t('take_photo')+'</div></div><img id="j-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" id="btn-journal" onclick="addJournal()">'+t('save')+'</button></div>';
-
-}else if(type===‘recouche’){
-c.innerHTML=’<div class="modal-title">’+t(‘new_recouche’)+’</div><div style="background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 10px;font-size:11px;color:#0C447C;margin-bottom:10px">’+t(‘room_rule’)+’</div><div class="frow"><label class="flabel">’+t(‘room_number’)+’</label><input class="inp" id="r-chambre"></div><div class="frow"><label class="flabel">’+t(‘zone’)+’</label><select class="inp" id="r-zone">’+ZONES_LIST.map(function(z){return ‘<option>’+z+’</option>’;}).join(’’)+’</select></div><div class="frow"><label class="flabel">’+t(‘work’)+’</label><input class="inp" id="r-travail"></div><div class="frow"><label class="flabel">’+t(‘final_photo’)+’</label><div class="upload-zone" onclick="document.getElementById(\'r-photo\').click()" id="r-upload"><input type="file" id="r-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'r-prev\',\'r-upload\')"><div class="uz-text">’+t(‘take_photo’)+’</div><div class="uz-sub">’+t(‘no_photo_no_valid’)+’</div></div><img id="r-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">’+t(‘cancel’)+’</button><button class="btn-g" id="btn-rec" onclick="addRecouche()">’+t(‘save’)+’</button></div>’;
-}else if(type===‘audit’){
-if(currentUser.role!==‘manager’){alert(t(‘audit_manager_only’));return;}
-var criteresNames=[t(‘cleanliness’),t(‘pruning’),t(‘irrigation’),t(‘plants_state’),t(‘safety’)];
-c.innerHTML=’<div class="modal-title">’+t(‘audit_sheet’)+’</div><div class="frow"><label class="flabel">’+t(‘zone’)+’</label><select class="inp" id="a-zone">’+ZONES_LIST.map(function(z){return ‘<option>’+z+’</option>’;}).join(’’)+’</select></div>’+criteresNames.map(function(k,i){return ‘<div class="frow"><label class="flabel">’+k+’</label><div style="display:flex;gap:6px;margin-top:4px;align-items:center">’+[1,2,3,4,5].map(function(s){return ‘<div class="star" id="as-'+i+'-'+s+'" onclick="setStar('+i+','+s+')"></div>’;}).join(’’)+’<span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px" id="as-lbl-'+i+'">3/5</span></div></div>’;}).join(’’)+’<div class="frow"><label class="flabel">’+t(‘observations’)+’</label><textarea class="inp" id="a-notes" rows="2"></textarea></div><div class="mfoot"><button class="btn-s" onclick="closeM()">’+t(‘cancel’)+’</button><button class="btn-g" onclick="addAudit()">’+t(‘validate’)+’</button></div>’;
-[0,1,2,3,4].forEach(function(i){setStar(i,3);});
-}else if(type===‘phyto’){
-c.innerHTML=’<div class="modal-title">’+t(‘product_use’)+’</div><div class="frow"><label class="flabel">’+t(‘product’)+’</label><select class="inp" id="p-prod">’+Object.values(PHYTO_STOCK).map(function(p){return ‘<option>’+p.nom+’</option>’;}).join(’’)+’</select></div><div class="frow"><label class="flabel">’+t(‘zone’)+’</label><select class="inp" id="p-zone">’+ZONES_LIST.map(function(z){return ‘<option>’+z+’</option>’;}).join(’’)+’</select></div><div class="frow"><label class="flabel">’+t(‘dose’)+’</label><input class="inp" id="p-dose"></div><div class="frow"><label class="flabel">’+t(‘photo_required’)+’</label><div class="upload-zone" onclick="document.getElementById(\'p-photo\').click()" id="p-upload"><input type="file" id="p-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'p-prev\',\'p-upload\')"><div class="uz-text">’+t(‘take_photo’)+’</div></div><img id="p-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">’+t(‘cancel’)+’</button><button class="btn-g" id="btn-phyto" onclick="addPhytoUse()">’+t(‘save’)+’</button></div>’;
-}else if(type===‘user’){
-c.innerHTML=’<div class="modal-title">’+t(‘new_account’)+’</div><div class="frow"><label class="flabel">’+t(‘full_name’)+’</label><input class="inp" id="uu-nom"></div><div class="frow"><label class="flabel">’+t(‘username’)+’</label><input class="inp" id="uu-user" autocapitalize="none"></div><div class="frow"><label class="flabel">’+t(‘password’)+’</label><input class="inp" id="uu-pass"></div><div class="frow"><label class="flabel">’+t(‘role’)+’</label><select class="inp" id="uu-role"><option value="jardinier">’+t(‘gardener’)+’</option><option value="chef">’+t(‘chef’)+’</option></select></div><div class="mfoot"><button class="btn-s" onclick="closeM()">’+t(‘cancel’)+’</button><button class="btn-g" onclick="addUser()">’+t(‘create’)+’</button></div>’;
-}
-w.classList.add(‘open’);
+  }else if(type==='recouche'){
+    c.innerHTML='<div class="modal-title">'+t('new_recouche')+'</div><div style="background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 10px;font-size:11px;color:#0C447C;margin-bottom:10px">'+t('room_rule')+'</div><div class="frow"><label class="flabel">'+t('room_number')+'</label><input class="inp" id="r-chambre"></div><div class="frow"><label class="flabel">'+t('zone')+'</label><select class="inp" id="r-zone">'+ZONES_LIST.map(function(z){return '<option>'+z+'</option>';}).join('')+'</select></div><div class="frow"><label class="flabel">'+t('work')+'</label><input class="inp" id="r-travail"></div><div class="frow"><label class="flabel">'+t('final_photo')+'</label><div class="upload-zone" onclick="document.getElementById(\'r-photo\').click()" id="r-upload"><input type="file" id="r-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'r-prev\',\'r-upload\')"><div class="uz-text">'+t('take_photo')+'</div><div class="uz-sub">'+t('no_photo_no_valid')+'</div></div><img id="r-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" id="btn-rec" onclick="addRecouche()">'+t('save')+'</button></div>';
+  }else if(type==='audit'){
+    if(currentUser.role!=='manager'){alert(t('audit_manager_only'));return;}
+    var criteresNames=[t('cleanliness'),t('pruning'),t('irrigation'),t('plants_state'),t('safety')];
+    c.innerHTML='<div class="modal-title">'+t('audit_sheet')+'</div><div class="frow"><label class="flabel">'+t('zone')+'</label><select class="inp" id="a-zone">'+ZONES_LIST.map(function(z){return '<option>'+z+'</option>';}).join('')+'</select></div>'+criteresNames.map(function(k,i){return '<div class="frow"><label class="flabel">'+k+'</label><div style="display:flex;gap:6px;margin-top:4px;align-items:center">'+[1,2,3,4,5].map(function(s){return '<div class="star" id="as-'+i+'-'+s+'" onclick="setStar('+i+','+s+')"></div>';}).join('')+'<span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px" id="as-lbl-'+i+'">3/5</span></div></div>';}).join('')+'<div class="frow"><label class="flabel">'+t('observations')+'</label><textarea class="inp" id="a-notes" rows="2"></textarea></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" onclick="addAudit()">'+t('validate')+'</button></div>';
+    [0,1,2,3,4].forEach(function(i){setStar(i,3);});
+  }else if(type==='phyto'){
+    c.innerHTML='<div class="modal-title">'+t('product_use')+'</div><div class="frow"><label class="flabel">'+t('product')+'</label><select class="inp" id="p-prod">'+Object.values(PHYTO_STOCK).map(function(p){return '<option>'+p.nom+'</option>';}).join('')+'</select></div><div class="frow"><label class="flabel">'+t('zone')+'</label><select class="inp" id="p-zone">'+ZONES_LIST.map(function(z){return '<option>'+z+'</option>';}).join('')+'</select></div><div class="frow"><label class="flabel">'+t('dose')+'</label><input class="inp" id="p-dose"></div><div class="frow"><label class="flabel">'+t('photo_required')+'</label><div class="upload-zone" onclick="document.getElementById(\'p-photo\').click()" id="p-upload"><input type="file" id="p-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,\'p-prev\',\'p-upload\')"><div class="uz-text">'+t('take_photo')+'</div></div><img id="p-prev" class="photo-preview"></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" id="btn-phyto" onclick="addPhytoUse()">'+t('save')+'</button></div>';
+  }else if(type==='user'){
+    c.innerHTML='<div class="modal-title">'+t('new_account')+'</div><div class="frow"><label class="flabel">'+t('full_name')+'</label><input class="inp" id="uu-nom"></div><div class="frow"><label class="flabel">'+t('username')+'</label><input class="inp" id="uu-user" autocapitalize="none"></div><div class="frow"><label class="flabel">'+t('password')+'</label><input class="inp" id="uu-pass"></div><div class="frow"><label class="flabel">'+t('role')+'</label><select class="inp" id="uu-role"><option value="jardinier">'+t('gardener')+'</option><option value="chef">'+t('chef')+'</option></select></div><div class="mfoot"><button class="btn-s" onclick="closeM()">'+t('cancel')+'</button><button class="btn-g" onclick="addUser()">'+t('create')+'</button></div>';
+  }
+  w.classList.add('open');
 }
 window.openM=openM;
 
 function prevPhoto(input,previewId,uploadId){
-var file=input.files[0];if(!file)return;
-var reader=new FileReader();
-reader.onload=function(e){
-var img=document.getElementById(previewId);
-img.src=e.target.result;img.style.display=‘block’;
-if(uploadId)document.getElementById(uploadId).classList.add(‘has-file’);
-};
-reader.readAsDataURL(file);
+  var file=input.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=document.getElementById(previewId);
+    img.src=e.target.result;img.style.display='block';
+    if(uploadId)document.getElementById(uploadId).classList.add('has-file');
+  };
+  reader.readAsDataURL(file);
 }
 window.prevPhoto=prevPhoto;
 
 var auditStars=[3,3,3,3,3];
 function setStar(row,val){
-auditStars[row]=val;
-for(var s=1;s<=5;s++){var el=document.getElementById(‘as-’+row+’-’+s);if(el)el.className=‘star’+(s<=val?’ on’:’’);}
-var lbl=document.getElementById(‘as-lbl-’+row);if(lbl)lbl.textContent=val+’/5’;
+  auditStars[row]=val;
+  for(var s=1;s<=5;s++){var el=document.getElementById('as-'+row+'-'+s);if(el)el.className='star'+(s<=val?' on':'');}
+  var lbl=document.getElementById('as-lbl-'+row);if(lbl)lbl.textContent=val+'/5';
 }
 window.setStar=setStar;
 
-function closeM(){document.getElementById(‘mwrap’).classList.remove(‘open’);}
+function closeM(){document.getElementById('mwrap').classList.remove('open');}
 window.closeM=closeM;
 
-function viewPhoto(url){document.getElementById(‘photo-modal-img’).src=url;document.getElementById(‘photo-modal’).classList.add(‘open’);}
+function viewPhoto(url){document.getElementById('photo-modal-img').src=url;document.getElementById('photo-modal').classList.add('open');}
 window.viewPhoto=viewPhoto;
 
-function closePhotoModal(){document.getElementById(‘photo-modal’).classList.remove(‘open’);}
+function closePhotoModal(){document.getElementById('photo-modal').classList.remove('open');}
 window.closePhotoModal=closePhotoModal;
 
 async function compressImage(file){
-return new Promise(function(resolve,reject){
-var img=new Image();
-var reader=new FileReader();
-reader.onload=function(e){
-img.onload=function(){
-try{
-var canvas=document.createElement(‘canvas’);
-var w=img.width,h=img.height,maxSize=800;
-if(w>h&&w>maxSize){h=Math.round(h*maxSize/w);w=maxSize;}
-else if(h>maxSize){w=Math.round(w*maxSize/h);h=maxSize;}
-canvas.width=w;canvas.height=h;
-canvas.getContext(‘2d’).drawImage(img,0,0,w,h);
-resolve(canvas.toDataURL(‘image/jpeg’,0.65));
-}catch(err){reject(err);}
-};
-img.onerror=reject;
-img.src=e.target.result;
-};
-reader.onerror=reject;
-reader.readAsDataURL(file);
-});
+  return new Promise(function(resolve,reject){
+    var img=new Image();
+    var reader=new FileReader();
+    reader.onload=function(e){
+      img.onload=function(){
+        try{
+          var canvas=document.createElement('canvas');
+          var w=img.width,h=img.height,maxSize=800;
+          if(w>h&&w>maxSize){h=Math.round(h*maxSize/w);w=maxSize;}
+          else if(h>maxSize){w=Math.round(w*maxSize/h);h=maxSize;}
+          canvas.width=w;canvas.height=h;
+          canvas.getContext('2d').drawImage(img,0,0,w,h);
+          resolve(canvas.toDataURL('image/jpeg',0.65));
+        }catch(err){reject(err);}
+      };
+      img.onerror=reject;
+      img.src=e.target.result;
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 async function validateTache(id){
-var fileInput=document.getElementById(‘c-photo’);
-if(!fileInput||!fileInput.files.length){alert(t(‘photo_missing’));return;}
-var btn=document.getElementById(‘btn-validate’);
-btn.disabled=true;btn.textContent=t(‘uploading’);
-try{
-var photoUrl=await compressImage(fileInput.files[0]);
-window.fbUpdateData(‘taches’,id,{statut:‘done’,photo:photoUrl,completedAt:Date.now()});
-closeM();
-}catch(e){alert(t(‘upload_error’)+’: ’+e.message);btn.disabled=false;btn.textContent=t(‘validate’);}
+  var fileInput=document.getElementById('c-photo');
+  if(!fileInput||!fileInput.files.length){alert(t('photo_missing'));return;}
+  var btn=document.getElementById('btn-validate');
+  btn.disabled=true;btn.textContent=t('uploading');
+  try{
+    var photoUrl=await compressImage(fileInput.files[0]);
+    window.fbUpdateData('taches',id,{statut:'done',photo:photoUrl,completedAt:Date.now()});
+    closeM();
+  }catch(e){alert(t('upload_error')+': '+e.message);btn.disabled=false;btn.textContent=t('validate');}
 }
 window.validateTache=validateTache;
 
 async function addTache(){
-var nom=document.getElementById(‘f-nom’);if(!nom||!nom.value.trim())return;
-window.fbPushData(‘taches’,{nom:nom.value.trim(),zone:document.getElementById(‘f-zone’).value,assigne:document.getElementById(‘f-assign’).value,prio:document.getElementById(‘f-prio’).value,statut:‘open’,date:document.getElementById(‘f-date’).value,photo:null,type:‘entretien’,created:Date.now(),createdBy:currentUser.username});
-closeM();
+  var nom=document.getElementById('f-nom');if(!nom||!nom.value.trim())return;
+  window.fbPushData('taches',{nom:nom.value.trim(),zone:document.getElementById('f-zone').value,assigne:document.getElementById('f-assign').value,prio:document.getElementById('f-prio').value,statut:'open',date:document.getElementById('f-date').value,photo:null,type:'entretien',created:Date.now(),createdBy:currentUser.username});
+  closeM();
 }
 window.addTache=addTache;
 
 async function addJournal(){
-var titre=document.getElementById(‘j-titre’);if(!titre||!titre.value.trim())return;
-var fileInput=document.getElementById(‘j-photo’);
-if(!fileInput||!fileInput.files.length){alert(t(‘photo_missing’));return;}
-var btn=document.getElementById(‘btn-journal’);btn.disabled=true;btn.textContent=t(‘uploading’);
-try{
-var photoUrl=await compressImage(fileInput.files[0]);
-var now=new Date();
-var dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ‘+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
-window.fbPushData(‘journal’,{date:dateStr,titre:titre.value.trim(),zone:document.getElementById(‘j-zone’).value,type:document.getElementById(‘j-type’).value,jardinier:currentUser.username,notes:document.getElementById(‘j-notes’).value||’—’,photo:photoUrl,timestamp:Date.now()});
-closeM();
-}catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
+  var titre=document.getElementById('j-titre');if(!titre||!titre.value.trim())return;
+  var fileInput=document.getElementById('j-photo');
+  if(!fileInput||!fileInput.files.length){alert(t('photo_missing'));return;}
+  var btn=document.getElementById('btn-journal');btn.disabled=true;btn.textContent=t('uploading');
+  try{
+    var photoUrl=await compressImage(fileInput.files[0]);
+    var now=new Date();
+    var dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    window.fbPushData('journal',{date:dateStr,titre:titre.value.trim(),zone:document.getElementById('j-zone').value,type:document.getElementById('j-type').value,jardinier:currentUser.username,notes:document.getElementById('j-notes').value||'—',photo:photoUrl,timestamp:Date.now()});
+    closeM();
+  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
 }
 window.addJournal=addJournal;
 
 async function addRecouche(){
-var ch=document.getElementById(‘r-chambre’);var tr=document.getElementById(‘r-travail’);
-if(!ch||!ch.value.trim()){alert(t(‘room_number_required’));return;}
-if(!tr||!tr.value.trim())return;
-var fileInput=document.getElementById(‘r-photo’);
-if(!fileInput||!fileInput.files.length){alert(t(‘photo_missing’));return;}
-var btn=document.getElementById(‘btn-rec’);btn.disabled=true;btn.textContent=t(‘uploading’);
-try{
-var photoUrl=await compressImage(fileInput.files[0]);
-var now=new Date();
-var dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ’+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
-window.fbPushData(‘recouches’,{chambre:ch.value.trim(),zone:document.getElementById(‘r-zone’).value,travail:tr.value.trim(),jardinier:currentUser.username,date:dateStr,photo:photoUrl,statut:‘valide’,timestamp:Date.now()});
-closeM();
-}catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
+  var ch=document.getElementById('r-chambre');var tr=document.getElementById('r-travail');
+  if(!ch||!ch.value.trim()){alert(t('room_number_required'));return;}
+  if(!tr||!tr.value.trim())return;
+  var fileInput=document.getElementById('r-photo');
+  if(!fileInput||!fileInput.files.length){alert(t('photo_missing'));return;}
+  var btn=document.getElementById('btn-rec');btn.disabled=true;btn.textContent=t('uploading');
+  try{
+    var photoUrl=await compressImage(fileInput.files[0]);
+    var now=new Date();
+    var dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    window.fbPushData('recouches',{chambre:ch.value.trim(),zone:document.getElementById('r-zone').value,travail:tr.value.trim(),jardinier:currentUser.username,date:dateStr,photo:photoUrl,statut:'valide',timestamp:Date.now()});
+    closeM();
+  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
 }
 window.addRecouche=addRecouche;
 
 async function addAudit(){
-var zone=document.getElementById(‘a-zone’);if(!zone)return;
-var score=Math.round(auditStars.reduce(function(a,b){return a+b;},0)/25*100);
-var now=new Date();
-window.fbPushData(‘audits’,{zone:zone.value,date:now.toLocaleDateString(‘fr-FR’),score:score,criteres:{proprete:auditStars[0],taille:auditStars[1],irrigation:auditStars[2],etatPlantes:auditStars[3],securite:auditStars[4]},notes:document.getElementById(‘a-notes’).value||’—’,auditor:currentUser.username,timestamp:Date.now()});
-closeM();
+  var zone=document.getElementById('a-zone');if(!zone)return;
+  var score=Math.round(auditStars.reduce(function(a,b){return a+b;},0)/25*100);
+  var now=new Date();
+  window.fbPushData('audits',{zone:zone.value,date:now.toLocaleDateString('fr-FR'),score:score,criteres:{proprete:auditStars[0],taille:auditStars[1],irrigation:auditStars[2],etatPlantes:auditStars[3],securite:auditStars[4]},notes:document.getElementById('a-notes').value||'—',auditor:currentUser.username,timestamp:Date.now()});
+  closeM();
 }
 window.addAudit=addAudit;
 
 async function addPhytoUse(){
-var fileInput=document.getElementById(‘p-photo’);
-if(!fileInput||!fileInput.files.length){alert(t(‘photo_missing’));return;}
-var btn=document.getElementById(‘btn-phyto’);btn.disabled=true;btn.textContent=t(‘uploading’);
-try{
-var photoUrl=await compressImage(fileInput.files[0]);
-var now=new Date();
-var dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ‘+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
-window.fbPushData(‘phyto_hist’,{date:dateStr,produit:document.getElementById(‘p-prod’).value,zone:document.getElementById(‘p-zone’).value,dose:document.getElementById(‘p-dose’).value||’—’,jardinier:currentUser.username,photo:photoUrl,timestamp:Date.now()});
-closeM();
-}catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
+  var fileInput=document.getElementById('p-photo');
+  if(!fileInput||!fileInput.files.length){alert(t('photo_missing'));return;}
+  var btn=document.getElementById('btn-phyto');btn.disabled=true;btn.textContent=t('uploading');
+  try{
+    var photoUrl=await compressImage(fileInput.files[0]);
+    var now=new Date();
+    var dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    window.fbPushData('phyto_hist',{date:dateStr,produit:document.getElementById('p-prod').value,zone:document.getElementById('p-zone').value,dose:document.getElementById('p-dose').value||'—',jardinier:currentUser.username,photo:photoUrl,timestamp:Date.now()});
+    closeM();
+  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
 }
 window.addPhytoUse=addPhytoUse;
 
 async function addUser(){
-if(currentUser.role!==‘manager’){alert(t(‘manager_only’));return;}
-var n=document.getElementById(‘uu-nom’).value.trim();
-var u=document.getElementById(‘uu-user’).value.trim().toLowerCase();
-var p=document.getElementById(‘uu-pass’).value;
-if(!n||!u||!p){alert(t(‘all_fields_required’));return;}
-if(USERS[u]){alert(t(‘username_exists’));return;}
-var parts=n.split(’ ’);
-var avatar=parts.length>1?(parts[0][0]+parts[1][0]).toUpperCase():n[0].toUpperCase();
-window.fbSetUser(u,{password:p,nom:n,role:document.getElementById(‘uu-role’).value,avatar:avatar});
-closeM();alert(t(‘account_created’));
+  if(currentUser.role!=='manager'){alert(t('manager_only'));return;}
+  var n=document.getElementById('uu-nom').value.trim();
+  var u=document.getElementById('uu-user').value.trim().toLowerCase();
+  var p=document.getElementById('uu-pass').value;
+  if(!n||!u||!p){alert(t('all_fields_required'));return;}
+  if(USERS[u]){alert(t('username_exists'));return;}
+  var parts=n.split(' ');
+  var avatar=parts.length>1?(parts[0][0]+parts[1][0]).toUpperCase():n[0].toUpperCase();
+  window.fbSetUser(u,{password:p,nom:n,role:document.getElementById('uu-role').value,avatar:avatar});
+  closeM();alert(t('account_created'));
 }
 window.addUser=addUser;
 
 // Navigation
-document.querySelectorAll(’.nav-btn’).forEach(function(b){
-b.addEventListener(‘click’,function(){goSec(this.dataset.sec);});
+document.querySelectorAll('.nav-btn').forEach(function(b){
+  b.addEventListener('click',function(){goSec(this.dataset.sec);});
 });
-document.querySelectorAll(’.tab[data-f]’).forEach(function(x){
-x.addEventListener(‘click’,function(){
-document.querySelectorAll(’.tab[data-f]’).forEach(function(y){y.classList.remove(‘active’);});
-x.classList.add(‘active’);renderTaches(x.dataset.f);
+document.querySelectorAll('.tab[data-f]').forEach(function(x){
+  x.addEventListener('click',function(){
+    document.querySelectorAll('.tab[data-f]').forEach(function(y){y.classList.remove('active');});
+    x.classList.add('active');renderTaches(x.dataset.f);
+  });
 });
+document.querySelectorAll('.tab[data-jf]').forEach(function(x){
+  x.addEventListener('click',function(){
+    document.querySelectorAll('.tab[data-jf]').forEach(function(y){y.classList.remove('active');});
+    x.classList.add('active');renderJournal(x.dataset.jf);
+  });
 });
-document.querySelectorAll(’.tab[data-jf]’).forEach(function(x){
-x.addEventListener(‘click’,function(){
-document.querySelectorAll(’.tab[data-jf]’).forEach(function(y){y.classList.remove(‘active’);});
-x.classList.add(‘active’);renderJournal(x.dataset.jf);
-});
-});
-document.querySelectorAll(’.tab[data-rf]’).forEach(function(x){
-x.addEventListener(‘click’,function(){
-document.querySelectorAll(’.tab[data-rf]’).forEach(function(y){y.classList.remove(‘active’);});
-x.classList.add(‘active’);renderRecouches(x.dataset.rf);
-});
+document.querySelectorAll('.tab[data-rf]').forEach(function(x){
+  x.addEventListener('click',function(){
+    document.querySelectorAll('.tab[data-rf]').forEach(function(y){y.classList.remove('active');});
+    x.classList.add('active');renderRecouches(x.dataset.rf);
+  });
 });
 
 // Enter sur les champs login + bouton Se connecter — attaché ici, après que tout est défini
-document.getElementById(‘u-username’).addEventListener(‘keypress’,function(e){if(e.key===‘Enter’)doLogin();});
-document.getElementById(‘u-password’).addEventListener(‘keypress’,function(e){if(e.key===‘Enter’)doLogin();});
-document.getElementById(‘btn-login’).addEventListener(‘click’, function(e){
-e.preventDefault();
-doLogin();
+document.getElementById('u-username').addEventListener('keypress',function(e){if(e.key==='Enter')doLogin();});
+document.getElementById('u-password').addEventListener('keypress',function(e){if(e.key==='Enter')doLogin();});
+document.getElementById('btn-login').addEventListener('click', function(e){
+  e.preventDefault();
+  doLogin();
 });
 </script>
 
