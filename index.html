@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -238,125 +239,127 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
 
   <div class="main-m" id="main-content">
 
-    <div class="sec active" id="sec-dash">
-      <div class="read-only-msg" id="ro-dash" style="display:none">
-        <span>👁</span><span data-i18n="readonly_msg">Vue limitée à vos tâches.</span>
+```
+<div class="sec active" id="sec-dash">
+  <div class="read-only-msg" id="ro-dash" style="display:none">
+    <span>👁</span><span data-i18n="readonly_msg">Vue limitée à vos tâches.</span>
+  </div>
+  <div class="weather-card" id="weather-card">
+    <div class="weather-top">
+      <div>
+        <div class="weather-now" id="w-temp">—°</div>
+        <div class="weather-desc" id="w-desc">Chargement...</div>
+        <div class="weather-city">Marrakech, Maroc</div>
       </div>
-      <div class="weather-card" id="weather-card">
-        <div class="weather-top">
-          <div>
-            <div class="weather-now" id="w-temp">—°</div>
-            <div class="weather-desc" id="w-desc">Chargement...</div>
-            <div class="weather-city">Marrakech, Maroc</div>
-          </div>
-          <div class="weather-ic" id="w-icon">☀️</div>
-        </div>
-        <div class="weather-row" id="w-days"></div>
-        <div class="weather-alert" id="w-alert" style="display:none"></div>
-      </div>
-      <div class="cr">
-        <div class="mc"><div class="ml" data-i18n="my_tasks">Mes tâches du jour</div><div class="mv" id="d-mytaches">0</div><div class="ms" id="d-mydone">0 <span data-i18n="done">complétées</span></div></div>
-        <div class="mc"><div class="ml" data-i18n="photos_missing">Photos manquantes</div><div class="mv" style="color:#D85A30" id="d-nophoto">0</div><div class="ms" data-i18n="to_add">à ajouter</div></div>
-        <div class="mc"><div class="ml" data-i18n="recouches">Recouches</div><div class="mv" id="d-rec">0</div><div class="ms" data-i18n="in_progress">en cours</div></div>
-        <div class="mc"><div class="ml" data-i18n="zones">Zones</div><div class="mv">20</div><div class="ms">Oberoi</div></div>
-      </div>
-      <div class="card">
-        <div class="ct" data-i18n="priority_tasks">Tâches prioritaires</div>
-        <div id="dash-mytasks"></div>
-      </div>
-      <div class="card">
-        <div class="ct" data-i18n="alert_zones">Zones en alerte</div>
-        <div id="dash-urgences"></div>
-      </div>
+      <div class="weather-ic" id="w-icon">☀️</div>
     </div>
+    <div class="weather-row" id="w-days"></div>
+    <div class="weather-alert" id="w-alert" style="display:none"></div>
+  </div>
+  <div class="cr">
+    <div class="mc"><div class="ml" data-i18n="my_tasks">Mes tâches du jour</div><div class="mv" id="d-mytaches">0</div><div class="ms" id="d-mydone">0 <span data-i18n="done">complétées</span></div></div>
+    <div class="mc"><div class="ml" data-i18n="photos_missing">Photos manquantes</div><div class="mv" style="color:#D85A30" id="d-nophoto">0</div><div class="ms" data-i18n="to_add">à ajouter</div></div>
+    <div class="mc"><div class="ml" data-i18n="recouches">Recouches</div><div class="mv" id="d-rec">0</div><div class="ms" data-i18n="in_progress">en cours</div></div>
+    <div class="mc"><div class="ml" data-i18n="zones">Zones</div><div class="mv">20</div><div class="ms">Oberoi</div></div>
+  </div>
+  <div class="card">
+    <div class="ct" data-i18n="priority_tasks">Tâches prioritaires</div>
+    <div id="dash-mytasks"></div>
+  </div>
+  <div class="card">
+    <div class="ct" data-i18n="alert_zones">Zones en alerte</div>
+    <div id="dash-urgences"></div>
+  </div>
+</div>
 
-    <div class="sec" id="sec-taches">
-      <div class="rb">
-        <span style="font-size:13px;font-weight:500" data-i18n="tasks">Travaux</span>
-        <span class="role-badge role-jard" id="tache-count">0</span>
-      </div>
-      <div class="tab-row" id="tache-tabs">
-        <button class="tab active" data-f="mine" data-i18n="f_mine">Mes tâches</button>
-        <button class="tab" data-f="team" data-i18n="f_team">Équipe</button>
-        <button class="tab" data-f="all" data-i18n="f_all">Toutes</button>
-        <button class="tab" data-f="urg" data-i18n="f_urg">Urgentes</button>
-        <button class="tab" data-f="nophoto" data-i18n="f_nophoto">Sans photo</button>
-        <button class="tab" data-f="done" data-i18n="f_done">Faites</button>
-      </div>
-      <div id="taches-list"></div>
-    </div>
+<div class="sec" id="sec-taches">
+  <div class="rb">
+    <span style="font-size:13px;font-weight:500" data-i18n="tasks">Travaux</span>
+    <span class="role-badge role-jard" id="tache-count">0</span>
+  </div>
+  <div class="tab-row" id="tache-tabs">
+    <button class="tab active" data-f="mine" data-i18n="f_mine">Mes tâches</button>
+    <button class="tab" data-f="team" data-i18n="f_team">Équipe</button>
+    <button class="tab" data-f="all" data-i18n="f_all">Toutes</button>
+    <button class="tab" data-f="urg" data-i18n="f_urg">Urgentes</button>
+    <button class="tab" data-f="nophoto" data-i18n="f_nophoto">Sans photo</button>
+    <button class="tab" data-f="done" data-i18n="f_done">Faites</button>
+  </div>
+  <div id="taches-list"></div>
+</div>
 
-    <div class="sec" id="sec-journal">
-      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="journal">Journal de travaux</span></div>
-      <div class="tab-row" id="journal-tabs">
-        <button class="tab active" data-jf="all" data-i18n="j_all">Tout</button>
-        <button class="tab" data-jf="entretien" data-i18n="j_maintenance">Entretien</button>
-        <button class="tab" data-jf="plantation" data-i18n="j_planting">Plantation</button>
-        <button class="tab" data-jf="traitement" data-i18n="j_treatment">Traitement</button>
-        <button class="tab" data-jf="incident" data-i18n="j_incident">Incident</button>
-      </div>
-      <div id="journal-list"></div>
-    </div>
+<div class="sec" id="sec-journal">
+  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="journal">Journal de travaux</span></div>
+  <div class="tab-row" id="journal-tabs">
+    <button class="tab active" data-jf="all" data-i18n="j_all">Tout</button>
+    <button class="tab" data-jf="entretien" data-i18n="j_maintenance">Entretien</button>
+    <button class="tab" data-jf="plantation" data-i18n="j_planting">Plantation</button>
+    <button class="tab" data-jf="traitement" data-i18n="j_treatment">Traitement</button>
+    <button class="tab" data-jf="incident" data-i18n="j_incident">Incident</button>
+  </div>
+  <div id="journal-list"></div>
+</div>
 
-    <div class="sec" id="sec-recouches">
-      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="room_touchups">Recouches chambres</span></div>
-      <div style="background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:var(--border-radius-md);padding:7px 10px;font-size:10px;color:#0C447C" data-i18n="room_rule">
-        N° chambre + photo obligatoires.
-      </div>
-      <div class="tab-row" id="rec-tabs">
-        <button class="tab active" data-rf="all" data-i18n="f_all">Toutes</button>
-        <button class="tab" data-rf="attente" data-i18n="r_pending">En attente</button>
-        <button class="tab" data-rf="valide" data-i18n="r_valid">Validées</button>
-      </div>
-      <div id="rec-list"></div>
-    </div>
+<div class="sec" id="sec-recouches">
+  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="room_touchups">Recouches chambres</span></div>
+  <div style="background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:var(--border-radius-md);padding:7px 10px;font-size:10px;color:#0C447C" data-i18n="room_rule">
+    N° chambre + photo obligatoires.
+  </div>
+  <div class="tab-row" id="rec-tabs">
+    <button class="tab active" data-rf="all" data-i18n="f_all">Toutes</button>
+    <button class="tab" data-rf="attente" data-i18n="r_pending">En attente</button>
+    <button class="tab" data-rf="valide" data-i18n="r_valid">Validées</button>
+  </div>
+  <div id="rec-list"></div>
+</div>
 
-    <div class="sec" id="sec-plus">
-      <div class="ct" data-i18n="other_modules">Autres modules</div>
-      <div class="card" style="padding:0">
-        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('zones')"><div style="font-size:22px;width:36px">🗺</div><div style="flex:1"><div class="jn" data-i18n="zones">Zones (20)</div><div class="jm" data-i18n="zones_sub">Clusters & espaces</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('audit')"><div style="font-size:22px;width:36px">✓</div><div style="flex:1"><div class="jn" data-i18n="audits">Audits</div><div class="jm" data-i18n="audits_sub">Fiches par zone</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('phyto')"><div style="font-size:22px;width:36px">🧪</div><div style="flex:1"><div class="jn" data-i18n="phyto">Phytosanitaires</div><div class="jm" data-i18n="phyto_sub">Stock & traitements</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('equipe')"><div style="font-size:22px;width:36px">👥</div><div style="flex:1"><div class="jn" data-i18n="team">Équipe</div><div class="jm" data-i18n="team_sub">20 personnes</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-        <div class="ji-row" id="row-users" style="padding:12px;cursor:pointer;display:none" onclick="goSec('users')"><div style="font-size:22px;width:36px">🔐</div><div style="flex:1"><div class="jn" data-i18n="accounts">Comptes utilisateurs</div><div class="jm" data-i18n="accounts_sub">Gestion des accès</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
-      </div>
-    </div>
+<div class="sec" id="sec-plus">
+  <div class="ct" data-i18n="other_modules">Autres modules</div>
+  <div class="card" style="padding:0">
+    <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('zones')"><div style="font-size:22px;width:36px">🗺</div><div style="flex:1"><div class="jn" data-i18n="zones">Zones (20)</div><div class="jm" data-i18n="zones_sub">Clusters & espaces</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+    <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('audit')"><div style="font-size:22px;width:36px">✓</div><div style="flex:1"><div class="jn" data-i18n="audits">Audits</div><div class="jm" data-i18n="audits_sub">Fiches par zone</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+    <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('phyto')"><div style="font-size:22px;width:36px">🧪</div><div style="flex:1"><div class="jn" data-i18n="phyto">Phytosanitaires</div><div class="jm" data-i18n="phyto_sub">Stock & traitements</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+    <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('equipe')"><div style="font-size:22px;width:36px">👥</div><div style="flex:1"><div class="jn" data-i18n="team">Équipe</div><div class="jm" data-i18n="team_sub">20 personnes</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+    <div class="ji-row" id="row-users" style="padding:12px;cursor:pointer;display:none" onclick="goSec('users')"><div style="font-size:22px;width:36px">🔐</div><div style="flex:1"><div class="jn" data-i18n="accounts">Comptes utilisateurs</div><div class="jm" data-i18n="accounts_sub">Gestion des accès</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+  </div>
+</div>
 
-    <div class="sec" id="sec-zones">
-      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="zones_full">Zones Oberoi</span></div>
-      <div id="zones-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
-    </div>
+<div class="sec" id="sec-zones">
+  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="zones_full">Zones Oberoi</span></div>
+  <div id="zones-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+</div>
 
-    <div class="sec" id="sec-audit">
-      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="audit_sheets">Fiches d'audit</span></div>
-      <div id="audit-list" style="display:flex;flex-direction:column;gap:8px"></div>
-    </div>
+<div class="sec" id="sec-audit">
+  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="audit_sheets">Fiches d'audit</span></div>
+  <div id="audit-list" style="display:flex;flex-direction:column;gap:8px"></div>
+</div>
 
-    <div class="sec" id="sec-phyto">
-      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="phyto_full">Produits phytosanitaires</span></div>
-      <div class="card"><div class="ct" data-i18n="inventory">Inventaire</div><div id="phyto-list"></div></div>
-      <div class="card"><div class="ct" data-i18n="treatment_history">Historique traitements</div><div id="phyto-hist"></div></div>
-    </div>
+<div class="sec" id="sec-phyto">
+  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="phyto_full">Produits phytosanitaires</span></div>
+  <div class="card"><div class="ct" data-i18n="inventory">Inventaire</div><div id="phyto-list"></div></div>
+  <div class="card"><div class="ct" data-i18n="treatment_history">Historique traitements</div><div id="phyto-hist"></div></div>
+</div>
 
-    <div class="sec" id="sec-equipe">
-      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="full_team">Équipe complète</span></div>
-      <div class="card" id="equipe-list"></div>
-    </div>
+<div class="sec" id="sec-equipe">
+  <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="full_team">Équipe complète</span></div>
+  <div class="card" id="equipe-list"></div>
+</div>
 
-    <div class="sec" id="sec-users">
-      <div class="rb">
-        <span style="font-size:13px;font-weight:500" data-i18n="accounts">Comptes utilisateurs</span>
-        <button class="btn-s" onclick="openM('user')" data-i18n="add_account">+ Compte</button>
-      </div>
-      <div style="background:#FAEEDA;border-radius:var(--border-radius-md);padding:8px 10px;font-size:10px;color:#633806" data-i18n="manager_only_warning">
-        Réservé au manager.
-      </div>
-      <div class="card" id="users-list"></div>
-    </div>
+<div class="sec" id="sec-users">
+  <div class="rb">
+    <span style="font-size:13px;font-weight:500" data-i18n="accounts">Comptes utilisateurs</span>
+    <button class="btn-s" onclick="openM('user')" data-i18n="add_account">+ Compte</button>
+  </div>
+  <div style="background:#FAEEDA;border-radius:var(--border-radius-md);padding:8px 10px;font-size:10px;color:#633806" data-i18n="manager_only_warning">
+    Réservé au manager.
+  </div>
+  <div class="card" id="users-list"></div>
+</div>
+```
 
   </div>
 
-  <button class="fab" id="fab" onclick="fabAction()">+</button>
+<button class="fab" id="fab" onclick="fabAction()">+</button>
 
   <div class="nav-mobile">
     <button class="nav-btn active" data-sec="dash"><span class="nav-ic">🏠</span><span data-i18n="nav_home">Accueil</span></button>
@@ -811,14 +814,14 @@ setLang(currentLang);
 </script>
 
 <script>
-// ================================================================
-// SUPABASE — Synchronisation temps réel, 100% gratuit, sans carte
-// À configurer : remplacez SUPABASE_URL et SUPABASE_KEY ci-dessous
-// ================================================================
-const SUPABASE_URL = 'https://aiwbqvxnzvodlcuaxick.supabase.co/rest/v1/
-';  
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0';      
-const DEFAULT_USERS = {
+// ============================================================
+// SUPABASE — Synchronisation temps réel — Oberoi Marrakech
+// ============================================================
+const SB_URL = 'https://aiwbqvxnzvodlcuaxick.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0';
+const SB_H = {apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'};
+
+const _DEFAULT_USERS = {
   'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},
   'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},
   'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'},
@@ -840,157 +843,112 @@ const DEFAULT_USERS = {
   'abdelhak':{password:'jardin2026',nom:'Abdelhak Erraguig',role:'jardinier',avatar:'AE'},
   'omar.rahmat':{password:'jardin2026',nom:'Omar Rahmat',role:'jardinier',avatar:'OR'},
 };
+const _ZONES=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
 
-const ZONES_NAMES=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
+async function sbFetch(table){
+  try{
+    const r=await fetch(SB_URL+'/rest/v1/'+table+'?select=*',{headers:SB_H});
+    if(!r.ok)return [];
+    return await r.json();
+  }catch(e){return [];}
+}
+async function sbUpsert(table,row){
+  try{
+    await fetch(SB_URL+'/rest/v1/'+table+'?on_conflict=id',{
+      method:'POST',
+      headers:{...SB_H,Prefer:'resolution=merge-duplicates'},
+      body:JSON.stringify(row)
+    });
+  }catch(e){}
+}
 
-const IS_CONFIGURED = SUPABASE_URL !== 'VOTRE_URL_SUPABASE';
+const _cache={};
+const _listeners={};
 
-// ---- API Supabase REST (sans SDK) ----
-async function sbGet(table) {
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=*`, {
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+async function _loadTable(t){
+  const rows=await sbFetch(t);
+  const obj={};
+  rows.forEach(r=>{
+    const d=r.data||r;
+    obj[r.id]=d;
   });
-  return r.ok ? await r.json() : [];
-}
-async function sbInsert(table, row) {
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
-    method: 'POST',
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
-    body: JSON.stringify(row)
-  });
-  return r.ok ? await r.json() : null;
-}
-async function sbUpdate(table, id, updates) {
-  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
-    method: 'PATCH',
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
-    body: JSON.stringify(updates)
-  });
-  return r.ok ? await r.json() : null;
-}
-async function sbUpsert(table, row, onConflict) {
-  const url = onConflict ? `${SUPABASE_URL}/rest/v1/${table}?on_conflict=${onConflict}` : `${SUPABASE_URL}/rest/v1/${table}`;
-  const r = await fetch(url, {
-    method: 'POST',
-    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'resolution=merge-duplicates,return=representation' },
-    body: JSON.stringify(row)
-  });
-  return r.ok ? await r.json() : null;
+  _cache[t]=obj;
+  if(_listeners[t])_listeners[t](obj);
 }
 
-// ---- Cache local + polling toutes les 10 secondes ----
-const cache = {};
-const valueListeners = {};
-const POLL_INTERVAL = 10000;
-
-async function loadTable(table) {
-  try {
-    const rows = await sbGet(table);
-    const obj = {};
-    rows.forEach(r => { obj[r.id] = r.data || r; });
-    cache[table] = obj;
-    if (valueListeners[table]) valueListeners[table](obj);
-  } catch(e) { console.warn('poll error', table, e); }
+async function _initDB(){
+  const users=await sbFetch('users');
+  if(users.length===0){
+    for(const[k,v]of Object.entries(_DEFAULT_USERS)){
+      await sbUpsert('users',{id:k,data:{...v,id:k}});
+    }
+    const zonesObj={};
+    _ZONES.forEach((n,i)=>{zonesObj['z'+i]={id:'z'+i,name:n,statut:'ok',audit:85};});
+    for(const[k,v]of Object.entries(zonesObj)){
+      await sbUpsert('zones',{id:k,data:v});
+    }
+    const phyto=[
+      {id:'p1',nom:'Confidor 200 OD',cat:'Insecticide',stock:65,unite:'ml',alerte:100,usage:'Pucerons'},
+      {id:'p2',nom:'Score 250 EC',cat:'Fongicide',stock:40,unite:'ml',alerte:200,usage:'Oïdium'},
+      {id:'p3',nom:'Roundup Max',cat:'Herbicide',stock:800,unite:'ml',alerte:500,usage:'Désherbage'},
+      {id:'p4',nom:'Engrais NPK 20-20-20',cat:'Fertilisant',stock:15,unite:'kg',alerte:10,usage:'Général'},
+      {id:'p5',nom:'Huile blanche',cat:'Insecticide',stock:1200,unite:'ml',alerte:300,usage:'Cochenilles'},
+    ];
+    for(const p of phyto)await sbUpsert('phyto_stock',{id:p.id,data:p});
+  }
 }
 
-async function startPolling() {
-  const tables = ['users','taches','journal','recouches','audits','phyto_stock','phyto_hist','zones'];
-  for (const t of tables) await loadTable(t);
-  setInterval(async () => {
-    for (const t of tables) await loadTable(t);
-  }, POLL_INTERVAL);
-}
+const _TABLES=['users','taches','journal','recouches','audits','zones','phyto_stock','phyto_hist'];
 
-window.fbOnValue = function(key, cb) {
-  valueListeners[key] = cb;
-  if (cache[key]) cb(cache[key]);
+window.fbOnValue=function(k,cb){
+  _listeners[k]=cb;
+  if(_cache[k])cb(_cache[k]);
 };
-window.fbGetData = function(key) { return cache[key] || {}; };
-
-window.fbPushData = async function(key, item) {
-  const id = 'id' + Date.now() + Math.random().toString(36).substr(2,6);
-  item.id = id;
-  await sbInsert(key, {id, data: item});
-  await loadTable(key);
+window.fbGetData=function(k){return _cache[k]||{};};
+window.fbPushData=async function(k,item){
+  const id='id'+Date.now()+Math.random().toString(36).substr(2,6);
+  item.id=id;
+  await sbUpsert(k,{id,data:item});
+  await _loadTable(k);
   return id;
 };
-window.fbUpdateData = async function(key, id, updates) {
-  const current = (cache[key]||{})[id] || {};
-  const merged = {...current, ...updates, id};
-  await sbUpsert(key, {id, data: merged}, 'id');
-  await loadTable(key);
+window.fbUpdateData=async function(k,id,updates){
+  const cur=(_cache[k]||{})[id]||{};
+  const merged={...cur,...updates,id};
+  await sbUpsert(k,{id,data:merged});
+  await _loadTable(k);
 };
-window.fbUpdateUser = async function(username, updates) {
-  const current = (cache['users']||{})[username] || {};
-  const merged = {...current, ...updates, id: username};
-  await sbUpsert('users', {id: username, data: merged}, 'id');
-  await loadTable('users');
+window.fbUpdateUser=async function(u,updates){
+  const cur=(_cache['users']||{})[u]||{};
+  const merged={...cur,...updates,id:u};
+  await sbUpsert('users',{id:u,data:merged});
+  await _loadTable('users');
 };
-window.fbSetUser = async function(username, data) {
-  data.id = username;
-  await sbUpsert('users', {id: username, data}, 'id');
-  await loadTable('users');
+window.fbSetUser=async function(u,data){
+  data.id=u;
+  await sbUpsert('users',{id:u,data});
+  await _loadTable('users');
 };
 
-// ---- Initialisation base de données (premier démarrage) ----
-async function initDB() {
-  const existing = await sbGet('users');
-  if (existing.length > 0) return;
-
-  // Insérer les utilisateurs par défaut
-  for (const [k,v] of Object.entries(DEFAULT_USERS)) {
-    await sbInsert('users', {id: k, data: {...v, id: k}});
-  }
-  // Insérer les zones
-  const zones = {};
-  ZONES_NAMES.forEach((n,i) => {
-    zones['z'+i] = {id:'z'+i, name:n, statut:'ok', audit:85};
-  });
-  for (const [k,v] of Object.entries(zones)) {
-    await sbInsert('zones', {id: k, data: v});
-  }
-  // Insérer le stock phyto
-  const phyto = [
-    {id:'p1',nom:'Confidor 200 OD',cat:'Insecticide',stock:65,unite:'ml',alerte:100,usage:'Pucerons'},
-    {id:'p2',nom:'Score 250 EC',cat:'Fongicide',stock:40,unite:'ml',alerte:200,usage:'Oïdium'},
-    {id:'p3',nom:'Roundup Max',cat:'Herbicide',stock:800,unite:'ml',alerte:500,usage:'Désherbage'},
-    {id:'p4',nom:'Engrais NPK 20-20-20',cat:'Fertilisant',stock:15,unite:'kg',alerte:10,usage:'Général'},
-    {id:'p5',nom:'Huile blanche',cat:'Insecticide',stock:1200,unite:'ml',alerte:300,usage:'Cochenilles'},
-  ];
-  for (const p of phyto) {
-    await sbInsert('phyto_stock', {id: p.id, data: p});
-  }
-}
-
-// ---- Démarrage ----
-async function boot() {
-  if (!IS_CONFIGURED) {
+async function _boot(){
+  try{
+    await _initDB();
+    for(const t of _TABLES)await _loadTable(t);
+    setInterval(async()=>{for(const t of _TABLES)await _loadTable(t);},10000);
     document.getElementById('loading').style.display='none';
     document.getElementById('app').style.display='block';
-    document.getElementById('screen-login').style.display='flex';
-    document.getElementById('firebase-config-warning').style.display='block';
-    document.getElementById('firebase-config-warning').innerHTML='<strong>⚠ Supabase non configuré</strong><br>Consultez le <code>GUIDE_SUPABASE.md</code> pour obtenir votre URL et clé.';
-    document.getElementById('btn-login').disabled=true;
-    return;
-  }
-  try {
-    await initDB();
-    await startPolling();
-    document.getElementById('loading').style.display='none';
-    document.getElementById('app').style.display='block';
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-      try { window.currentUser=JSON.parse(savedUser); window.showApp(); }
-      catch(e) { document.getElementById('screen-login').style.display='flex'; }
-    } else {
+    const su=localStorage.getItem('currentUser');
+    if(su){
+      try{window.currentUser=JSON.parse(su);window.showApp();}
+      catch(e){document.getElementById('screen-login').style.display='flex';}
+    }else{
       document.getElementById('screen-login').style.display='flex';
     }
-  } catch(e) {
-    console.error('Boot error:', e);
-    document.getElementById('loading').innerHTML='<div style="color:#D85A30;text-align:center;padding:2rem;font-size:13px">Erreur connexion Supabase.<br><br>Vérifiez votre URL et clé.<br><br><button onclick="location.reload()" style="margin-top:1rem;padding:8px 16px;border-radius:8px;border:none;background:#1D9E75;color:#fff;cursor:pointer">Réessayer</button></div>';
+  }catch(e){
+    document.getElementById('loading').innerHTML='<div style="color:#D85A30;text-align:center;padding:2rem;font-size:13px;font-family:sans-serif">Erreur de connexion.<br><br><button onclick="location.reload()" style="padding:10px 20px;border-radius:8px;border:none;background:#1D9E75;color:#fff;font-size:14px;cursor:pointer">Réessayer</button></div>';
   }
 }
-boot();
+_boot();
 </script>
 
 <script>
@@ -1434,261 +1392,223 @@ function openM(type,id){
       <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="j-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
       <div class="frow"><label class="flabel">${t('type')}</label><select class="inp" id="j-type"><option value="entretien">${t('j_maintenance')}</option><option value="plantation">${t('j_planting')}</option><option value="traitement">${t('j_treatment')}</option><option value="incident">${t('j_incident')}</option></select></div>
       <div class="frow"><label class="flabel">${t('notes')}</label><textarea class="inp" id="j-notes" rows="3"></textarea></div>
-      <div class="frow">
-        <label class="flabel">${t('photo_required')}</label>
-        <div class="upload-zone" onclick="document.getElementById('j-photo').click()" id="j-upload">
-          <input type="file" id="j-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'j-prev','j-upload')">
-          <div class="uz-text">${t('take_photo')}</div>
-        </div>
-        <img id="j-prev" class="photo-preview">
-      </div>
-      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-journal" onclick="addJournal()">${t('save')}</button></div>
-    `;
-  } else if(type==='recouche'){
-    c.innerHTML=`
-      <div class="modal-title">${t('new_recouche')}</div>
-      <div style="background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 10px;font-size:11px;color:#0C447C;margin-bottom:10px">${t('room_rule')}</div>
-      <div class="frow"><label class="flabel">${t('room_number')}</label><input class="inp" id="r-chambre"></div>
-      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="r-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
-      <div class="frow"><label class="flabel">${t('work')}</label><input class="inp" id="r-travail"></div>
-      <div class="frow">
-        <label class="flabel">${t('final_photo')}</label>
-        <div class="upload-zone" onclick="document.getElementById('r-photo').click()" id="r-upload">
-          <input type="file" id="r-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'r-prev','r-upload')">
-          <div class="uz-text">${t('take_photo')}</div>
-          <div class="uz-sub">${t('no_photo_no_valid')}</div>
-        </div>
-        <img id="r-prev" class="photo-preview">
-      </div>
-      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-rec" onclick="addRecouche()">${t('save')}</button></div>
-    `;
-  } else if(type==='audit'){
-    if(currentUser.role!=='manager'){alert(t('audit_manager_only'));return;}
-    c.innerHTML=`
-      <div class="modal-title">${t('audit_sheet')}</div>
-      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="a-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
-      ${[t('cleanliness'),t('pruning'),t('irrigation'),t('plants_state'),t('safety')].map((k,i)=>`
-        <div class="frow">
-          <label class="flabel">${k}</label>
-          <div style="display:flex;gap:6px;margin-top:4px;align-items:center">
-            ${[1,2,3,4,5].map(s=>`<div class="star" id="as-${i}-${s}" onclick="setStar(${i},${s})"></div>`).join('')}
-            <span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px" id="as-lbl-${i}">3/5</span>
-          </div>
-        </div>
-      `).join('')}
-      <div class="frow"><label class="flabel">${t('observations')}</label><textarea class="inp" id="a-notes" rows="2"></textarea></div>
-      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addAudit()">${t('validate')}</button></div>
-    `;
-    [0,1,2,3,4].forEach(i=>setStar(i,3));
-  } else if(type==='phyto'){
-    c.innerHTML=`
-      <div class="modal-title">${t('product_use')}</div>
-      <div class="frow"><label class="flabel">${t('product')}</label><select class="inp" id="p-prod">${Object.values(PHYTO_STOCK).map(p=>`<option>${p.nom}</option>`).join('')}</select></div>
-      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="p-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
-      <div class="frow"><label class="flabel">${t('dose')}</label><input class="inp" id="p-dose"></div>
-      <div class="frow">
-        <label class="flabel">${t('photo_required')}</label>
-        <div class="upload-zone" onclick="document.getElementById('p-photo').click()" id="p-upload">
-          <input type="file" id="p-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'p-prev','p-upload')">
-          <div class="uz-text">${t('take_photo')}</div>
-        </div>
-        <img id="p-prev" class="photo-preview">
-      </div>
-      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-phyto" onclick="addPhytoUse()">${t('save')}</button></div>
-    `;
-  } else if(type==='user'){
-    c.innerHTML=`
-      <div class="modal-title">${t('new_account')}</div>
-      <div class="frow"><label class="flabel">${t('full_name')}</label><input class="inp" id="uu-nom"></div>
-      <div class="frow"><label class="flabel">${t('username')}</label><input class="inp" id="uu-user" autocapitalize="none"></div>
-      <div class="frow"><label class="flabel">${t('password')}</label><input class="inp" id="uu-pass"></div>
-      <div class="frow"><label class="flabel">${t('role')}</label><select class="inp" id="uu-role"><option value="jardinier">${t('gardener')}</option><option value="chef">${t('chef')}</option></select></div>
-      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addUser()">${t('create')}</button></div>
-    `;
-  }
-  w.classList.add('open');
+
+```
+  <div class="frow">
+    <label class="flabel">${t('photo_required')}</label>
+    <div class="upload-zone" onclick="document.getElementById('j-photo').click()" id="j-upload">
+      <input type="file" id="j-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'j-prev','j-upload')">
+      <div class="uz-text">${t('take_photo')}</div>
+    </div>
+    <img id="j-prev" class="photo-preview">
+  </div>
+  <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-journal" onclick="addJournal()">${t('save')}</button></div>
+`;
+```
+
+} else if(type===‘recouche’){
+c.innerHTML=` <div class="modal-title">${t('new_recouche')}</div> <div style="background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 10px;font-size:11px;color:#0C447C;margin-bottom:10px">${t('room_rule')}</div> <div class="frow"><label class="flabel">${t('room_number')}</label><input class="inp" id="r-chambre"></div> <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="r-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div> <div class="frow"><label class="flabel">${t('work')}</label><input class="inp" id="r-travail"></div> <div class="frow"> <label class="flabel">${t('final_photo')}</label> <div class="upload-zone" onclick="document.getElementById('r-photo').click()" id="r-upload"> <input type="file" id="r-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'r-prev','r-upload')"> <div class="uz-text">${t('take_photo')}</div> <div class="uz-sub">${t('no_photo_no_valid')}</div> </div> <img id="r-prev" class="photo-preview"> </div> <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-rec" onclick="addRecouche()">${t('save')}</button></div> `;
+} else if(type===‘audit’){
+if(currentUser.role!==‘manager’){alert(t(‘audit_manager_only’));return;}
+c.innerHTML=` <div class="modal-title">${t('audit_sheet')}</div> <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="a-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div> ${[t('cleanliness'),t('pruning'),t('irrigation'),t('plants_state'),t('safety')].map((k,i)=>`
+<div class="frow">
+<label class="flabel">${k}</label>
+<div style="display:flex;gap:6px;margin-top:4px;align-items:center">
+${[1,2,3,4,5].map(s=>`<div class="star" id="as-${i}-${s}" onclick="setStar(${i},${s})"></div>`).join(’’)}
+<span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px" id="as-lbl-${i}">3/5</span>
+</div>
+</div>
+`).join('')} <div class="frow"><label class="flabel">${t('observations')}</label><textarea class="inp" id="a-notes" rows="2"></textarea></div> <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addAudit()">${t('validate')}</button></div> `;
+[0,1,2,3,4].forEach(i=>setStar(i,3));
+} else if(type===‘phyto’){
+c.innerHTML=` <div class="modal-title">${t('product_use')}</div> <div class="frow"><label class="flabel">${t('product')}</label><select class="inp" id="p-prod">${Object.values(PHYTO_STOCK).map(p=>`<option>${p.nom}</option>`).join('')}</select></div> <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="p-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div> <div class="frow"><label class="flabel">${t('dose')}</label><input class="inp" id="p-dose"></div> <div class="frow"> <label class="flabel">${t('photo_required')}</label> <div class="upload-zone" onclick="document.getElementById('p-photo').click()" id="p-upload"> <input type="file" id="p-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'p-prev','p-upload')"> <div class="uz-text">${t('take_photo')}</div> </div> <img id="p-prev" class="photo-preview"> </div> <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-phyto" onclick="addPhytoUse()">${t('save')}</button></div> `;
+} else if(type===‘user’){
+c.innerHTML=`<div class="modal-title">${t('new_account')}</div> <div class="frow"><label class="flabel">${t('full_name')}</label><input class="inp" id="uu-nom"></div> <div class="frow"><label class="flabel">${t('username')}</label><input class="inp" id="uu-user" autocapitalize="none"></div> <div class="frow"><label class="flabel">${t('password')}</label><input class="inp" id="uu-pass"></div> <div class="frow"><label class="flabel">${t('role')}</label><select class="inp" id="uu-role"><option value="jardinier">${t('gardener')}</option><option value="chef">${t('chef')}</option></select></div> <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addUser()">${t('create')}</button></div>`;
+}
+w.classList.add(‘open’);
 }
 window.openM=openM;
 
 function prevPhoto(input,previewId,uploadId){
-  const file=input.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const img=document.getElementById(previewId);
-    img.src=e.target.result;img.style.display='block';
-    if(uploadId)document.getElementById(uploadId).classList.add('has-file');
-  };
-  reader.readAsDataURL(file);
+const file=input.files[0];if(!file)return;
+const reader=new FileReader();
+reader.onload=e=>{
+const img=document.getElementById(previewId);
+img.src=e.target.result;img.style.display=‘block’;
+if(uploadId)document.getElementById(uploadId).classList.add(‘has-file’);
+};
+reader.readAsDataURL(file);
 }
 window.prevPhoto=prevPhoto;
 
 const auditStars=[3,3,3,3,3];
 function setStar(row,val){
-  auditStars[row]=val;
-  for(let s=1;s<=5;s++){const el=document.getElementById('as-'+row+'-'+s);if(el)el.className='star'+(s<=val?' on':'');}
-  const lbl=document.getElementById('as-lbl-'+row);if(lbl)lbl.textContent=val+'/5';
+auditStars[row]=val;
+for(let s=1;s<=5;s++){const el=document.getElementById(‘as-’+row+’-’+s);if(el)el.className=‘star’+(s<=val?’ on’:’’);}
+const lbl=document.getElementById(‘as-lbl-’+row);if(lbl)lbl.textContent=val+’/5’;
 }
 window.setStar=setStar;
 
-function closeM(){document.getElementById('mwrap').classList.remove('open')}
+function closeM(){document.getElementById(‘mwrap’).classList.remove(‘open’)}
 window.closeM=closeM;
 
-function viewPhoto(url){document.getElementById('photo-modal-img').src=url;document.getElementById('photo-modal').classList.add('open');}
+function viewPhoto(url){document.getElementById(‘photo-modal-img’).src=url;document.getElementById(‘photo-modal’).classList.add(‘open’);}
 window.viewPhoto=viewPhoto;
 
-function closePhotoModal(){document.getElementById('photo-modal').classList.remove('open');}
+function closePhotoModal(){document.getElementById(‘photo-modal’).classList.remove(‘open’);}
 window.closePhotoModal=closePhotoModal;
 
 async function compressImage(file){
-  return new Promise((resolve,reject)=>{
-    const img=new Image();
-    const reader=new FileReader();
-    reader.onload=e=>{
-      img.onload=()=>{
-        try{
-          const canvas=document.createElement('canvas');
-          let w=img.width,h=img.height;
-          const maxSize=800;
-          if(w>h&&w>maxSize){h=Math.round(h*maxSize/w);w=maxSize;}
-          else if(h>maxSize){w=Math.round(w*maxSize/h);h=maxSize;}
-          canvas.width=w;canvas.height=h;
-          canvas.getContext('2d').drawImage(img,0,0,w,h);
-          resolve(canvas.toDataURL('image/jpeg',0.65));
-        }catch(err){reject(err);}
-      };
-      img.onerror=reject;
-      img.src=e.target.result;
-    };
-    reader.onerror=reject;
-    reader.readAsDataURL(file);
-  });
+return new Promise((resolve,reject)=>{
+const img=new Image();
+const reader=new FileReader();
+reader.onload=e=>{
+img.onload=()=>{
+try{
+const canvas=document.createElement(‘canvas’);
+let w=img.width,h=img.height;
+const maxSize=800;
+if(w>h&&w>maxSize){h=Math.round(h*maxSize/w);w=maxSize;}
+else if(h>maxSize){w=Math.round(w*maxSize/h);h=maxSize;}
+canvas.width=w;canvas.height=h;
+canvas.getContext(‘2d’).drawImage(img,0,0,w,h);
+resolve(canvas.toDataURL(‘image/jpeg’,0.65));
+}catch(err){reject(err);}
+};
+img.onerror=reject;
+img.src=e.target.result;
+};
+reader.onerror=reject;
+reader.readAsDataURL(file);
+});
 }
 
 async function validateTache(id){
-  const fileInput=document.getElementById('c-photo');
-  if(!fileInput?.files?.length){alert(t('photo_missing'));return;}
-  const btn=document.getElementById('btn-validate');
-  btn.disabled=true;btn.textContent=t('uploading');
-  try{
-    const photoUrl=await compressImage(fileInput.files[0]);
-    window.fbUpdateData('taches',id,{statut:'done',photo:photoUrl,completedAt:Date.now()});
-    closeM();
-  }catch(e){alert(t('upload_error')+': '+e.message);btn.disabled=false;btn.textContent=t('validate');}
+const fileInput=document.getElementById(‘c-photo’);
+if(!fileInput?.files?.length){alert(t(‘photo_missing’));return;}
+const btn=document.getElementById(‘btn-validate’);
+btn.disabled=true;btn.textContent=t(‘uploading’);
+try{
+const photoUrl=await compressImage(fileInput.files[0]);
+window.fbUpdateData(‘taches’,id,{statut:‘done’,photo:photoUrl,completedAt:Date.now()});
+closeM();
+}catch(e){alert(t(‘upload_error’)+’: ’+e.message);btn.disabled=false;btn.textContent=t(‘validate’);}
 }
 window.validateTache=validateTache;
 
 async function addTache(){
-  const nom=document.getElementById('f-nom')?.value?.trim();if(!nom)return;
-  window.fbPushData('taches',{
-    nom,zone:document.getElementById('f-zone').value,assigne:document.getElementById('f-assign').value,
-    prio:document.getElementById('f-prio').value,statut:'open',date:document.getElementById('f-date').value,
-    photo:null,type:'entretien',created:Date.now(),createdBy:currentUser.username
-  });
-  closeM();
+const nom=document.getElementById(‘f-nom’)?.value?.trim();if(!nom)return;
+window.fbPushData(‘taches’,{
+nom,zone:document.getElementById(‘f-zone’).value,assigne:document.getElementById(‘f-assign’).value,
+prio:document.getElementById(‘f-prio’).value,statut:‘open’,date:document.getElementById(‘f-date’).value,
+photo:null,type:‘entretien’,created:Date.now(),createdBy:currentUser.username
+});
+closeM();
 }
 window.addTache=addTache;
 
 async function addJournal(){
-  const titre=document.getElementById('j-titre')?.value?.trim();if(!titre)return;
-  const fileInput=document.getElementById('j-photo');
-  if(!fileInput?.files?.length){alert(t('photo_missing'));return;}
-  const btn=document.getElementById('btn-journal');
-  btn.disabled=true;btn.textContent=t('uploading');
-  try{
-    const photoUrl=await compressImage(fileInput.files[0]);
-    const now=new Date();
-    const dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-    window.fbPushData('journal',{
-      date:dateStr,titre,zone:document.getElementById('j-zone').value,type:document.getElementById('j-type').value,
-      jardinier:currentUser.username,notes:document.getElementById('j-notes').value||'—',photo:photoUrl,timestamp:Date.now()
-    });
-    closeM();
-  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
+const titre=document.getElementById(‘j-titre’)?.value?.trim();if(!titre)return;
+const fileInput=document.getElementById(‘j-photo’);
+if(!fileInput?.files?.length){alert(t(‘photo_missing’));return;}
+const btn=document.getElementById(‘btn-journal’);
+btn.disabled=true;btn.textContent=t(‘uploading’);
+try{
+const photoUrl=await compressImage(fileInput.files[0]);
+const now=new Date();
+const dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ‘+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
+window.fbPushData(‘journal’,{
+date:dateStr,titre,zone:document.getElementById(‘j-zone’).value,type:document.getElementById(‘j-type’).value,
+jardinier:currentUser.username,notes:document.getElementById(‘j-notes’).value||’—’,photo:photoUrl,timestamp:Date.now()
+});
+closeM();
+}catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
 }
 window.addJournal=addJournal;
 
 async function addRecouche(){
-  const ch=document.getElementById('r-chambre')?.value?.trim();
-  const tr=document.getElementById('r-travail')?.value?.trim();
-  if(!ch){alert(t('room_number_required'));return;}
-  if(!tr)return;
-  const fileInput=document.getElementById('r-photo');
-  if(!fileInput?.files?.length){alert(t('photo_missing'));return;}
-  const btn=document.getElementById('btn-rec');
-  btn.disabled=true;btn.textContent=t('uploading');
-  try{
-    const photoUrl=await compressImage(fileInput.files[0]);
-    const now=new Date();
-    const dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-    window.fbPushData('recouches',{
-      chambre:ch,zone:document.getElementById('r-zone').value,travail:tr,jardinier:currentUser.username,
-      date:dateStr,photo:photoUrl,statut:'valide',timestamp:Date.now()
-    });
-    closeM();
-  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
+const ch=document.getElementById(‘r-chambre’)?.value?.trim();
+const tr=document.getElementById(‘r-travail’)?.value?.trim();
+if(!ch){alert(t(‘room_number_required’));return;}
+if(!tr)return;
+const fileInput=document.getElementById(‘r-photo’);
+if(!fileInput?.files?.length){alert(t(‘photo_missing’));return;}
+const btn=document.getElementById(‘btn-rec’);
+btn.disabled=true;btn.textContent=t(‘uploading’);
+try{
+const photoUrl=await compressImage(fileInput.files[0]);
+const now=new Date();
+const dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ’+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
+window.fbPushData(‘recouches’,{
+chambre:ch,zone:document.getElementById(‘r-zone’).value,travail:tr,jardinier:currentUser.username,
+date:dateStr,photo:photoUrl,statut:‘valide’,timestamp:Date.now()
+});
+closeM();
+}catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
 }
 window.addRecouche=addRecouche;
 
 async function addAudit(){
-  const zone=document.getElementById('a-zone')?.value;
-  const score=Math.round(auditStars.reduce((a,b)=>a+b,0)/25*100);
-  const now=new Date();
-  const dateStr=now.toLocaleDateString('fr-FR');
-  window.fbPushData('audits',{
-    zone,date:dateStr,score,
-    criteres:{proprete:auditStars[0],taille:auditStars[1],irrigation:auditStars[2],etatPlantes:auditStars[3],securite:auditStars[4]},
-    notes:document.getElementById('a-notes')?.value||'—',auditor:currentUser.username,timestamp:Date.now()
-  });
-  closeM();
+const zone=document.getElementById(‘a-zone’)?.value;
+const score=Math.round(auditStars.reduce((a,b)=>a+b,0)/25*100);
+const now=new Date();
+const dateStr=now.toLocaleDateString(‘fr-FR’);
+window.fbPushData(‘audits’,{
+zone,date:dateStr,score,
+criteres:{proprete:auditStars[0],taille:auditStars[1],irrigation:auditStars[2],etatPlantes:auditStars[3],securite:auditStars[4]},
+notes:document.getElementById(‘a-notes’)?.value||’—’,auditor:currentUser.username,timestamp:Date.now()
+});
+closeM();
 }
 window.addAudit=addAudit;
 
 async function addPhytoUse(){
-  const fileInput=document.getElementById('p-photo');
-  if(!fileInput?.files?.length){alert(t('photo_missing'));return;}
-  const btn=document.getElementById('btn-phyto');
-  btn.disabled=true;btn.textContent=t('uploading');
-  try{
-    const photoUrl=await compressImage(fileInput.files[0]);
-    const now=new Date();
-    const dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-    window.fbPushData('phyto_hist',{
-      date:dateStr,produit:document.getElementById('p-prod').value,zone:document.getElementById('p-zone').value,
-      dose:document.getElementById('p-dose').value||'—',jardinier:currentUser.username,photo:photoUrl,timestamp:Date.now()
-    });
-    closeM();
-  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
+const fileInput=document.getElementById(‘p-photo’);
+if(!fileInput?.files?.length){alert(t(‘photo_missing’));return;}
+const btn=document.getElementById(‘btn-phyto’);
+btn.disabled=true;btn.textContent=t(‘uploading’);
+try{
+const photoUrl=await compressImage(fileInput.files[0]);
+const now=new Date();
+const dateStr=now.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘2-digit’})+’ ‘+now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
+window.fbPushData(‘phyto_hist’,{
+date:dateStr,produit:document.getElementById(‘p-prod’).value,zone:document.getElementById(‘p-zone’).value,
+dose:document.getElementById(‘p-dose’).value||’—’,jardinier:currentUser.username,photo:photoUrl,timestamp:Date.now()
+});
+closeM();
+}catch(e){alert(t(‘upload_error’));btn.disabled=false;btn.textContent=t(‘save’);}
 }
 window.addPhytoUse=addPhytoUse;
 
 async function addUser(){
-  if(currentUser.role!=='manager'){alert(t('manager_only'));return;}
-  const n=document.getElementById('uu-nom').value.trim();
-  const u=document.getElementById('uu-user').value.trim().toLowerCase();
-  const p=document.getElementById('uu-pass').value;
-  if(!n||!u||!p){alert(t('all_fields_required'));return;}
-  if(USERS[u]){alert(t('username_exists'));return;}
-  const parts=n.split(' ');
-  const avatar=parts.length>1?(parts[0][0]+parts[1][0]).toUpperCase():n[0].toUpperCase();
-  window.fbSetUser(u,{password:p,nom:n,role:document.getElementById('uu-role').value,avatar});
-  closeM();alert(t('account_created'));
+if(currentUser.role!==‘manager’){alert(t(‘manager_only’));return;}
+const n=document.getElementById(‘uu-nom’).value.trim();
+const u=document.getElementById(‘uu-user’).value.trim().toLowerCase();
+const p=document.getElementById(‘uu-pass’).value;
+if(!n||!u||!p){alert(t(‘all_fields_required’));return;}
+if(USERS[u]){alert(t(‘username_exists’));return;}
+const parts=n.split(’ ’);
+const avatar=parts.length>1?(parts[0][0]+parts[1][0]).toUpperCase():n[0].toUpperCase();
+window.fbSetUser(u,{password:p,nom:n,role:document.getElementById(‘uu-role’).value,avatar});
+closeM();alert(t(‘account_created’));
 }
 window.addUser=addUser;
 
-document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',function(){goSec(this.dataset.sec)}));
-document.querySelectorAll('.tab[data-f]').forEach(x=>x.addEventListener('click',function(){
-  document.querySelectorAll('.tab[data-f]').forEach(y=>y.classList.remove('active'));
-  this.classList.add('active');renderTaches(this.dataset.f);
+document.querySelectorAll(’.nav-btn’).forEach(b=>b.addEventListener(‘click’,function(){goSec(this.dataset.sec)}));
+document.querySelectorAll(’.tab[data-f]’).forEach(x=>x.addEventListener(‘click’,function(){
+document.querySelectorAll(’.tab[data-f]’).forEach(y=>y.classList.remove(‘active’));
+this.classList.add(‘active’);renderTaches(this.dataset.f);
 }));
-document.querySelectorAll('.tab[data-jf]').forEach(x=>x.addEventListener('click',function(){
-  document.querySelectorAll('.tab[data-jf]').forEach(y=>y.classList.remove('active'));
-  this.classList.add('active');renderJournal(this.dataset.jf);
+document.querySelectorAll(’.tab[data-jf]’).forEach(x=>x.addEventListener(‘click’,function(){
+document.querySelectorAll(’.tab[data-jf]’).forEach(y=>y.classList.remove(‘active’));
+this.classList.add(‘active’);renderJournal(this.dataset.jf);
 }));
-document.querySelectorAll('.tab[data-rf]').forEach(x=>x.addEventListener('click',function(){
-  document.querySelectorAll('.tab[data-rf]').forEach(y=>y.classList.remove('active'));
-  this.classList.add('active');renderRecouches(this.dataset.rf);
+document.querySelectorAll(’.tab[data-rf]’).forEach(x=>x.addEventListener(‘click’,function(){
+document.querySelectorAll(’.tab[data-rf]’).forEach(y=>y.classList.remove(‘active’));
+this.classList.add(‘active’);renderRecouches(this.dataset.rf);
 }));
-document.getElementById('u-password').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin()});
+document.getElementById(‘u-password’).addEventListener(‘keypress’,e=>{if(e.key===‘Enter’)doLogin()});
 </script>
+
 </body>
 </html>
