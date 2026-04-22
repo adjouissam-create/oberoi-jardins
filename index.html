@@ -207,8 +207,7 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
       <label class="flabel" data-i18n="password">Mot de passe</label>
       <input class="inp" id="u-password" type="password" placeholder="••••••">
     </div>
-    <!-- FIX: onclick direct sur le bouton, pas de addEventListener externe -->
-    <button class="btn-g" id="btn-login" type="button" onclick="doLogin()">Se connecter</button>
+    <button class="btn-g" id="btn-login" type="button">Se connecter</button>
   </div>
 </div>
 
@@ -597,8 +596,7 @@ function setupListeners(){
 }
 
 // ===== LOGIN — FONCTION GLOBALE PURE =====
-// Le bouton appelle directement doLogin() via onclick="doLogin()"
-// Pas d'addEventListener, pas de DOMContentLoaded, pas de setTimeout
+// LOGIN — fonction globale, attachée via addEventListener en bas du script
 function doLogin(){
   var u=document.getElementById('u-username').value.trim().toLowerCase();
   var p=document.getElementById('u-password').value;
@@ -1073,9 +1071,13 @@ x.classList.add(‘active’);renderRecouches(x.dataset.rf);
 });
 });
 
-// Enter sur les champs login
+// Enter sur les champs login + bouton Se connecter — attaché ici, après que tout est défini
 document.getElementById(‘u-username’).addEventListener(‘keypress’,function(e){if(e.key===‘Enter’)doLogin();});
 document.getElementById(‘u-password’).addEventListener(‘keypress’,function(e){if(e.key===‘Enter’)doLogin();});
+document.getElementById(‘btn-login’).addEventListener(‘click’, function(e){
+e.preventDefault();
+doLogin();
+});
 </script>
 
 </body>
