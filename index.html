@@ -1034,21 +1034,77 @@ function setupListeners(){
   window.fbOnValue('phyto_hist', data=>{PHYTO_HIST=data||{};if(currentUser)renderPhyto();});
 }
 
-function doLogin(){
+async function doLogin(){
   const u=document.getElementById('u-username').value.trim().toLowerCase();
   const p=document.getElementById('u-password').value;
+  if(!u||!p){
+    document.getElementById('login-error').textContent=t('login_error');
+    document.getElementById('login-error').classList.add('show');
+    return;
+  }
+  const btn=document.getElementById('btn-login');
+  btn.disabled=true;
+  btn.textContent='...';
   try{
-    const users=window.fbGetData('users');
-    if(users[u]&&users[u].password===p){
-      currentUser={username:u,...users[u]};
+    // Essayer d'abord le cache
+    let users=window.fbGetData('users');
+    // Si cache vide, aller directement sur Supabase
+    if(!users||Object.keys(users).length===0){
+      const rows=await fetch('https://aiwbqvxnzvodlcuaxick.supabase.co/rest/v1/users?select=*&id=eq.'+encodeURIComponent(u),{
+        headers:{apikey:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0',
+                Authorization:'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0'}
+      });
+      const data=await rows.json();
+      if(data&&data.length>0){
+        const ud=data[0].data||data[0];
+        if(ud.password===p){
+          currentUser={username:u,...ud};
+          localStorage.setItem('currentUser',JSON.stringify(currentUser));
+          btn.disabled=false;btn.textContent=t('login_btn');
+          showApp();
+          return;
+        }
+      }
+      // Aussi essayer les users par défaut (au cas où Supabase pas encore init)
+      const _DEF={'issam':'admin2026','abdelhay':'chef2026','said.chef':'chef2026','mustapha.elguous':'jardin2026','said.biaabich':'jardin2026','abdelatif':'jardin2026','abderazzak':'jardin2026','omar.angari':'jardin2026','khalid':'jardin2026','slimane':'jardin2026','abdelfatah':'jardin2026','said.elkabach':'jardin2026','rachid':'jardin2026','mohamed':'jardin2026','abdesamad':'jardin2026','ahmad':'jardin2026','ali':'jardin2026','mustapha.zair':'jardin2026','abdelhak':'jardin2026','omar.rahmat':'jardin2026'};
+      if(_DEF[u]===p){
+        // Login avec données par défaut pendant que Supabase charge
+        const _UDATA={'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'},'mustapha.elguous':{password:'jardin2026',nom:'Mustapha El Guous',role:'jardinier',avatar:'ME'},'said.biaabich':{password:'jardin2026',nom:'Said Biaabich',role:'jardinier',avatar:'SB'},'abdelatif':{password:'jardin2026',nom:'Abdelatif Aghoujdan',role:'jardinier',avatar:'AA'},'abderazzak':{password:'jardin2026',nom:'Abderazzak Benzaiter',role:'jardinier',avatar:'AB'},'omar.angari':{password:'jardin2026',nom:'Omar Angari',role:'jardinier',avatar:'OA'},'khalid':{password:'jardin2026',nom:'Khalid Ghaoua',role:'jardinier',avatar:'KG'},'slimane':{password:'jardin2026',nom:'Slimane Boufahain',role:'jardinier',avatar:'SB'},'abdelfatah':{password:'jardin2026',nom:'Abdelfatah Elghafoui',role:'jardinier',avatar:'AE'},'said.elkabach':{password:'jardin2026',nom:'Said Elkabach',role:'jardinier',avatar:'SE'},'rachid':{password:'jardin2026',nom:'Rachid Itissir',role:'jardinier',avatar:'RI'},'mohamed':{password:'jardin2026',nom:'Mohamed Ahetab',role:'jardinier',avatar:'MA'},'abdesamad':{password:'jardin2026',nom:'Abdesamad Elabssi',role:'jardinier',avatar:'AE'},'ahmad':{password:'jardin2026',nom:'Ahmad Elaarach',role:'jardinier',avatar:'AE'},'ali':{password:'jardin2026',nom:'Ali Outtaleb',role:'jardinier',avatar:'AO'},'mustapha.zair':{password:'jardin2026',nom:'Mustapha Zair',role:'jardinier',avatar:'MZ'},'abdelhak':{password:'jardin2026',nom:'Abdelhak Erraguig',role:'jardinier',avatar:'AE'},'omar.rahmat':{password:'jardin2026',nom:'Omar Rahmat',role:'jardinier',avatar:'OR'}};
+        currentUser={username:u,..._UDATA[u]};
+        localStorage.setItem('currentUser',JSON.stringify(currentUser));
+        btn.disabled=false;btn.textContent=t('login_btn');
+        showApp();
+        return;
+      }
+      document.getElementById('login-error').textContent=t('login_error');
+      document.getElementById('login-error').classList.add('show');
+    }else{
+      // Cache disponible — login normal
+      if(users[u]&&users[u].password===p){
+        currentUser={username:u,...users[u]};
+        localStorage.setItem('currentUser',JSON.stringify(currentUser));
+        btn.disabled=false;btn.textContent=t('login_btn');
+        showApp();
+      }else{
+        document.getElementById('login-error').textContent=t('login_error');
+        document.getElementById('login-error').classList.add('show');
+      }
+    }
+  }catch(e){
+    // Fallback complet si réseau KO
+    const _DEF2={'issam':'admin2026','abdelhay':'chef2026','said.chef':'chef2026'};
+    const _UDATA2={'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'}};
+    if(_DEF2[u]===p&&_UDATA2[u]){
+      currentUser={username:u,..._UDATA2[u]};
       localStorage.setItem('currentUser',JSON.stringify(currentUser));
       showApp();
     }else{
+      document.getElementById('login-error').textContent=t('login_error');
       document.getElementById('login-error').classList.add('show');
     }
-  }catch(e){
-    document.getElementById('login-error').textContent='Erreur: '+e.message;
-    document.getElementById('login-error').classList.add('show');
+  }finally{
+    btn.disabled=false;
+    btn.textContent=t('login_btn');
   }
 }
 window.doLogin=doLogin;
