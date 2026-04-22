@@ -210,7 +210,7 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
     <button class="btn-g" id="btn-login" data-i18n="login_btn">Se connecter</button>
   </div>
   <div id="firebase-config-warning" class="config-msg" style="display:none">
-    <strong>⚠ Firebase non configuré</strong><br>
+    <strong>⚠ Erreur de connexion</strong><br>
     Ouvrez <code>index.html</code> et remplacez la section <code>firebaseConfig</code>.<br>
     Voir <code>GUIDE_INSTALLATION.md</code>.
   </div>
@@ -814,141 +814,86 @@ setLang(currentLang);
 </script>
 
 <script>
-// ============================================================
-// SUPABASE — Synchronisation temps réel — Oberoi Marrakech
-// ============================================================
-const SB_URL = 'https://aiwbqvxnzvodlcuaxick.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0';
-const SB_H = {apikey:SB_KEY,Authorization:'Bearer '+SB_KEY,'Content-Type':'application/json'};
+const SB_URL='https://aiwbqvxnzvodlcuaxick.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0';
+const SB_H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json'};
 
-const _DEFAULT_USERS = {
-  'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},
-  'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},
-  'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'},
-  'mustapha.elguous':{password:'jardin2026',nom:'Mustapha El Guous',role:'jardinier',avatar:'ME'},
-  'said.biaabich':{password:'jardin2026',nom:'Said Biaabich',role:'jardinier',avatar:'SB'},
-  'abdelatif':{password:'jardin2026',nom:'Abdelatif Aghoujdan',role:'jardinier',avatar:'AA'},
-  'abderazzak':{password:'jardin2026',nom:'Abderazzak Benzaiter',role:'jardinier',avatar:'AB'},
-  'omar.angari':{password:'jardin2026',nom:'Omar Angari',role:'jardinier',avatar:'OA'},
-  'khalid':{password:'jardin2026',nom:'Khalid Ghaoua',role:'jardinier',avatar:'KG'},
-  'slimane':{password:'jardin2026',nom:'Slimane Boufahain',role:'jardinier',avatar:'SB'},
-  'abdelfatah':{password:'jardin2026',nom:'Abdelfatah Elghafoui',role:'jardinier',avatar:'AE'},
-  'said.elkabach':{password:'jardin2026',nom:'Said Elkabach',role:'jardinier',avatar:'SE'},
-  'rachid':{password:'jardin2026',nom:'Rachid Itissir',role:'jardinier',avatar:'RI'},
-  'mohamed':{password:'jardin2026',nom:'Mohamed Ahetab',role:'jardinier',avatar:'MA'},
-  'abdesamad':{password:'jardin2026',nom:'Abdesamad Elabssi',role:'jardinier',avatar:'AE'},
-  'ahmad':{password:'jardin2026',nom:'Ahmad Elaarach',role:'jardinier',avatar:'AE'},
-  'ali':{password:'jardin2026',nom:'Ali Outtaleb',role:'jardinier',avatar:'AO'},
-  'mustapha.zair':{password:'jardin2026',nom:'Mustapha Zair',role:'jardinier',avatar:'MZ'},
-  'abdelhak':{password:'jardin2026',nom:'Abdelhak Erraguig',role:'jardinier',avatar:'AE'},
-  'omar.rahmat':{password:'jardin2026',nom:'Omar Rahmat',role:'jardinier',avatar:'OR'},
-};
-const _ZONES=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
-
-async function sbFetch(table){
-  try{
-    const r=await fetch(SB_URL+'/rest/v1/'+table+'?select=*',{headers:SB_H});
-    if(!r.ok)return [];
-    return await r.json();
-  }catch(e){return [];}
-}
-async function sbUpsert(table,row){
-  try{
-    await fetch(SB_URL+'/rest/v1/'+table+'?on_conflict=id',{
-      method:'POST',
-      headers:{...SB_H,Prefer:'resolution=merge-duplicates'},
-      body:JSON.stringify(row)
-    });
-  }catch(e){}
-}
-
-const _cache={};
-const _listeners={};
-
-async function _loadTable(t){
-  const rows=await sbFetch(t);
-  const obj={};
-  rows.forEach(r=>{
-    const d=r.data||r;
-    obj[r.id]=d;
-  });
-  _cache[t]=obj;
-  if(_listeners[t])_listeners[t](obj);
-}
-
-async function _initDB(){
-  const users=await sbFetch('users');
-  if(users.length===0){
-    for(const[k,v]of Object.entries(_DEFAULT_USERS)){
-      await sbUpsert('users',{id:k,data:{...v,id:k}});
-    }
-    const zonesObj={};
-    _ZONES.forEach((n,i)=>{zonesObj['z'+i]={id:'z'+i,name:n,statut:'ok',audit:85};});
-    for(const[k,v]of Object.entries(zonesObj)){
-      await sbUpsert('zones',{id:k,data:v});
-    }
-    const phyto=[
-      {id:'p1',nom:'Confidor 200 OD',cat:'Insecticide',stock:65,unite:'ml',alerte:100,usage:'Pucerons'},
-      {id:'p2',nom:'Score 250 EC',cat:'Fongicide',stock:40,unite:'ml',alerte:200,usage:'Oïdium'},
-      {id:'p3',nom:'Roundup Max',cat:'Herbicide',stock:800,unite:'ml',alerte:500,usage:'Désherbage'},
-      {id:'p4',nom:'Engrais NPK 20-20-20',cat:'Fertilisant',stock:15,unite:'kg',alerte:10,usage:'Général'},
-      {id:'p5',nom:'Huile blanche',cat:'Insecticide',stock:1200,unite:'ml',alerte:300,usage:'Cochenilles'},
-    ];
-    for(const p of phyto)await sbUpsert('phyto_stock',{id:p.id,data:p});
-  }
-}
-
+const _DU={'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'},'mustapha.elguous':{password:'jardin2026',nom:'Mustapha El Guous',role:'jardinier',avatar:'ME'},'said.biaabich':{password:'jardin2026',nom:'Said Biaabich',role:'jardinier',avatar:'SB'},'abdelatif':{password:'jardin2026',nom:'Abdelatif Aghoujdan',role:'jardinier',avatar:'AA'},'abderazzak':{password:'jardin2026',nom:'Abderazzak Benzaiter',role:'jardinier',avatar:'AB'},'omar.angari':{password:'jardin2026',nom:'Omar Angari',role:'jardinier',avatar:'OA'},'khalid':{password:'jardin2026',nom:'Khalid Ghaoua',role:'jardinier',avatar:'KG'},'slimane':{password:'jardin2026',nom:'Slimane Boufahain',role:'jardinier',avatar:'SB'},'abdelfatah':{password:'jardin2026',nom:'Abdelfatah Elghafoui',role:'jardinier',avatar:'AE'},'said.elkabach':{password:'jardin2026',nom:'Said Elkabach',role:'jardinier',avatar:'SE'},'rachid':{password:'jardin2026',nom:'Rachid Itissir',role:'jardinier',avatar:'RI'},'mohamed':{password:'jardin2026',nom:'Mohamed Ahetab',role:'jardinier',avatar:'MA'},'abdesamad':{password:'jardin2026',nom:'Abdesamad Elabssi',role:'jardinier',avatar:'AE'},'ahmad':{password:'jardin2026',nom:'Ahmad Elaarach',role:'jardinier',avatar:'AE'},'ali':{password:'jardin2026',nom:'Ali Outtaleb',role:'jardinier',avatar:'AO'},'mustapha.zair':{password:'jardin2026',nom:'Mustapha Zair',role:'jardinier',avatar:'MZ'},'abdelhak':{password:'jardin2026',nom:'Abdelhak Erraguig',role:'jardinier',avatar:'AE'},'omar.rahmat':{password:'jardin2026',nom:'Omar Rahmat',role:'jardinier',avatar:'OR'}};
+const _ZN=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
 const _TABLES=['users','taches','journal','recouches','audits','zones','phyto_stock','phyto_hist'];
 
-window.fbOnValue=function(k,cb){
-  _listeners[k]=cb;
-  if(_cache[k])cb(_cache[k]);
-};
-window.fbGetData=function(k){return _cache[k]||{};};
-window.fbPushData=async function(k,item){
-  const id='id'+Date.now()+Math.random().toString(36).substr(2,6);
-  item.id=id;
-  await sbUpsert(k,{id,data:item});
-  await _loadTable(k);
-  return id;
-};
-window.fbUpdateData=async function(k,id,updates){
-  const cur=(_cache[k]||{})[id]||{};
-  const merged={...cur,...updates,id};
-  await sbUpsert(k,{id,data:merged});
-  await _loadTable(k);
-};
-window.fbUpdateUser=async function(u,updates){
-  const cur=(_cache['users']||{})[u]||{};
-  const merged={...cur,...updates,id:u};
-  await sbUpsert('users',{id:u,data:merged});
-  await _loadTable('users');
-};
-window.fbSetUser=async function(u,data){
-  data.id=u;
-  await sbUpsert('users',{id:u,data});
-  await _loadTable('users');
-};
+function _lGet(k){try{return JSON.parse(localStorage.getItem('ob_'+k)||'null');}catch(e){return null;}}
+function _lSet(k,v){try{localStorage.setItem('ob_'+k,JSON.stringify(v));}catch(e){}}
 
-async function _boot(){
-  try{
-    await _initDB();
-    for(const t of _TABLES)await _loadTable(t);
-    setInterval(async()=>{for(const t of _TABLES)await _loadTable(t);},10000);
-    document.getElementById('loading').style.display='none';
-    document.getElementById('app').style.display='block';
-    const su=localStorage.getItem('currentUser');
-    if(su){
-      try{window.currentUser=JSON.parse(su);window.showApp();}
-      catch(e){document.getElementById('screen-login').style.display='flex';}
-    }else{
-      document.getElementById('screen-login').style.display='flex';
-    }
-  }catch(e){
-    document.getElementById('loading').innerHTML='<div style="color:#D85A30;text-align:center;padding:2rem;font-size:13px;font-family:sans-serif">Erreur de connexion.<br><br><button onclick="location.reload()" style="padding:10px 20px;border-radius:8px;border:none;background:#1D9E75;color:#fff;font-size:14px;cursor:pointer">Réessayer</button></div>';
+(function _initLocal(){
+  if(_lGet('init'))return;
+  _lSet('users',_DU);
+  const z={};_ZN.forEach((n,i)=>{z['z'+i]={id:'z'+i,name:n,statut:'ok',audit:85};});_lSet('zones',z);
+  _lSet('phyto_stock',{'p1':{id:'p1',nom:'Confidor 200 OD',cat:'Insecticide',stock:65,unite:'ml',alerte:100,usage:'Pucerons'},'p2':{id:'p2',nom:'Score 250 EC',cat:'Fongicide',stock:40,unite:'ml',alerte:200,usage:'Oïdium'},'p3':{id:'p3',nom:'Roundup Max',cat:'Herbicide',stock:800,unite:'ml',alerte:500,usage:'Désherbage'},'p4':{id:'p4',nom:'Engrais NPK 20-20-20',cat:'Fertilisant',stock:15,unite:'kg',alerte:10,usage:'Général'},'p5':{id:'p5',nom:'Huile blanche',cat:'Insecticide',stock:1200,unite:'ml',alerte:300,usage:'Cochenilles'}});
+  _lSet('taches',{});_lSet('journal',{});_lSet('recouches',{});_lSet('audits',{});_lSet('phyto_hist',{});
+  _lSet('init',1);
+})();
+
+const _listeners={};
+
+async function _sbFetch(t){try{const r=await fetch(SB_URL+'/rest/v1/'+t+'?select=*',{headers:SB_H});return r.ok?await r.json():null;}catch(e){return null;}}
+async function _sbUpsert(t,row){try{await fetch(SB_URL+'/rest/v1/'+t+'?on_conflict=id',{method:'POST',headers:{...SB_H,Prefer:'resolution=merge-duplicates'},body:JSON.stringify(row)});}catch(e){}}
+
+async function _syncFromServer(){
+  for(const t of _TABLES){
+    const rows=await _sbFetch(t);
+    if(!rows||!rows.length)continue;
+    const obj={};rows.forEach(r=>{obj[r.id]=r.data||r;});
+    const merged={..._lGet(t)||{},...obj};
+    _lSet(t,merged);
+    if(_listeners[t])_listeners[t](merged);
   }
 }
-_boot();
+
+window.fbOnValue=function(k,cb){_listeners[k]=cb;cb(_lGet(k)||{});};
+window.fbGetData=function(k){return _lGet(k)||{};};
+window.fbPushData=async function(k,item){
+  const id='id'+Date.now()+Math.random().toString(36).substr(2,6);
+  item.id=id;const d=_lGet(k)||{};d[id]=item;_lSet(k,d);
+  if(_listeners[k])_listeners[k](d);
+  _sbUpsert(k,{id,data:item});return id;
+};
+window.fbUpdateData=async function(k,id,updates){
+  const d=_lGet(k)||{};if(d[id])Object.assign(d[id],updates);_lSet(k,d);
+  if(_listeners[k])_listeners[k](d);_sbUpsert(k,{id,data:d[id]});
+};
+window.fbUpdateUser=async function(u,updates){
+  const d=_lGet('users')||{};if(d[u])Object.assign(d[u],updates);_lSet('users',d);
+  if(_listeners['users'])_listeners['users'](d);_sbUpsert('users',{id:u,data:d[u]});
+};
+window.fbSetUser=async function(u,data){
+  const d=_lGet('users')||{};d[u]=data;_lSet('users',d);
+  if(_listeners['users'])_listeners['users'](d);_sbUpsert('users',{id:u,data});
+};
+
+// DÉMARRAGE INSTANTANÉ — l'app s'ouvre immédiatement
+document.getElementById('loading').style.display='none';
+document.getElementById('app').style.display='block';
+const _su=localStorage.getItem('currentUser');
+if(_su){try{window.currentUser=JSON.parse(_su);window.showApp();}catch(e){document.getElementById('screen-login').style.display='flex';}}
+else{document.getElementById('screen-login').style.display='flex';}
+
+// SYNC SUPABASE EN ARRIÈRE-PLAN — après affichage
+setTimeout(async function(){
+  try{
+    // Init Supabase si vide
+    const users=await _sbFetch('users');
+    if(!users||!users.length){
+      for(const[k,v]of Object.entries(_DU))await _sbUpsert('users',{id:k,data:{...v,id:k}});
+      const z=_lGet('zones')||{};for(const[k,v]of Object.entries(z))await _sbUpsert('zones',{id:k,data:v});
+      const ph=_lGet('phyto_stock')||{};for(const[k,v]of Object.entries(ph))await _sbUpsert('phyto_stock',{id:k,data:v});
+    }
+    await _syncFromServer();
+    setInterval(_syncFromServer,15000);
+  }catch(e){console.warn('Background sync error:',e);}
+},1500);
+</script>
+
 </script>
 
 <script>
