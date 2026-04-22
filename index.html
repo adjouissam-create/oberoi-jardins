@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#1D9E75">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Oberoi Jardins">
+<title>Oberoi Marrakech — Espaces Verts</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="50" fill="%231D9E75"/><text x="50" y="70" font-size="55" text-anchor="middle">🌿</text></svg>'>
+<style>
+:root{
+  --color-background-primary:#ffffff;
+  --color-background-secondary:#f5f4ef;
+  --color-background-tertiary:#faf9f5;
+  --color-text-primary:#141413;
+  --color-text-secondary:#605e57;
+  --color-text-tertiary:#8c8a82;
+  --color-border-tertiary:rgba(20,20,19,0.12);
+  --color-border-secondary:rgba(20,20,19,0.22);
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-mono:"SF Mono",Monaco,Consolas,"Courier New",monospace;
+  --border-radius-md:8px;
+  --border-radius-lg:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --color-background-primary:#262624;
+    --color-background-secondary:#1f1e1d;
+    --color-background-tertiary:#1a1918;
+    --color-text-primary:#faf9f5;
+    --color-text-secondary:#b8b6ae;
+    --color-text-tertiary:#8c8a82;
+    --color-border-tertiary:rgba(250,249,245,0.12);
+    --color-border-secondary:rgba(250,249,245,0.22);
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--color-background-tertiary);color:var(--color-text-primary);font-family:var(--font-sans);min-height:100vh}
+html[dir=rtl]{text-align:right}
+.app{background:var(--color-background-tertiary);min-height:100vh;max-width:420px;margin:0 auto;position:relative}
+.loading-screen{position:fixed;inset:0;background:var(--color-background-secondary);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:1000}
+.spinner{width:40px;height:40px;border:3px solid var(--color-border-tertiary);border-top-color:#1D9E75;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.login-bg{background:var(--color-background-secondary);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem 1rem}
+.login-card{background:var(--color-background-primary);border-radius:var(--border-radius-lg);padding:1.5rem 1.25rem;width:100%;max-width:360px;border:0.5px solid var(--color-border-tertiary)}
+.login-logo{width:60px;height:60px;border-radius:50%;background:#1D9E75;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;margin:0 auto 1rem}
+.login-title{font-size:16px;font-weight:500;text-align:center;margin-bottom:3px}
+.login-sub{font-size:11px;color:var(--color-text-secondary);text-align:center;margin-bottom:1.25rem}
+.lang-picker{display:flex;gap:6px;justify-content:center;margin-bottom:1rem}
+.lang-btn{padding:5px 10px;font-size:11px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);background:none;color:var(--color-text-secondary);cursor:pointer}
+.lang-btn.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.inp{border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);padding:10px 12px;font-size:13px;background:var(--color-background-primary);color:var(--color-text-primary);width:100%;height:40px}
+.inp:focus{outline:none;border-color:#1D9E75}
+.flabel{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;display:block}
+.frow{margin-bottom:10px}
+.btn-g{background:#1D9E75;color:#fff;border:none;border-radius:var(--border-radius-md);padding:10px 14px;font-size:13px;cursor:pointer;font-weight:500;width:100%;height:42px}
+.btn-g:active{background:#0F6E56}
+.btn-g:disabled{opacity:0.5;cursor:not-allowed}
+.btn-s{background:none;color:#1D9E75;border:0.5px solid #1D9E75;border-radius:var(--border-radius-md);padding:8px 12px;font-size:12px;cursor:pointer;font-weight:500}
+.error-msg{background:#FAECE7;color:#993C1D;font-size:11px;padding:6px 10px;border-radius:var(--border-radius-md);margin-bottom:10px;display:none}
+.error-msg.show{display:block}
+.topbar{background:var(--color-background-primary);border-bottom:0.5px solid var(--color-border-tertiary);padding:0 12px;display:flex;align-items:center;justify-content:space-between;height:54px;position:sticky;top:0;z-index:100}
+.logo-ic{width:32px;height:32px;border-radius:50%;background:#1D9E75;display:flex;align-items:center;justify-content:center;font-size:15px;color:#fff;font-weight:500}
+.logo-r{display:flex;align-items:center;gap:8px}
+.logo-t{font-size:13px;font-weight:500}
+.logo-u{font-size:10px;color:var(--color-text-secondary)}
+.btn-icon{background:none;border:none;color:var(--color-text-secondary);font-size:15px;cursor:pointer;padding:6px 8px}
+.role-badge{font-size:9px;padding:2px 6px;border-radius:20px;font-weight:500;white-space:nowrap}
+.role-manager{background:#FAEEDA;color:#633806}
+.role-chef{background:#9FE1CB;color:#085041}
+.role-jard{background:#E1F5EE;color:#0F6E56}
+.sync-indicator{display:inline-flex;align-items:center;gap:4px;font-size:10px;color:#0F6E56;padding:2px 6px;background:#E1F5EE;border-radius:10px}
+.sync-indicator.offline{color:#993C1D;background:#FAECE7}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.nav-mobile{display:flex;background:var(--color-background-primary);border-top:0.5px solid var(--color-border-tertiary);position:sticky;bottom:0;z-index:100;padding:4px 0}
+.nav-btn{flex:1;padding:8px 2px;border:none;background:none;cursor:pointer;color:var(--color-text-tertiary);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px}
+.nav-btn.active{color:#1D9E75}
+.nav-ic{font-size:18px}
+.main-m{padding:10px;display:flex;flex-direction:column;gap:10px;min-height:calc(100vh - 54px - 54px)}
+.sec{display:none}.sec.active{display:flex;flex-direction:column;gap:10px}
+.cr{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mc{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.85rem;display:flex;flex-direction:column;gap:3px}
+.ml{font-size:11px;color:var(--color-text-secondary)}
+.mv{font-size:22px;font-weight:500}
+.ms{font-size:10px;color:var(--color-text-tertiary)}
+.card{background:var(--color-background-primary);border-radius:var(--border-radius-lg);border:0.5px solid var(--color-border-tertiary);padding:.85rem 1rem}
+.ct{font-size:13px;font-weight:500;margin-bottom:.75rem}
+.s-ok{background:#E1F5EE;color:#0F6E56;font-size:10px;padding:2px 7px;border-radius:10px;display:inline-block}
+.s-warn{background:#FAEEDA;color:#633806;font-size:10px;padding:2px 7px;border-radius:10px;display:inline-block}
+.s-urg{background:#FAECE7;color:#4A1B0C;font-size:10px;padding:2px 7px;border-radius:10px;display:inline-block}
+.s-info{background:#E6F1FB;color:#0C447C;font-size:10px;padding:2px 7px;border-radius:10px;display:inline-block}
+.ti{display:flex;align-items:flex-start;gap:8px;padding:9px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-tertiary);margin-bottom:5px}
+.tcb{width:20px;height:20px;border-radius:4px;border:1.5px solid var(--color-border-secondary);display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;margin-top:1px;font-size:12px;color:transparent}
+.tcb.done{background:#1D9E75;border-color:#1D9E75;color:#fff}
+.tn{font-size:12px;color:var(--color-text-primary);flex:1;line-height:1.4}
+.tn.done{text-decoration:line-through;color:var(--color-text-tertiary)}
+.tm{font-size:10px;color:var(--color-text-secondary);margin-top:3px}
+.photo-req{display:inline-flex;align-items:center;gap:3px;font-size:10px;color:#185FA5;background:#E6F1FB;padding:2px 6px;border-radius:8px;margin-top:4px}
+.tab-row{display:flex;gap:4px;margin-bottom:.75rem;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tab-row::-webkit-scrollbar{display:none}
+.tab{padding:6px 11px;font-size:11px;border-radius:20px;border:0.5px solid var(--color-border-tertiary);cursor:pointer;background:none;color:var(--color-text-secondary);white-space:nowrap}
+.tab.active{background:#1D9E75;color:#fff;border-color:#1D9E75}
+.fi{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:9px 11px;margin-bottom:6px;cursor:pointer}
+.fn{font-size:12px;font-weight:500}
+.fm{font-size:10px;color:var(--color-text-secondary);margin-top:2px}
+.pg{height:4px;border-radius:2px;background:var(--color-background-secondary);overflow:hidden;margin-top:5px}
+.pgf{height:100%;border-radius:2px;background:#1D9E75}
+.pgf.w{background:#EF9F27}
+.pgf.d{background:#D85A30}
+.journal-entry{border-left:2px solid #1D9E75;padding:8px 10px;margin-bottom:7px;background:var(--color-background-secondary);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0}
+html[dir=rtl] .journal-entry{border-left:none;border-right:2px solid #1D9E75;border-radius:var(--border-radius-md) 0 0 var(--border-radius-md)}
+.je-date{font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px}
+.je-title{font-size:12px;font-weight:500}
+.je-body{font-size:11px;color:var(--color-text-secondary);margin-top:2px}
+.je-tags{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap}
+.upload-zone{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-md);padding:14px;text-align:center;cursor:pointer;margin-top:6px}
+.upload-zone.has-file{border-color:#1D9E75;background:#E1F5EE}
+.upload-zone input[type=file]{display:none}
+.uz-text{font-size:12px;color:var(--color-text-secondary)}
+.uz-sub{font-size:10px;color:var(--color-text-tertiary);margin-top:3px}
+.photo-preview{width:100%;max-height:180px;object-fit:cover;border-radius:var(--border-radius-md);margin-top:8px;display:none}
+.photo-view{width:100%;max-height:200px;object-fit:cover;border-radius:var(--border-radius-md);margin-top:6px;cursor:pointer}
+.recouche-card{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:10px;margin-bottom:6px}
+.chambre-badge{background:#E6F1FB;color:#0C447C;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:500}
+.rb{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.fab{position:fixed;bottom:72px;right:calc(50% - 210px + 8px);width:52px;height:52px;border-radius:50%;background:#1D9E75;color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;border:none;cursor:pointer;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+@media(max-width:440px){.fab{right:8px}}
+html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
+@media(max-width:440px){html[dir=rtl] .fab{left:8px;right:auto}}
+.modal-wrap{background:rgba(0,0,0,.5);display:none;align-items:flex-end;justify-content:center;position:fixed;inset:0;z-index:200}
+.modal-wrap.open{display:flex}
+.modal{background:var(--color-background-primary);border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0;padding:1.25rem 1rem 2rem;width:100%;max-width:420px;max-height:88vh;overflow-y:auto}
+.modal-title{font-size:14px;font-weight:500;margin-bottom:.85rem;text-align:center}
+.mfoot{display:flex;gap:8px;margin-top:.85rem}
+.mfoot>button{flex:1}
+.ji-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.ji-row:last-child{border-bottom:none}
+.jav{width:36px;height:36px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;color:#0F6E56;flex-shrink:0}
+.jav.chef{background:#9FE1CB;color:#085041}
+.jav.manager{background:#FAEEDA;color:#633806}
+.jn{font-size:12px;font-weight:500}
+.jm{font-size:10px;color:var(--color-text-secondary)}
+.phyto-row{padding:9px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+.phyto-row:last-child{border-bottom:none}
+.stock-bar{height:5px;border-radius:3px;background:var(--color-background-secondary);overflow:hidden;margin-top:4px}
+.stock-fill{height:100%;border-radius:3px}
+.read-only-msg{background:#E6F1FB;color:#0C447C;font-size:11px;padding:7px 10px;border-radius:var(--border-radius-md);margin-bottom:8px;display:flex;gap:6px;align-items:center}
+.star{width:18px;height:18px;border-radius:3px;background:var(--color-background-secondary);cursor:pointer;display:inline-block}
+.star.on{background:#EF9F27}
+.help-txt{font-size:10px;color:var(--color-text-tertiary);margin-top:8px;text-align:center;line-height:1.5}
+.team-section{margin-top:1rem;padding-top:1rem;border-top:0.5px solid var(--color-border-tertiary)}
+.team-hdr{font-size:11px;font-weight:500;color:var(--color-text-secondary);margin-bottom:6px}
+.config-msg{background:#FAEEDA;color:#633806;padding:1rem;border-radius:var(--border-radius-md);font-size:12px;line-height:1.6;max-width:360px;margin-top:1rem}
+.config-msg code{font-family:var(--font-mono);background:rgba(0,0,0,0.08);padding:1px 4px;border-radius:3px;font-size:11px}
+.photo-modal{position:fixed;inset:0;background:rgba(0,0,0,0.9);display:none;align-items:center;justify-content:center;z-index:300;padding:1rem}
+.photo-modal.open{display:flex}
+.photo-modal img{max-width:100%;max-height:90vh;border-radius:var(--border-radius-md)}
+.photo-modal-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.2);color:#fff;border:none;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer}
+.weather-card{background:linear-gradient(135deg,#1D9E75,#0F6E56);color:#fff;border-radius:var(--border-radius-lg);padding:1rem;position:relative;overflow:hidden}
+.weather-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.weather-now{font-size:36px;font-weight:500;line-height:1}
+.weather-desc{font-size:12px;opacity:0.95;margin-top:4px}
+.weather-city{font-size:11px;opacity:0.85}
+.weather-ic{font-size:42px;line-height:1}
+.weather-row{display:flex;gap:6px;margin-top:10px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.weather-row::-webkit-scrollbar{display:none}
+.weather-day{flex-shrink:0;text-align:center;padding:7px 9px;background:rgba(255,255,255,0.15);border-radius:var(--border-radius-md);min-width:54px}
+.wd-name{font-size:10px;opacity:0.9}
+.wd-ic{font-size:18px;margin:3px 0}
+.wd-t{font-size:12px;font-weight:500}
+.weather-alert{background:rgba(255,255,255,0.2);border-radius:var(--border-radius-md);padding:6px 10px;font-size:11px;margin-top:10px;display:flex;gap:6px;align-items:center}
+.lang-switcher{display:flex;gap:3px;align-items:center}
+.lang-dot{width:22px;height:22px;border-radius:50%;background:var(--color-background-secondary);display:flex;align-items:center;justify-content:center;font-size:10px;cursor:pointer;border:none;color:var(--color-text-secondary)}
+.lang-dot.active{background:#1D9E75;color:#fff}
+</style>
+</head>
+<body>
+
+<div id="loading" class="loading-screen">
+  <div class="spinner"></div>
+  <div style="font-size:12px;color:var(--color-text-secondary)" id="loading-txt">Chargement...</div>
+</div>
+
+<div class="app" id="app" style="display:none">
+
+<div id="screen-login" class="login-bg" style="display:none">
+  <div class="login-card">
+    <div class="login-logo">🌿</div>
+    <div class="login-title" data-i18n="app_title">Oberoi Marrakech</div>
+    <div class="login-sub" data-i18n="app_sub">Gestion des espaces verts</div>
+    <div class="lang-picker">
+      <button class="lang-btn" data-lang="fr" onclick="setLang('fr')">Français</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">English</button>
+      <button class="lang-btn" data-lang="ar" onclick="setLang('ar')">العربية</button>
+    </div>
+    <div class="error-msg" id="login-error" data-i18n="login_error">Identifiants incorrects.</div>
+    <div class="frow">
+      <label class="flabel" data-i18n="username">Nom d'utilisateur</label>
+      <input class="inp" id="u-username" placeholder="ex: issam" autocapitalize="none" autocorrect="off">
+    </div>
+    <div class="frow">
+      <label class="flabel" data-i18n="password">Mot de passe</label>
+      <input class="inp" id="u-password" type="password" placeholder="••••••">
+    </div>
+    <button class="btn-g" id="btn-login" onclick="doLogin()" data-i18n="login_btn">Se connecter</button>
+  </div>
+  <div id="firebase-config-warning" class="config-msg" style="display:none">
+    <strong>⚠ Firebase non configuré</strong><br>
+    Ouvrez <code>index.html</code> et remplacez la section <code>firebaseConfig</code>.<br>
+    Voir <code>GUIDE_INSTALLATION.md</code>.
+  </div>
+</div>
+
+<div id="screen-app" style="display:none">
+  <div class="topbar">
+    <div class="logo-r">
+      <div class="logo-ic">🌿</div>
+      <div>
+        <div class="logo-t">Oberoi Marrakech</div>
+        <div class="logo-u" id="user-info">—</div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <div class="lang-switcher">
+        <button class="lang-dot" data-lang="fr" onclick="setLang('fr')">FR</button>
+        <button class="lang-dot" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-dot" data-lang="ar" onclick="setLang('ar')">AR</button>
+      </div>
+      <span class="sync-indicator" id="sync-status"><span class="sync-dot"></span><span id="sync-text">●</span></span>
+      <span class="role-badge" id="role-badge">—</span>
+      <button class="btn-icon" onclick="doLogout()" title="Déconnexion">⎋</button>
+    </div>
+  </div>
+
+  <div class="main-m" id="main-content">
+
+    <div class="sec active" id="sec-dash">
+      <div class="read-only-msg" id="ro-dash" style="display:none">
+        <span>👁</span><span data-i18n="readonly_msg">Vue limitée à vos tâches.</span>
+      </div>
+      <div class="weather-card" id="weather-card">
+        <div class="weather-top">
+          <div>
+            <div class="weather-now" id="w-temp">—°</div>
+            <div class="weather-desc" id="w-desc">Chargement...</div>
+            <div class="weather-city">Marrakech, Maroc</div>
+          </div>
+          <div class="weather-ic" id="w-icon">☀️</div>
+        </div>
+        <div class="weather-row" id="w-days"></div>
+        <div class="weather-alert" id="w-alert" style="display:none"></div>
+      </div>
+      <div class="cr">
+        <div class="mc"><div class="ml" data-i18n="my_tasks">Mes tâches du jour</div><div class="mv" id="d-mytaches">0</div><div class="ms" id="d-mydone">0 <span data-i18n="done">complétées</span></div></div>
+        <div class="mc"><div class="ml" data-i18n="photos_missing">Photos manquantes</div><div class="mv" style="color:#D85A30" id="d-nophoto">0</div><div class="ms" data-i18n="to_add">à ajouter</div></div>
+        <div class="mc"><div class="ml" data-i18n="recouches">Recouches</div><div class="mv" id="d-rec">0</div><div class="ms" data-i18n="in_progress">en cours</div></div>
+        <div class="mc"><div class="ml" data-i18n="zones">Zones</div><div class="mv">20</div><div class="ms">Oberoi</div></div>
+      </div>
+      <div class="card">
+        <div class="ct" data-i18n="priority_tasks">Tâches prioritaires</div>
+        <div id="dash-mytasks"></div>
+      </div>
+      <div class="card">
+        <div class="ct" data-i18n="alert_zones">Zones en alerte</div>
+        <div id="dash-urgences"></div>
+      </div>
+    </div>
+
+    <div class="sec" id="sec-taches">
+      <div class="rb">
+        <span style="font-size:13px;font-weight:500" data-i18n="tasks">Travaux</span>
+        <span class="role-badge role-jard" id="tache-count">0</span>
+      </div>
+      <div class="tab-row" id="tache-tabs">
+        <button class="tab active" data-f="mine" data-i18n="f_mine">Mes tâches</button>
+        <button class="tab" data-f="team" data-i18n="f_team">Équipe</button>
+        <button class="tab" data-f="all" data-i18n="f_all">Toutes</button>
+        <button class="tab" data-f="urg" data-i18n="f_urg">Urgentes</button>
+        <button class="tab" data-f="nophoto" data-i18n="f_nophoto">Sans photo</button>
+        <button class="tab" data-f="done" data-i18n="f_done">Faites</button>
+      </div>
+      <div id="taches-list"></div>
+    </div>
+
+    <div class="sec" id="sec-journal">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="journal">Journal de travaux</span></div>
+      <div class="tab-row" id="journal-tabs">
+        <button class="tab active" data-jf="all" data-i18n="j_all">Tout</button>
+        <button class="tab" data-jf="entretien" data-i18n="j_maintenance">Entretien</button>
+        <button class="tab" data-jf="plantation" data-i18n="j_planting">Plantation</button>
+        <button class="tab" data-jf="traitement" data-i18n="j_treatment">Traitement</button>
+        <button class="tab" data-jf="incident" data-i18n="j_incident">Incident</button>
+      </div>
+      <div id="journal-list"></div>
+    </div>
+
+    <div class="sec" id="sec-recouches">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="room_touchups">Recouches chambres</span></div>
+      <div style="background:#E6F1FB;border:0.5px solid #B5D4F4;border-radius:var(--border-radius-md);padding:7px 10px;font-size:10px;color:#0C447C" data-i18n="room_rule">
+        N° chambre + photo obligatoires.
+      </div>
+      <div class="tab-row" id="rec-tabs">
+        <button class="tab active" data-rf="all" data-i18n="f_all">Toutes</button>
+        <button class="tab" data-rf="attente" data-i18n="r_pending">En attente</button>
+        <button class="tab" data-rf="valide" data-i18n="r_valid">Validées</button>
+      </div>
+      <div id="rec-list"></div>
+    </div>
+
+    <div class="sec" id="sec-plus">
+      <div class="ct" data-i18n="other_modules">Autres modules</div>
+      <div class="card" style="padding:0">
+        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('zones')"><div style="font-size:22px;width:36px">🗺</div><div style="flex:1"><div class="jn" data-i18n="zones">Zones (20)</div><div class="jm" data-i18n="zones_sub">Clusters & espaces</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('audit')"><div style="font-size:22px;width:36px">✓</div><div style="flex:1"><div class="jn" data-i18n="audits">Audits</div><div class="jm" data-i18n="audits_sub">Fiches par zone</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('phyto')"><div style="font-size:22px;width:36px">🧪</div><div style="flex:1"><div class="jn" data-i18n="phyto">Phytosanitaires</div><div class="jm" data-i18n="phyto_sub">Stock & traitements</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+        <div class="ji-row" style="padding:12px;cursor:pointer" onclick="goSec('equipe')"><div style="font-size:22px;width:36px">👥</div><div style="flex:1"><div class="jn" data-i18n="team">Équipe</div><div class="jm" data-i18n="team_sub">20 personnes</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+        <div class="ji-row" id="row-users" style="padding:12px;cursor:pointer;display:none" onclick="goSec('users')"><div style="font-size:22px;width:36px">🔐</div><div style="flex:1"><div class="jn" data-i18n="accounts">Comptes utilisateurs</div><div class="jm" data-i18n="accounts_sub">Gestion des accès</div></div><span style="color:var(--color-text-tertiary)">›</span></div>
+      </div>
+    </div>
+
+    <div class="sec" id="sec-zones">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="zones_full">Zones Oberoi</span></div>
+      <div id="zones-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:6px"></div>
+    </div>
+
+    <div class="sec" id="sec-audit">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="audit_sheets">Fiches d'audit</span></div>
+      <div id="audit-list" style="display:flex;flex-direction:column;gap:8px"></div>
+    </div>
+
+    <div class="sec" id="sec-phyto">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="phyto_full">Produits phytosanitaires</span></div>
+      <div class="card"><div class="ct" data-i18n="inventory">Inventaire</div><div id="phyto-list"></div></div>
+      <div class="card"><div class="ct" data-i18n="treatment_history">Historique traitements</div><div id="phyto-hist"></div></div>
+    </div>
+
+    <div class="sec" id="sec-equipe">
+      <div class="rb"><span style="font-size:13px;font-weight:500" data-i18n="full_team">Équipe complète</span></div>
+      <div class="card" id="equipe-list"></div>
+    </div>
+
+    <div class="sec" id="sec-users">
+      <div class="rb">
+        <span style="font-size:13px;font-weight:500" data-i18n="accounts">Comptes utilisateurs</span>
+        <button class="btn-s" onclick="openM('user')" data-i18n="add_account">+ Compte</button>
+      </div>
+      <div style="background:#FAEEDA;border-radius:var(--border-radius-md);padding:8px 10px;font-size:10px;color:#633806" data-i18n="manager_only_warning">
+        Réservé au manager.
+      </div>
+      <div class="card" id="users-list"></div>
+    </div>
+
+  </div>
+
+  <button class="fab" id="fab" onclick="fabAction()">+</button>
+
+  <div class="nav-mobile">
+    <button class="nav-btn active" data-sec="dash"><span class="nav-ic">🏠</span><span data-i18n="nav_home">Accueil</span></button>
+    <button class="nav-btn" data-sec="taches"><span class="nav-ic">✓</span><span data-i18n="nav_tasks">Tâches</span></button>
+    <button class="nav-btn" data-sec="journal"><span class="nav-ic">📖</span><span data-i18n="nav_journal">Journal</span></button>
+    <button class="nav-btn" data-sec="recouches"><span class="nav-ic">🏨</span><span data-i18n="nav_rooms">Recouches</span></button>
+    <button class="nav-btn" data-sec="plus"><span class="nav-ic">☰</span><span data-i18n="nav_more">Plus</span></button>
+  </div>
+</div>
+
+<div class="modal-wrap" id="mwrap" onclick="if(event.target===this)closeM()">
+<div class="modal" id="mcontent"></div>
+</div>
+
+<div class="photo-modal" id="photo-modal" onclick="if(event.target===this)closePhotoModal()">
+  <button class="photo-modal-close" onclick="closePhotoModal()">✕</button>
+  <img id="photo-modal-img">
+</div>
+
+</div>
+
+<script>
+const I18N = {
+  fr: {
+    app_title: "Oberoi Marrakech",
+    app_sub: "Gestion des espaces verts",
+    username: "Nom d'utilisateur",
+    password: "Mot de passe",
+    login_btn: "Se connecter",
+    login_error: "Identifiants incorrects.",
+    readonly_msg: "Vue limitée à vos tâches.",
+    my_tasks: "Mes tâches du jour",
+    done: "complétées",
+    photos_missing: "Photos manquantes",
+    to_add: "à ajouter",
+    recouches: "Recouches",
+    in_progress: "en cours",
+    zones: "Zones",
+    priority_tasks: "Tâches prioritaires",
+    alert_zones: "Zones en alerte",
+    tasks: "Travaux",
+    f_mine: "Mes tâches",
+    f_team: "Équipe",
+    f_all: "Toutes",
+    f_urg: "Urgentes",
+    f_nophoto: "Sans photo",
+    f_done: "Faites",
+    journal: "Journal de travaux",
+    j_all: "Tout",
+    j_maintenance: "Entretien",
+    j_planting: "Plantation",
+    j_treatment: "Traitement",
+    j_incident: "Incident",
+    room_touchups: "Recouches chambres",
+    room_rule: "N° chambre + photo obligatoires.",
+    r_pending: "En attente",
+    r_valid: "Validées",
+    other_modules: "Autres modules",
+    zones_sub: "Clusters & espaces",
+    audits: "Audits",
+    audits_sub: "Fiches par zone",
+    phyto: "Phytosanitaires",
+    phyto_sub: "Stock & traitements",
+    team: "Équipe",
+    team_sub: "20 personnes",
+    accounts: "Comptes utilisateurs",
+    accounts_sub: "Gestion des accès",
+    zones_full: "Zones Oberoi",
+    audit_sheets: "Fiches d'audit",
+    phyto_full: "Produits phytosanitaires",
+    inventory: "Inventaire",
+    treatment_history: "Historique traitements",
+    full_team: "Équipe complète",
+    add_account: "+ Compte",
+    manager_only_warning: "Réservé au manager.",
+    nav_home: "Accueil",
+    nav_tasks: "Tâches",
+    nav_journal: "Journal",
+    nav_rooms: "Recouches",
+    nav_more: "Plus",
+    online: "En ligne",
+    offline: "Hors ligne",
+    manager: "Manager",
+    chef: "Chef",
+    gardener: "Jardinier",
+    no_task: "Aucune tâche.",
+    no_urgent: "Aucune tâche urgente.",
+    no_entry: "Aucune entrée.",
+    no_recouche: "Aucune recouche.",
+    no_audit: "Aucun audit.",
+    no_treatment: "Aucun traitement.",
+    all_ok: "Toutes les zones sont OK.",
+    cancel: "Annuler",
+    create: "Créer",
+    save: "Enregistrer",
+    validate: "Valider",
+    new_task: "Nouvelle tâche",
+    description: "Description",
+    zone: "Zone",
+    assigned_to: "Assigné à",
+    priority: "Priorité",
+    date: "Date",
+    urgent: "Urgente",
+    normal: "Normale",
+    low: "Basse",
+    today: "Aujourd'hui",
+    tomorrow: "Demain",
+    this_week: "Cette semaine",
+    photo_required: "Photo obligatoire",
+    photo_missing: "⚠ Photo obligatoire.",
+    take_photo: "📷 Prendre une photo",
+    or_gallery: "Ou choisir dans la galerie",
+    new_journal_entry: "Nouvelle entrée",
+    title: "Titre",
+    type: "Type",
+    notes: "Notes",
+    new_recouche: "Nouvelle recouche",
+    room_number: "N° chambre / villa",
+    work: "Travail",
+    final_photo: "Photo travail terminé",
+    no_photo_no_valid: "Sans photo : non validée",
+    audit_sheet: "Fiche d'audit",
+    cleanliness: "Propreté",
+    pruning: "Taille",
+    irrigation: "Irrigation",
+    plants_state: "État plantes",
+    safety: "Sécurité",
+    observations: "Observations",
+    product_use: "Utilisation produit",
+    product: "Produit",
+    dose: "Dose",
+    new_account: "Nouveau compte",
+    full_name: "Nom complet",
+    role: "Rôle",
+    management: "Management",
+    no_zones_alert: "Toutes les zones sont OK.",
+    complete_task: "Valider la tâche",
+    uploading: "Envoi...",
+    room_number_required: "⚠ N° de chambre obligatoire.",
+    upload_error: "Erreur upload",
+    only_my_team: "Vous ne pouvez modifier que les tâches de votre équipe.",
+    only_manager_cancel: "Seul le manager peut annuler une validation.",
+    task_creation_restricted: "Création de tâche réservée au manager et chefs.",
+    audit_manager_only: "Audit réservé au manager.",
+    manager_only: "Réservé au manager.",
+    all_fields_required: "Tous les champs requis.",
+    username_exists: "Ce username existe déjà.",
+    account_created: "Compte créé.",
+    password_updated: "Mot de passe mis à jour",
+    new_password_prompt: "Nouveau mot de passe pour",
+    modify: "Modifier",
+    today_short: "Auj.",
+    yesterday: "Hier",
+    loading: "Chargement...",
+    weather_desc: "météo en cours",
+    weather_hot: "Température élevée — prévoir arrosage supplémentaire",
+    weather_rain: "Pluie prévue — pas d'arrosage nécessaire"
+  },
+  en: {
+    app_title: "Oberoi Marrakech",
+    app_sub: "Landscape Management",
+    username: "Username",
+    password: "Password",
+    login_btn: "Login",
+    login_error: "Invalid credentials.",
+    readonly_msg: "Limited view — your tasks only.",
+    my_tasks: "My tasks today",
+    done: "completed",
+    photos_missing: "Photos missing",
+    to_add: "to add",
+    recouches: "Room touch-ups",
+    in_progress: "in progress",
+    zones: "Zones",
+    priority_tasks: "Priority tasks",
+    alert_zones: "Alert zones",
+    tasks: "Tasks",
+    f_mine: "Mine",
+    f_team: "Team",
+    f_all: "All",
+    f_urg: "Urgent",
+    f_nophoto: "No photo",
+    f_done: "Done",
+    journal: "Work journal",
+    j_all: "All",
+    j_maintenance: "Maintenance",
+    j_planting: "Planting",
+    j_treatment: "Treatment",
+    j_incident: "Incident",
+    room_touchups: "Room touch-ups",
+    room_rule: "Room number + photo required.",
+    r_pending: "Pending",
+    r_valid: "Validated",
+    other_modules: "Other modules",
+    zones_sub: "Clusters & areas",
+    audits: "Audits",
+    audits_sub: "Sheets by zone",
+    phyto: "Phytosanitary",
+    phyto_sub: "Stock & treatments",
+    team: "Team",
+    team_sub: "20 people",
+    accounts: "User accounts",
+    accounts_sub: "Access management",
+    zones_full: "Oberoi zones",
+    audit_sheets: "Audit sheets",
+    phyto_full: "Phytosanitary products",
+    inventory: "Inventory",
+    treatment_history: "Treatment history",
+    full_team: "Full team",
+    add_account: "+ Account",
+    manager_only_warning: "Manager only.",
+    nav_home: "Home",
+    nav_tasks: "Tasks",
+    nav_journal: "Journal",
+    nav_rooms: "Rooms",
+    nav_more: "More",
+    online: "Online",
+    offline: "Offline",
+    manager: "Manager",
+    chef: "Supervisor",
+    gardener: "Gardener",
+    no_task: "No tasks.",
+    no_urgent: "No urgent tasks.",
+    no_entry: "No entries.",
+    no_recouche: "No touch-ups.",
+    no_audit: "No audits.",
+    no_treatment: "No treatments.",
+    all_ok: "All zones are OK.",
+    cancel: "Cancel",
+    create: "Create",
+    save: "Save",
+    validate: "Validate",
+    new_task: "New task",
+    description: "Description",
+    zone: "Zone",
+    assigned_to: "Assigned to",
+    priority: "Priority",
+    date: "Date",
+    urgent: "Urgent",
+    normal: "Normal",
+    low: "Low",
+    today: "Today",
+    tomorrow: "Tomorrow",
+    this_week: "This week",
+    photo_required: "Photo required",
+    photo_missing: "⚠ Photo required.",
+    take_photo: "📷 Take photo",
+    or_gallery: "Or choose from gallery",
+    new_journal_entry: "New entry",
+    title: "Title",
+    type: "Type",
+    notes: "Notes",
+    new_recouche: "New touch-up",
+    room_number: "Room / villa number",
+    work: "Work",
+    final_photo: "Finished work photo",
+    no_photo_no_valid: "No photo: not validated",
+    audit_sheet: "Audit sheet",
+    cleanliness: "Cleanliness",
+    pruning: "Pruning",
+    irrigation: "Irrigation",
+    plants_state: "Plants state",
+    safety: "Safety",
+    observations: "Observations",
+    product_use: "Product usage",
+    product: "Product",
+    dose: "Dose",
+    new_account: "New account",
+    full_name: "Full name",
+    role: "Role",
+    management: "Management",
+    no_zones_alert: "All zones are OK.",
+    complete_task: "Complete task",
+    uploading: "Uploading...",
+    room_number_required: "⚠ Room number required.",
+    upload_error: "Upload error",
+    only_my_team: "You can only modify your team's tasks.",
+    only_manager_cancel: "Only manager can cancel validation.",
+    task_creation_restricted: "Task creation is restricted to manager and supervisors.",
+    audit_manager_only: "Audit reserved for manager.",
+    manager_only: "Manager only.",
+    all_fields_required: "All fields required.",
+    username_exists: "Username already exists.",
+    account_created: "Account created.",
+    password_updated: "Password updated",
+    new_password_prompt: "New password for",
+    modify: "Modify",
+    today_short: "Today",
+    yesterday: "Yesterday",
+    loading: "Loading...",
+    weather_desc: "loading weather",
+    weather_hot: "High temperature — extra watering needed",
+    weather_rain: "Rain expected — no watering needed"
+  },
+  ar: {
+    app_title: "الأوبروي مراكش",
+    app_sub: "إدارة المساحات الخضراء",
+    username: "اسم المستخدم",
+    password: "كلمة المرور",
+    login_btn: "تسجيل الدخول",
+    login_error: "معلومات خاطئة.",
+    readonly_msg: "عرض محدود على مهامك.",
+    my_tasks: "مهامي اليوم",
+    done: "مكتملة",
+    photos_missing: "صور ناقصة",
+    to_add: "للإضافة",
+    recouches: "تعديلات الغرف",
+    in_progress: "قيد التنفيذ",
+    zones: "المناطق",
+    priority_tasks: "المهام العاجلة",
+    alert_zones: "مناطق في تأهب",
+    tasks: "الأعمال",
+    f_mine: "مهامي",
+    f_team: "الفريق",
+    f_all: "الكل",
+    f_urg: "عاجل",
+    f_nophoto: "بدون صورة",
+    f_done: "منجزة",
+    journal: "سجل الأعمال",
+    j_all: "الكل",
+    j_maintenance: "صيانة",
+    j_planting: "غرس",
+    j_treatment: "معالجة",
+    j_incident: "حادث",
+    room_touchups: "تعديلات الغرف",
+    room_rule: "رقم الغرفة + الصورة إجباريان.",
+    r_pending: "في الانتظار",
+    r_valid: "مصادق عليها",
+    other_modules: "أقسام أخرى",
+    zones_sub: "مجموعات ومساحات",
+    audits: "تقييمات",
+    audits_sub: "بطاقات حسب المنطقة",
+    phyto: "المبيدات",
+    phyto_sub: "المخزون والمعالجات",
+    team: "الفريق",
+    team_sub: "20 شخصاً",
+    accounts: "حسابات المستخدمين",
+    accounts_sub: "إدارة الوصول",
+    zones_full: "مناطق الأوبروي",
+    audit_sheets: "بطاقات التقييم",
+    phyto_full: "المنتجات الصحية",
+    inventory: "المخزون",
+    treatment_history: "سجل المعالجات",
+    full_team: "الفريق الكامل",
+    add_account: "+ حساب",
+    manager_only_warning: "للمدير فقط.",
+    nav_home: "الرئيسية",
+    nav_tasks: "المهام",
+    nav_journal: "السجل",
+    nav_rooms: "الغرف",
+    nav_more: "المزيد",
+    online: "متصل",
+    offline: "غير متصل",
+    manager: "مدير",
+    chef: "مشرف",
+    gardener: "بستاني",
+    no_task: "لا توجد مهام.",
+    no_urgent: "لا توجد مهام عاجلة.",
+    no_entry: "لا توجد تسجيلات.",
+    no_recouche: "لا توجد تعديلات.",
+    no_audit: "لا توجد تقييمات.",
+    no_treatment: "لا توجد معالجات.",
+    all_ok: "جميع المناطق بخير.",
+    cancel: "إلغاء",
+    create: "إنشاء",
+    save: "حفظ",
+    validate: "تأكيد",
+    new_task: "مهمة جديدة",
+    description: "الوصف",
+    zone: "المنطقة",
+    assigned_to: "مُسندة إلى",
+    priority: "الأولوية",
+    date: "التاريخ",
+    urgent: "عاجلة",
+    normal: "عادية",
+    low: "منخفضة",
+    today: "اليوم",
+    tomorrow: "غداً",
+    this_week: "هذا الأسبوع",
+    photo_required: "الصورة إجبارية",
+    photo_missing: "⚠ الصورة إجبارية.",
+    take_photo: "📷 التقاط صورة",
+    or_gallery: "أو الاختيار من المعرض",
+    new_journal_entry: "تسجيل جديد",
+    title: "العنوان",
+    type: "النوع",
+    notes: "ملاحظات",
+    new_recouche: "تعديل جديد",
+    room_number: "رقم الغرفة / الفيلا",
+    work: "العمل",
+    final_photo: "صورة العمل المنجز",
+    no_photo_no_valid: "بدون صورة: غير مصادق عليها",
+    audit_sheet: "بطاقة تقييم",
+    cleanliness: "النظافة",
+    pruning: "التقليم",
+    irrigation: "الري",
+    plants_state: "حالة النباتات",
+    safety: "السلامة",
+    observations: "ملاحظات",
+    product_use: "استخدام منتج",
+    product: "المنتج",
+    dose: "الجرعة",
+    new_account: "حساب جديد",
+    full_name: "الاسم الكامل",
+    role: "الدور",
+    management: "الإدارة",
+    no_zones_alert: "جميع المناطق بخير.",
+    complete_task: "تأكيد المهمة",
+    uploading: "جارٍ الإرسال...",
+    room_number_required: "⚠ رقم الغرفة إجباري.",
+    upload_error: "خطأ في الرفع",
+    only_my_team: "لا يمكنك تعديل سوى مهام فريقك.",
+    only_manager_cancel: "المدير وحده يمكنه إلغاء المصادقة.",
+    task_creation_restricted: "إنشاء المهام للمدير والمشرفين فقط.",
+    audit_manager_only: "التقييم للمدير فقط.",
+    manager_only: "للمدير فقط.",
+    all_fields_required: "جميع الحقول مطلوبة.",
+    username_exists: "اسم المستخدم موجود.",
+    account_created: "تم إنشاء الحساب.",
+    password_updated: "تم تحديث كلمة المرور",
+    new_password_prompt: "كلمة مرور جديدة لـ",
+    modify: "تعديل",
+    today_short: "اليوم",
+    yesterday: "أمس",
+    loading: "جارٍ التحميل...",
+    weather_desc: "جارٍ تحميل الطقس",
+    weather_hot: "درجة حرارة عالية — ري إضافي مطلوب",
+    weather_rain: "أمطار متوقعة — لا حاجة للري"
+  }
+};
+
+let currentLang = localStorage.getItem('lang') || 'fr';
+
+function t(key){ return I18N[currentLang][key] || I18N.fr[key] || key; }
+
+function setLang(lang){
+  currentLang = lang;
+  localStorage.setItem('lang', lang);
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    if(I18N[lang][key]) el.textContent = I18N[lang][key];
+  });
+  document.querySelectorAll('.lang-btn, .lang-dot').forEach(b=>{
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  if(window.currentUser) renderAll();
+}
+window.setLang = setLang;
+
+setLang(currentLang);
+</script>
+
+<script>
+// ================================================================
+// SUPABASE — Synchronisation temps réel, 100% gratuit, sans carte
+// À configurer : remplacez SUPABASE_URL et SUPABASE_KEY ci-dessous
+// ================================================================
+const SUPABASE_URL = 'https://aiwbqvxnzvodlcuaxick.supabase.co/rest/v1/
+';  
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpd2JxdnhuenZvZGxjdWF4aWNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4MTgxMDUsImV4cCI6MjA5MjM5NDEwNX0.OHNP2jGUst7cDJjakkJh2erWdswnMKtZm8XFk__ENp0';      
+const DEFAULT_USERS = {
+  'issam':{password:'admin2026',nom:'Issam',role:'manager',avatar:'I'},
+  'abdelhay':{password:'chef2026',nom:'Abdelhay Idlahoussain',role:'chef',avatar:'AI'},
+  'said.chef':{password:'chef2026',nom:'Said (Chef)',role:'chef',avatar:'S'},
+  'mustapha.elguous':{password:'jardin2026',nom:'Mustapha El Guous',role:'jardinier',avatar:'ME'},
+  'said.biaabich':{password:'jardin2026',nom:'Said Biaabich',role:'jardinier',avatar:'SB'},
+  'abdelatif':{password:'jardin2026',nom:'Abdelatif Aghoujdan',role:'jardinier',avatar:'AA'},
+  'abderazzak':{password:'jardin2026',nom:'Abderazzak Benzaiter',role:'jardinier',avatar:'AB'},
+  'omar.angari':{password:'jardin2026',nom:'Omar Angari',role:'jardinier',avatar:'OA'},
+  'khalid':{password:'jardin2026',nom:'Khalid Ghaoua',role:'jardinier',avatar:'KG'},
+  'slimane':{password:'jardin2026',nom:'Slimane Boufahain',role:'jardinier',avatar:'SB'},
+  'abdelfatah':{password:'jardin2026',nom:'Abdelfatah Elghafoui',role:'jardinier',avatar:'AE'},
+  'said.elkabach':{password:'jardin2026',nom:'Said Elkabach',role:'jardinier',avatar:'SE'},
+  'rachid':{password:'jardin2026',nom:'Rachid Itissir',role:'jardinier',avatar:'RI'},
+  'mohamed':{password:'jardin2026',nom:'Mohamed Ahetab',role:'jardinier',avatar:'MA'},
+  'abdesamad':{password:'jardin2026',nom:'Abdesamad Elabssi',role:'jardinier',avatar:'AE'},
+  'ahmad':{password:'jardin2026',nom:'Ahmad Elaarach',role:'jardinier',avatar:'AE'},
+  'ali':{password:'jardin2026',nom:'Ali Outtaleb',role:'jardinier',avatar:'AO'},
+  'mustapha.zair':{password:'jardin2026',nom:'Mustapha Zair',role:'jardinier',avatar:'MZ'},
+  'abdelhak':{password:'jardin2026',nom:'Abdelhak Erraguig',role:'jardinier',avatar:'AE'},
+  'omar.rahmat':{password:'jardin2026',nom:'Omar Rahmat',role:'jardinier',avatar:'OR'},
+};
+
+const ZONES_NAMES=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
+
+const IS_CONFIGURED = SUPABASE_URL !== 'VOTRE_URL_SUPABASE';
+
+// ---- API Supabase REST (sans SDK) ----
+async function sbGet(table) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=*`, {
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+  });
+  return r.ok ? await r.json() : [];
+}
+async function sbInsert(table, row) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+    body: JSON.stringify(row)
+  });
+  return r.ok ? await r.json() : null;
+}
+async function sbUpdate(table, id, updates) {
+  const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'return=representation' },
+    body: JSON.stringify(updates)
+  });
+  return r.ok ? await r.json() : null;
+}
+async function sbUpsert(table, row, onConflict) {
+  const url = onConflict ? `${SUPABASE_URL}/rest/v1/${table}?on_conflict=${onConflict}` : `${SUPABASE_URL}/rest/v1/${table}`;
+  const r = await fetch(url, {
+    method: 'POST',
+    headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', Prefer: 'resolution=merge-duplicates,return=representation' },
+    body: JSON.stringify(row)
+  });
+  return r.ok ? await r.json() : null;
+}
+
+// ---- Cache local + polling toutes les 10 secondes ----
+const cache = {};
+const valueListeners = {};
+const POLL_INTERVAL = 10000;
+
+async function loadTable(table) {
+  try {
+    const rows = await sbGet(table);
+    const obj = {};
+    rows.forEach(r => { obj[r.id] = r.data || r; });
+    cache[table] = obj;
+    if (valueListeners[table]) valueListeners[table](obj);
+  } catch(e) { console.warn('poll error', table, e); }
+}
+
+async function startPolling() {
+  const tables = ['users','taches','journal','recouches','audits','phyto_stock','phyto_hist','zones'];
+  for (const t of tables) await loadTable(t);
+  setInterval(async () => {
+    for (const t of tables) await loadTable(t);
+  }, POLL_INTERVAL);
+}
+
+window.fbOnValue = function(key, cb) {
+  valueListeners[key] = cb;
+  if (cache[key]) cb(cache[key]);
+};
+window.fbGetData = function(key) { return cache[key] || {}; };
+
+window.fbPushData = async function(key, item) {
+  const id = 'id' + Date.now() + Math.random().toString(36).substr(2,6);
+  item.id = id;
+  await sbInsert(key, {id, data: item});
+  await loadTable(key);
+  return id;
+};
+window.fbUpdateData = async function(key, id, updates) {
+  const current = (cache[key]||{})[id] || {};
+  const merged = {...current, ...updates, id};
+  await sbUpsert(key, {id, data: merged}, 'id');
+  await loadTable(key);
+};
+window.fbUpdateUser = async function(username, updates) {
+  const current = (cache['users']||{})[username] || {};
+  const merged = {...current, ...updates, id: username};
+  await sbUpsert('users', {id: username, data: merged}, 'id');
+  await loadTable('users');
+};
+window.fbSetUser = async function(username, data) {
+  data.id = username;
+  await sbUpsert('users', {id: username, data}, 'id');
+  await loadTable('users');
+};
+
+// ---- Initialisation base de données (premier démarrage) ----
+async function initDB() {
+  const existing = await sbGet('users');
+  if (existing.length > 0) return;
+
+  // Insérer les utilisateurs par défaut
+  for (const [k,v] of Object.entries(DEFAULT_USERS)) {
+    await sbInsert('users', {id: k, data: {...v, id: k}});
+  }
+  // Insérer les zones
+  const zones = {};
+  ZONES_NAMES.forEach((n,i) => {
+    zones['z'+i] = {id:'z'+i, name:n, statut:'ok', audit:85};
+  });
+  for (const [k,v] of Object.entries(zones)) {
+    await sbInsert('zones', {id: k, data: v});
+  }
+  // Insérer le stock phyto
+  const phyto = [
+    {id:'p1',nom:'Confidor 200 OD',cat:'Insecticide',stock:65,unite:'ml',alerte:100,usage:'Pucerons'},
+    {id:'p2',nom:'Score 250 EC',cat:'Fongicide',stock:40,unite:'ml',alerte:200,usage:'Oïdium'},
+    {id:'p3',nom:'Roundup Max',cat:'Herbicide',stock:800,unite:'ml',alerte:500,usage:'Désherbage'},
+    {id:'p4',nom:'Engrais NPK 20-20-20',cat:'Fertilisant',stock:15,unite:'kg',alerte:10,usage:'Général'},
+    {id:'p5',nom:'Huile blanche',cat:'Insecticide',stock:1200,unite:'ml',alerte:300,usage:'Cochenilles'},
+  ];
+  for (const p of phyto) {
+    await sbInsert('phyto_stock', {id: p.id, data: p});
+  }
+}
+
+// ---- Démarrage ----
+async function boot() {
+  if (!IS_CONFIGURED) {
+    document.getElementById('loading').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('screen-login').style.display='flex';
+    document.getElementById('firebase-config-warning').style.display='block';
+    document.getElementById('firebase-config-warning').innerHTML='<strong>⚠ Supabase non configuré</strong><br>Consultez le <code>GUIDE_SUPABASE.md</code> pour obtenir votre URL et clé.';
+    document.getElementById('btn-login').disabled=true;
+    return;
+  }
+  try {
+    await initDB();
+    await startPolling();
+    document.getElementById('loading').style.display='none';
+    document.getElementById('app').style.display='block';
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      try { window.currentUser=JSON.parse(savedUser); window.showApp(); }
+      catch(e) { document.getElementById('screen-login').style.display='flex'; }
+    } else {
+      document.getElementById('screen-login').style.display='flex';
+    }
+  } catch(e) {
+    console.error('Boot error:', e);
+    document.getElementById('loading').innerHTML='<div style="color:#D85A30;text-align:center;padding:2rem;font-size:13px">Erreur connexion Supabase.<br><br>Vérifiez votre URL et clé.<br><br><button onclick="location.reload()" style="margin-top:1rem;padding:8px 16px;border-radius:8px;border:none;background:#1D9E75;color:#fff;cursor:pointer">Réessayer</button></div>';
+  }
+}
+boot();
+</script>
+
+<script>
+let currentUser=null;
+let USERS={};
+let ZONES={};
+let TACHES={};
+let JOURNAL={};
+let RECOUCHES={};
+let AUDITS={};
+let PHYTO_STOCK={};
+let PHYTO_HIST={};
+
+const WEATHER_ICONS = {
+  0: '☀️', 1: '🌤', 2: '⛅', 3: '☁️',
+  45: '🌫', 48: '🌫',
+  51: '🌦', 53: '🌦', 55: '🌦',
+  61: '🌧', 63: '🌧', 65: '🌧',
+  71: '🌨', 73: '🌨', 75: '🌨',
+  80: '🌦', 81: '🌧', 82: '⛈',
+  95: '⛈', 96: '⛈', 99: '⛈'
+};
+
+const WEATHER_DESC = {
+  fr: {0:'Ensoleillé',1:'Peu nuageux',2:'Partiellement nuageux',3:'Couvert',45:'Brouillard',48:'Brouillard givrant',51:'Bruine légère',53:'Bruine',55:'Bruine dense',61:'Pluie légère',63:'Pluie modérée',65:'Pluie forte',71:'Neige légère',73:'Neige',75:'Neige forte',80:'Averses',81:'Averses fortes',82:'Averses violentes',95:'Orage',96:'Orage et grêle',99:'Orage violent'},
+  en: {0:'Sunny',1:'Mostly clear',2:'Partly cloudy',3:'Overcast',45:'Fog',48:'Rime fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Heavy showers',82:'Violent showers',95:'Thunderstorm',96:'Thunder + hail',99:'Violent storm'},
+  ar: {0:'مشمس',1:'غائم قليلاً',2:'غائم جزئياً',3:'غائم',45:'ضباب',48:'ضباب متجمد',51:'رذاذ خفيف',53:'رذاذ',55:'رذاذ كثيف',61:'مطر خفيف',63:'مطر',65:'مطر غزير',71:'ثلج خفيف',73:'ثلج',75:'ثلج كثيف',80:'زخات',81:'زخات قوية',82:'زخات عنيفة',95:'عاصفة رعدية',96:'رعد وبرد',99:'عاصفة عنيفة'}
+};
+
+async function fetchWeather(){
+  try{
+    const url='https://api.open-meteo.com/v1/forecast?latitude=31.6295&longitude=-7.9811&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Africa%2FCasablanca&forecast_days=5';
+    const res=await fetch(url);
+    const data=await res.json();
+    renderWeather(data);
+  }catch(e){
+    console.error('Weather fetch failed:',e);
+    document.getElementById('w-desc').textContent='—';
+  }
+}
+
+function renderWeather(data){
+  if(!data||!data.current)return;
+  const tempNow=Math.round(data.current.temperature_2m);
+  const codeNow=data.current.weather_code;
+  document.getElementById('w-temp').textContent=tempNow+'°';
+  document.getElementById('w-icon').textContent=WEATHER_ICONS[codeNow]||'☀️';
+  document.getElementById('w-desc').textContent=(WEATHER_DESC[currentLang]||WEATHER_DESC.fr)[codeNow]||'';
+  
+  const days=data.daily;
+  const dayNames={fr:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],ar:['أحد','إثن','ثلا','أرب','خمي','جمع','سبت']};
+  const dn=dayNames[currentLang]||dayNames.fr;
+  let html='';
+  for(let i=0;i<days.time.length;i++){
+    const d=new Date(days.time[i]);
+    const label=i===0?t('today_short'):dn[d.getDay()];
+    html+=`<div class="weather-day"><div class="wd-name">${label}</div><div class="wd-ic">${WEATHER_ICONS[days.weather_code[i]]||'☀️'}</div><div class="wd-t">${Math.round(days.temperature_2m_max[i])}°</div><div style="font-size:10px;opacity:0.8">${Math.round(days.temperature_2m_min[i])}°</div></div>`;
+  }
+  document.getElementById('w-days').innerHTML=html;
+  
+  const alertEl=document.getElementById('w-alert');
+  const maxTomorrow=days.temperature_2m_max[1]||0;
+  const rainTomorrow=days.precipitation_sum[1]||0;
+  if(rainTomorrow>3){
+    alertEl.innerHTML=`💧 ${t('weather_rain')} (${rainTomorrow.toFixed(1)}mm)`;
+    alertEl.style.display='flex';
+  }else if(maxTomorrow>35){
+    alertEl.innerHTML=`🌡 ${t('weather_hot')} (${Math.round(maxTomorrow)}°)`;
+    alertEl.style.display='flex';
+  }else{
+    alertEl.style.display='none';
+  }
+}
+
+function setupListeners(){
+  window.fbOnValue('users', data=>{USERS=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('zones', data=>{ZONES=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('taches', data=>{TACHES=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('journal', data=>{JOURNAL=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('recouches', data=>{RECOUCHES=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('audits', data=>{AUDITS=data||{};if(currentUser)renderAll();});
+  window.fbOnValue('phyto_stock', data=>{PHYTO_STOCK=data||{};if(currentUser)renderPhyto();});
+  window.fbOnValue('phyto_hist', data=>{PHYTO_HIST=data||{};if(currentUser)renderPhyto();});
+}
+
+function doLogin(){
+  const u=document.getElementById('u-username').value.trim().toLowerCase();
+  const p=document.getElementById('u-password').value;
+  try{
+    const users=window.fbGetData('users');
+    if(users[u]&&users[u].password===p){
+      currentUser={username:u,...users[u]};
+      localStorage.setItem('currentUser',JSON.stringify(currentUser));
+      showApp();
+    }else{
+      document.getElementById('login-error').classList.add('show');
+    }
+  }catch(e){
+    document.getElementById('login-error').textContent='Erreur: '+e.message;
+    document.getElementById('login-error').classList.add('show');
+  }
+}
+window.doLogin=doLogin;
+
+function doLogout(){
+  currentUser=null;
+  localStorage.removeItem('currentUser');
+  document.getElementById('screen-app').style.display='none';
+  document.getElementById('screen-login').style.display='flex';
+  document.getElementById('u-username').value='';
+  document.getElementById('u-password').value='';
+  document.getElementById('login-error').classList.remove('show');
+}
+window.doLogout=doLogout;
+
+function showApp(){
+  document.getElementById('screen-login').style.display='none';
+  document.getElementById('screen-app').style.display='block';
+  document.getElementById('user-info').textContent=currentUser.nom;
+  const rb=document.getElementById('role-badge');
+  if(currentUser.role==='manager'){rb.textContent=t('manager');rb.className='role-badge role-manager';}
+  else if(currentUser.role==='chef'){rb.textContent=t('chef');rb.className='role-badge role-chef';}
+  else{rb.textContent=t('gardener');rb.className='role-badge role-jard';}
+  document.getElementById('ro-dash').style.display=currentUser.role==='jardinier'?'flex':'none';
+  document.getElementById('row-users').style.display=currentUser.role==='manager'?'flex':'none';
+  setupListeners();
+  fetchWeather();
+  setInterval(fetchWeather, 30*60*1000);
+}
+window.showApp=showApp;
+
+function renderAll(){
+  renderDash();
+  renderTaches(document.querySelector('.tab.active[data-f]')?.dataset.f||'mine');
+  renderJournal(document.querySelector('.tab.active[data-jf]')?.dataset.jf||'all');
+  renderRecouches(document.querySelector('.tab.active[data-rf]')?.dataset.rf||'all');
+  renderZones();
+  renderAudit();
+  renderPhyto();
+  renderEquipe();
+  renderUsers();
+}
+
+function canEditTask(t){
+  if(!currentUser)return false;
+  if(currentUser.role==='manager'||currentUser.role==='chef')return true;
+  return t.assigne===currentUser.username;
+}
+
+function renderDash(){
+  const tachesArr=Object.entries(TACHES).map(([id,x])=>({id,...x}));
+  let myT;
+  if(currentUser.role==='manager'||currentUser.role==='chef')myT=tachesArr;
+  else myT=tachesArr.filter(x=>x.assigne===currentUser.username);
+  const myDone=myT.filter(x=>x.statut==='done');
+  const noPhoto=myT.filter(x=>!x.photo&&x.statut!=='done');
+  document.getElementById('d-mytaches').textContent=myT.length;
+  document.getElementById('d-mydone').innerHTML=myDone.length+' <span>'+t('done')+'</span>';
+  document.getElementById('d-nophoto').textContent=noPhoto.length;
+  const recArr=Object.entries(RECOUCHES).map(([id,r])=>({id,...r}));
+  let myRec;
+  if(currentUser.role==='manager'||currentUser.role==='chef')myRec=recArr;
+  else myRec=recArr.filter(r=>r.jardinier===currentUser.username);
+  document.getElementById('d-rec').textContent=myRec.length;
+  const myPending=myT.filter(x=>x.prio==='haute'&&x.statut!=='done').slice(0,4);
+  document.getElementById('dash-mytasks').innerHTML=myPending.length?myPending.map(x=>{
+    const aName=USERS[x.assigne]?.nom||x.assigne;
+    return `<div class="ti" style="margin-bottom:5px">
+      <div class="tcb ${x.statut==='done'?'done':''}" onclick="toggleT('${x.id}')">✓</div>
+      <div style="flex:1">
+        <div class="tn">${x.nom}</div>
+        <div class="tm">${x.zone}${currentUser.role!=='jardinier'?' · '+aName:''}</div>
+        ${!x.photo?'<div class="photo-req">📷 '+t('photo_required')+'</div>':''}
+      </div>
+    </div>`;
+  }).join(''):'<div style="font-size:11px;color:var(--color-text-secondary);padding:4px">'+t('no_urgent')+'</div>';
+  const zonesArr=Object.values(ZONES);
+  const alertZones=zonesArr.filter(z=>z.statut!=='ok');
+  document.getElementById('dash-urgences').innerHTML=alertZones.length?alertZones.map(z=>`
+    <div style="font-size:11px;padding:5px 0;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;justify-content:space-between">
+      <span>${z.name}</span>
+      <span class="${z.statut==='warn'?'s-warn':'s-urg'}">${z.statut==='warn'?'⚠':'🔴'}</span>
+    </div>
+  `).join(''):'<div style="font-size:11px;color:var(--color-text-secondary);padding:4px">'+t('no_zones_alert')+'</div>';
+}
+
+function renderTaches(f='mine'){
+  const tachesArr=Object.entries(TACHES).map(([id,x])=>({id,...x})).sort((a,b)=>(b.created||0)-(a.created||0));
+  let list=tachesArr;
+  if(f==='mine'){
+    if(currentUser.role==='manager'||currentUser.role==='chef')list=tachesArr;
+    else list=tachesArr.filter(x=>x.assigne===currentUser.username);
+  } else if(f==='team'){
+    list=tachesArr;
+  } else if(f==='all'){
+    list=currentUser.role==='jardinier'?tachesArr.filter(x=>x.assigne===currentUser.username):tachesArr;
+  } else if(f==='urg')list=tachesArr.filter(x=>x.prio==='haute'&&x.statut!=='done');
+  else if(f==='nophoto')list=tachesArr.filter(x=>!x.photo&&x.statut!=='done');
+  else if(f==='done')list=tachesArr.filter(x=>x.statut==='done');
+  document.getElementById('tache-count').textContent=list.length;
+  document.getElementById('taches-list').innerHTML=list.map(x=>{
+    const canToggle=canEditTask(x);
+    const aUser=USERS[x.assigne];
+    const aName=aUser?.nom||x.assigne;
+    return `<div class="ti">
+      <div class="tcb ${x.statut==='done'?'done':''}" onclick="${canToggle?"toggleT('"+x.id+"')":""}" style="${!canToggle?'opacity:0.3;cursor:not-allowed':''}">✓</div>
+      <div style="flex:1">
+        <div class="tn ${x.statut==='done'?'done':''}">${x.nom}</div>
+        <div class="tm">${x.zone} · ${aName} · ${x.date||''}</div>
+        ${x.statut!=='done'&&!x.photo?'<div class="photo-req">📷 '+t('photo_required')+'</div>':''}
+        ${x.photo?`<img src="${x.photo}" class="photo-view" onclick="viewPhoto('${x.photo}')">`:''}
+      </div>
+      <span class="${x.prio==='haute'?'s-urg':x.prio==='med'?'s-warn':'s-ok'}" style="flex-shrink:0">${x.prio==='haute'?t('urgent').slice(0,4):x.prio==='med'?t('normal').slice(0,4):t('low').slice(0,4)}</span>
+    </div>`;
+  }).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_task')+'</div>';
+}
+
+async function toggleT(id){
+  const task={id,...(TACHES[id]||{})};
+  if(!TACHES[id])return;
+  if(!canEditTask(task)){alert(t('only_my_team'));return;}
+  if(task.statut!=='done'){openM('complete',id);return;}
+  if(currentUser.role!=='manager'){alert(t('only_manager_cancel'));return;}
+  window.fbUpdateData('taches',id,{statut:'open'});
+}
+window.toggleT=toggleT;
+
+function renderJournal(f='all'){
+  const arr=Object.entries(JOURNAL).map(([id,j])=>({id,...j})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+  let base;
+  if(currentUser.role==='manager'||currentUser.role==='chef')base=arr;
+  else base=arr.filter(j=>j.jardinier===currentUser.username);
+  let list=f==='all'?base:base.filter(j=>j.type===f);
+  document.getElementById('journal-list').innerHTML=list.map(j=>{
+    const jName=USERS[j.jardinier]?.nom||j.jardinier;
+    const typeLabels={entretien:t('j_maintenance'),plantation:t('j_planting'),traitement:t('j_treatment'),incident:t('j_incident')};
+    return `<div class="journal-entry">
+      <div class="je-date">${j.date} · ${j.zone} · ${jName}</div>
+      <div class="je-title">${j.titre}</div>
+      <div class="je-body">${j.notes||''}</div>
+      ${j.photo?`<img src="${j.photo}" class="photo-view" onclick="viewPhoto('${j.photo}')">`:''}
+      <div class="je-tags">
+        <span class="${j.type==='traitement'?'s-warn':j.type==='plantation'?'s-info':j.type==='incident'?'s-urg':'s-ok'}">${typeLabels[j.type]||j.type}</span>
+        ${j.photo?'<span class="s-ok">✓</span>':''}
+      </div>
+    </div>`;
+  }).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_entry')+'</div>';
+}
+
+function renderRecouches(f='all'){
+  const arr=Object.entries(RECOUCHES).map(([id,r])=>({id,...r})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+  let base;
+  if(currentUser.role==='manager'||currentUser.role==='chef')base=arr;
+  else base=arr.filter(r=>r.jardinier===currentUser.username);
+  let list=f==='all'?base:base.filter(r=>r.statut===f);
+  document.getElementById('rec-list').innerHTML=list.map(r=>{
+    const jName=USERS[r.jardinier]?.nom||r.jardinier;
+    const roomLabel = currentLang==='ar'?'غرفة':currentLang==='en'?'Room':'Chambre';
+    return `<div class="recouche-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <span class="chambre-badge">${roomLabel} ${r.chambre}</span>
+        <span class="${r.statut==='valide'?'s-ok':'s-warn'}">${r.statut==='valide'?'✓ '+t('r_valid'):t('r_pending')}</span>
+      </div>
+      <div style="font-size:12px;font-weight:500">${r.travail}</div>
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">${r.zone} · ${jName} · ${r.date}</div>
+      ${r.photo?`<img src="${r.photo}" class="photo-view" onclick="viewPhoto('${r.photo}')">`:'<div style="background:#FAECE7;border-radius:4px;padding:5px 8px;font-size:11px;color:#993C1D;margin-top:6px">⚠ '+t('photo_required')+'</div>'}
+    </div>`;
+  }).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_recouche')+'</div>';
+}
+
+function renderZones(){
+  const arr=Object.values(ZONES);
+  document.getElementById('zones-grid').innerHTML=arr.map(z=>`
+    <div class="fi">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+        <div class="fn" style="font-size:11px">${z.name}</div>
+        <span class="${z.statut==='ok'?'s-ok':z.statut==='warn'?'s-warn':'s-urg'}">${z.statut==='ok'?'OK':z.statut==='warn'?'⚠':'🔴'}</span>
+      </div>
+      <div class="fm">Audit: ${z.audit||85}%</div>
+      <div class="pg" style="height:3px"><div class="pgf ${(z.audit||85)<70?'d':(z.audit||85)<85?'w':''}" style="width:${z.audit||85}%"></div></div>
+    </div>
+  `).join('');
+}
+
+function renderAudit(){
+  const arr=Object.entries(AUDITS).map(([id,a])=>({id,...a})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+  document.getElementById('audit-list').innerHTML=arr.map(a=>`
+    <div class="card" style="padding:.75rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div style="font-size:13px;font-weight:500">${a.zone}</div>
+        <span style="font-size:16px;font-weight:500;color:${a.score>=85?'#0F6E56':a.score>=70?'#854F0B':'#D85A30'}">${a.score}%</span>
+      </div>
+      <div class="pg" style="margin-bottom:6px"><div class="pgf ${a.score<70?'d':a.score<85?'w':''}" style="width:${a.score}%"></div></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:10px;color:var(--color-text-secondary)">
+        <span>${t('cleanliness')}: ${a.criteres.proprete}/5</span>
+        <span>${t('pruning')}: ${a.criteres.taille}/5</span>
+        <span>${t('irrigation')}: ${a.criteres.irrigation}/5</span>
+        <span>${t('plants_state')}: ${a.criteres.etatPlantes}/5</span>
+        <span>${t('safety')}: ${a.criteres.securite}/5</span>
+      </div>
+      <div style="font-size:10px;color:var(--color-text-tertiary);margin-top:4px">${a.date}</div>
+    </div>
+  `).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_audit')+'</div>';
+}
+
+function renderPhyto(){
+  const arr=Object.values(PHYTO_STOCK);
+  document.getElementById('phyto-list').innerHTML=arr.map(p=>{
+    const pct=Math.round(Math.min(p.stock/p.alerte*80,100));
+    const bas=p.stock<p.alerte;
+    return `<div class="phyto-row">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:12px;font-weight:500">${p.nom}</div>
+        <span style="font-size:11px;color:${bas?'#D85A30':'var(--color-text-secondary)'};font-weight:${bas?500:400}">${p.stock} ${p.unite}${bas?' ⚠':''}</span>
+      </div>
+      <div style="font-size:10px;color:var(--color-text-secondary)">${p.cat} · ${p.usage}</div>
+      <div class="stock-bar"><div class="stock-fill" style="width:${pct}%;background:${bas?'#D85A30':'#1D9E75'}"></div></div>
+    </div>`;
+  }).join('');
+  const histArr=Object.entries(PHYTO_HIST).map(([id,h])=>({id,...h})).sort((a,b)=>(b.timestamp||0)-(a.timestamp||0));
+  document.getElementById('phyto-hist').innerHTML=histArr.map(h=>{
+    const jName=USERS[h.jardinier]?.nom||h.jardinier;
+    return `<div class="journal-entry" style="border-left-color:#378ADD">
+      <div class="je-date">${h.date} · ${h.zone} · ${jName}</div>
+      <div class="je-title">${h.produit}</div>
+      <div class="je-body">${t('dose')}: ${h.dose}</div>
+      ${h.photo?`<img src="${h.photo}" class="photo-view" onclick="viewPhoto('${h.photo}')">`:''}
+    </div>`;
+  }).join('') || '<div style="font-size:12px;color:var(--color-text-secondary);padding:10px;text-align:center">'+t('no_treatment')+'</div>';
+}
+
+function renderEquipe(){
+  const userEntries=Object.entries(USERS);
+  const manager=userEntries.filter(([k,u])=>u.role==='manager');
+  const chefs=userEntries.filter(([k,u])=>u.role==='chef');
+  const jardiniers=userEntries.filter(([k,u])=>u.role==='jardinier');
+  let html=`<div class="team-hdr">${t('management')}</div>`;
+  html+=manager.concat(chefs).map(([k,u])=>`
+    <div class="ji-row">
+      <div class="jav ${u.role==='manager'?'manager':u.role==='chef'?'chef':''}">${u.avatar}</div>
+      <div style="flex:1"><div class="jn">${u.nom}</div><div class="jm">${u.role==='manager'?'Landscape Manager':t('chef')} · @${k}</div></div>
+      <span class="role-badge ${u.role==='manager'?'role-manager':'role-chef'}">${u.role==='manager'?t('manager'):t('chef')}</span>
+    </div>
+  `).join('');
+  html+=`<div class="team-section"><div class="team-hdr">${t('gardener')} (${jardiniers.length})</div></div>`;
+  html+=jardiniers.map(([k,u])=>`
+    <div class="ji-row">
+      <div class="jav">${u.avatar}</div>
+      <div style="flex:1"><div class="jn">${u.nom}</div><div class="jm">${t('gardener')} · @${k}</div></div>
+      <span class="role-badge role-jard">${t('gardener').slice(0,4)}</span>
+    </div>
+  `).join('');
+  document.getElementById('equipe-list').innerHTML=html;
+}
+
+function renderUsers(){
+  if(currentUser?.role!=='manager')return;
+  const list=Object.entries(USERS);
+  document.getElementById('users-list').innerHTML=list.map(([k,u])=>`
+    <div class="ji-row">
+      <div class="jav ${u.role==='manager'?'manager':u.role==='chef'?'chef':''}">${u.avatar}</div>
+      <div style="flex:1">
+        <div class="jn">${u.nom}</div>
+        <div class="jm">@${k} · ${u.role==='manager'?t('manager'):u.role==='chef'?t('chef'):t('gardener')}</div>
+      </div>
+      <button class="btn-s" style="font-size:10px;padding:4px 8px" onclick="editUser('${k}')">${t('modify')}</button>
+    </div>
+  `).join('');
+}
+
+async function editUser(k){
+  if(currentUser.role!=='manager'){alert(t('manager_only'));return;}
+  const u=USERS[k];
+  const newPass=prompt(t('new_password_prompt')+' '+u.nom+' (@'+k+'):',u.password);
+  if(newPass&&newPass.trim()){
+    window.fbUpdateUser(k,{password:newPass.trim()});
+    alert(t('password_updated'));
+  }
+}
+window.editUser=editUser;
+
+function goSec(s){
+  document.querySelectorAll('.sec').forEach(x=>x.classList.remove('active'));
+  document.getElementById('sec-'+s).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  const target=document.querySelector('.nav-btn[data-sec='+s+']');
+  if(target)target.classList.add('active');
+  else document.querySelector('.nav-btn[data-sec=plus]').classList.add('active');
+  document.getElementById('fab').style.display=['dash','plus','zones','equipe','users'].includes(s)?'none':'flex';
+  window.scrollTo(0,0);
+}
+window.goSec=goSec;
+
+function fabAction(){
+  const active=document.querySelector('.sec.active')?.id?.replace('sec-','');
+  if(active==='taches')openM('tache');
+  else if(active==='journal')openM('journal');
+  else if(active==='recouches')openM('recouche');
+  else if(active==='audit'&&currentUser.role==='manager')openM('audit');
+  else if(active==='phyto')openM('phyto');
+}
+window.fabAction=fabAction;
+
+const ZONES_LIST=['Cluster 1','Cluster 2','Cluster 3','Cluster 4','Cluster 5','Cluster 6','Cluster 7','Cluster 8','Cluster 9','Potager','Spa','Allée Spa','Porte Principale','Porte Cochère','Restaurant Azure Piscine','Restaurant Tamimt','Restaurant Rivayat','Vue Bar','Grand Canal','Espaces communs'];
+
+function openM(type,id){
+  const w=document.getElementById('mwrap');
+  const c=document.getElementById('mcontent');
+  if(type==='tache'){
+    if(currentUser.role==='jardinier'){alert(t('task_creation_restricted'));return;}
+    const assigneeOpts=Object.entries(USERS).filter(([k,u])=>u.role!=='manager');
+    c.innerHTML=`
+      <div class="modal-title">${t('new_task')}</div>
+      <div class="frow"><label class="flabel">${t('description')}</label><input class="inp" id="f-nom"></div>
+      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="f-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
+      <div class="frow"><label class="flabel">${t('assigned_to')}</label><select class="inp" id="f-assign">${assigneeOpts.map(([k,u])=>`<option value="${k}">${u.nom}</option>`).join('')}</select></div>
+      <div class="frow"><label class="flabel">${t('priority')}</label><select class="inp" id="f-prio"><option value="haute">${t('urgent')}</option><option value="med">${t('normal')}</option><option value="low">${t('low')}</option></select></div>
+      <div class="frow"><label class="flabel">${t('date')}</label><select class="inp" id="f-date"><option>${t('today')}</option><option>${t('tomorrow')}</option><option>${t('this_week')}</option></select></div>
+      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addTache()">${t('create')}</button></div>
+    `;
+  } else if(type==='complete'){
+    const task=TACHES[id];
+    c.innerHTML=`
+      <div class="modal-title">${t('complete_task')}</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:10px">${task.nom}<br><span style="font-size:10px">${task.zone}</span></div>
+      <div class="frow">
+        <label class="flabel">${t('photo_required')}</label>
+        <div class="upload-zone" onclick="document.getElementById('c-photo').click()" id="c-upload">
+          <input type="file" id="c-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'c-prev','c-upload')">
+          <div class="uz-text">${t('take_photo')}</div>
+          <div class="uz-sub">${t('or_gallery')}</div>
+        </div>
+        <img id="c-prev" class="photo-preview">
+      </div>
+      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-validate" onclick="validateTache('${id}')">${t('validate')}</button></div>
+    `;
+  } else if(type==='journal'){
+    c.innerHTML=`
+      <div class="modal-title">${t('new_journal_entry')}</div>
+      <div class="frow"><label class="flabel">${t('title')}</label><input class="inp" id="j-titre"></div>
+      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="j-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
+      <div class="frow"><label class="flabel">${t('type')}</label><select class="inp" id="j-type"><option value="entretien">${t('j_maintenance')}</option><option value="plantation">${t('j_planting')}</option><option value="traitement">${t('j_treatment')}</option><option value="incident">${t('j_incident')}</option></select></div>
+      <div class="frow"><label class="flabel">${t('notes')}</label><textarea class="inp" id="j-notes" rows="3"></textarea></div>
+      <div class="frow">
+        <label class="flabel">${t('photo_required')}</label>
+        <div class="upload-zone" onclick="document.getElementById('j-photo').click()" id="j-upload">
+          <input type="file" id="j-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'j-prev','j-upload')">
+          <div class="uz-text">${t('take_photo')}</div>
+        </div>
+        <img id="j-prev" class="photo-preview">
+      </div>
+      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-journal" onclick="addJournal()">${t('save')}</button></div>
+    `;
+  } else if(type==='recouche'){
+    c.innerHTML=`
+      <div class="modal-title">${t('new_recouche')}</div>
+      <div style="background:#E6F1FB;border-radius:var(--border-radius-md);padding:7px 10px;font-size:11px;color:#0C447C;margin-bottom:10px">${t('room_rule')}</div>
+      <div class="frow"><label class="flabel">${t('room_number')}</label><input class="inp" id="r-chambre"></div>
+      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="r-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
+      <div class="frow"><label class="flabel">${t('work')}</label><input class="inp" id="r-travail"></div>
+      <div class="frow">
+        <label class="flabel">${t('final_photo')}</label>
+        <div class="upload-zone" onclick="document.getElementById('r-photo').click()" id="r-upload">
+          <input type="file" id="r-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'r-prev','r-upload')">
+          <div class="uz-text">${t('take_photo')}</div>
+          <div class="uz-sub">${t('no_photo_no_valid')}</div>
+        </div>
+        <img id="r-prev" class="photo-preview">
+      </div>
+      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-rec" onclick="addRecouche()">${t('save')}</button></div>
+    `;
+  } else if(type==='audit'){
+    if(currentUser.role!=='manager'){alert(t('audit_manager_only'));return;}
+    c.innerHTML=`
+      <div class="modal-title">${t('audit_sheet')}</div>
+      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="a-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
+      ${[t('cleanliness'),t('pruning'),t('irrigation'),t('plants_state'),t('safety')].map((k,i)=>`
+        <div class="frow">
+          <label class="flabel">${k}</label>
+          <div style="display:flex;gap:6px;margin-top:4px;align-items:center">
+            ${[1,2,3,4,5].map(s=>`<div class="star" id="as-${i}-${s}" onclick="setStar(${i},${s})"></div>`).join('')}
+            <span style="font-size:11px;color:var(--color-text-secondary);margin-left:4px" id="as-lbl-${i}">3/5</span>
+          </div>
+        </div>
+      `).join('')}
+      <div class="frow"><label class="flabel">${t('observations')}</label><textarea class="inp" id="a-notes" rows="2"></textarea></div>
+      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addAudit()">${t('validate')}</button></div>
+    `;
+    [0,1,2,3,4].forEach(i=>setStar(i,3));
+  } else if(type==='phyto'){
+    c.innerHTML=`
+      <div class="modal-title">${t('product_use')}</div>
+      <div class="frow"><label class="flabel">${t('product')}</label><select class="inp" id="p-prod">${Object.values(PHYTO_STOCK).map(p=>`<option>${p.nom}</option>`).join('')}</select></div>
+      <div class="frow"><label class="flabel">${t('zone')}</label><select class="inp" id="p-zone">${ZONES_LIST.map(z=>`<option>${z}</option>`).join('')}</select></div>
+      <div class="frow"><label class="flabel">${t('dose')}</label><input class="inp" id="p-dose"></div>
+      <div class="frow">
+        <label class="flabel">${t('photo_required')}</label>
+        <div class="upload-zone" onclick="document.getElementById('p-photo').click()" id="p-upload">
+          <input type="file" id="p-photo" accept="image/*" capture="environment" onchange="prevPhoto(this,'p-prev','p-upload')">
+          <div class="uz-text">${t('take_photo')}</div>
+        </div>
+        <img id="p-prev" class="photo-preview">
+      </div>
+      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" id="btn-phyto" onclick="addPhytoUse()">${t('save')}</button></div>
+    `;
+  } else if(type==='user'){
+    c.innerHTML=`
+      <div class="modal-title">${t('new_account')}</div>
+      <div class="frow"><label class="flabel">${t('full_name')}</label><input class="inp" id="uu-nom"></div>
+      <div class="frow"><label class="flabel">${t('username')}</label><input class="inp" id="uu-user" autocapitalize="none"></div>
+      <div class="frow"><label class="flabel">${t('password')}</label><input class="inp" id="uu-pass"></div>
+      <div class="frow"><label class="flabel">${t('role')}</label><select class="inp" id="uu-role"><option value="jardinier">${t('gardener')}</option><option value="chef">${t('chef')}</option></select></div>
+      <div class="mfoot"><button class="btn-s" onclick="closeM()">${t('cancel')}</button><button class="btn-g" onclick="addUser()">${t('create')}</button></div>
+    `;
+  }
+  w.classList.add('open');
+}
+window.openM=openM;
+
+function prevPhoto(input,previewId,uploadId){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=document.getElementById(previewId);
+    img.src=e.target.result;img.style.display='block';
+    if(uploadId)document.getElementById(uploadId).classList.add('has-file');
+  };
+  reader.readAsDataURL(file);
+}
+window.prevPhoto=prevPhoto;
+
+const auditStars=[3,3,3,3,3];
+function setStar(row,val){
+  auditStars[row]=val;
+  for(let s=1;s<=5;s++){const el=document.getElementById('as-'+row+'-'+s);if(el)el.className='star'+(s<=val?' on':'');}
+  const lbl=document.getElementById('as-lbl-'+row);if(lbl)lbl.textContent=val+'/5';
+}
+window.setStar=setStar;
+
+function closeM(){document.getElementById('mwrap').classList.remove('open')}
+window.closeM=closeM;
+
+function viewPhoto(url){document.getElementById('photo-modal-img').src=url;document.getElementById('photo-modal').classList.add('open');}
+window.viewPhoto=viewPhoto;
+
+function closePhotoModal(){document.getElementById('photo-modal').classList.remove('open');}
+window.closePhotoModal=closePhotoModal;
+
+async function compressImage(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    const reader=new FileReader();
+    reader.onload=e=>{
+      img.onload=()=>{
+        try{
+          const canvas=document.createElement('canvas');
+          let w=img.width,h=img.height;
+          const maxSize=800;
+          if(w>h&&w>maxSize){h=Math.round(h*maxSize/w);w=maxSize;}
+          else if(h>maxSize){w=Math.round(w*maxSize/h);h=maxSize;}
+          canvas.width=w;canvas.height=h;
+          canvas.getContext('2d').drawImage(img,0,0,w,h);
+          resolve(canvas.toDataURL('image/jpeg',0.65));
+        }catch(err){reject(err);}
+      };
+      img.onerror=reject;
+      img.src=e.target.result;
+    };
+    reader.onerror=reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+async function validateTache(id){
+  const fileInput=document.getElementById('c-photo');
+  if(!fileInput?.files?.length){alert(t('photo_missing'));return;}
+  const btn=document.getElementById('btn-validate');
+  btn.disabled=true;btn.textContent=t('uploading');
+  try{
+    const photoUrl=await compressImage(fileInput.files[0]);
+    window.fbUpdateData('taches',id,{statut:'done',photo:photoUrl,completedAt:Date.now()});
+    closeM();
+  }catch(e){alert(t('upload_error')+': '+e.message);btn.disabled=false;btn.textContent=t('validate');}
+}
+window.validateTache=validateTache;
+
+async function addTache(){
+  const nom=document.getElementById('f-nom')?.value?.trim();if(!nom)return;
+  window.fbPushData('taches',{
+    nom,zone:document.getElementById('f-zone').value,assigne:document.getElementById('f-assign').value,
+    prio:document.getElementById('f-prio').value,statut:'open',date:document.getElementById('f-date').value,
+    photo:null,type:'entretien',created:Date.now(),createdBy:currentUser.username
+  });
+  closeM();
+}
+window.addTache=addTache;
+
+async function addJournal(){
+  const titre=document.getElementById('j-titre')?.value?.trim();if(!titre)return;
+  const fileInput=document.getElementById('j-photo');
+  if(!fileInput?.files?.length){alert(t('photo_missing'));return;}
+  const btn=document.getElementById('btn-journal');
+  btn.disabled=true;btn.textContent=t('uploading');
+  try{
+    const photoUrl=await compressImage(fileInput.files[0]);
+    const now=new Date();
+    const dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    window.fbPushData('journal',{
+      date:dateStr,titre,zone:document.getElementById('j-zone').value,type:document.getElementById('j-type').value,
+      jardinier:currentUser.username,notes:document.getElementById('j-notes').value||'—',photo:photoUrl,timestamp:Date.now()
+    });
+    closeM();
+  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
+}
+window.addJournal=addJournal;
+
+async function addRecouche(){
+  const ch=document.getElementById('r-chambre')?.value?.trim();
+  const tr=document.getElementById('r-travail')?.value?.trim();
+  if(!ch){alert(t('room_number_required'));return;}
+  if(!tr)return;
+  const fileInput=document.getElementById('r-photo');
+  if(!fileInput?.files?.length){alert(t('photo_missing'));return;}
+  const btn=document.getElementById('btn-rec');
+  btn.disabled=true;btn.textContent=t('uploading');
+  try{
+    const photoUrl=await compressImage(fileInput.files[0]);
+    const now=new Date();
+    const dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    window.fbPushData('recouches',{
+      chambre:ch,zone:document.getElementById('r-zone').value,travail:tr,jardinier:currentUser.username,
+      date:dateStr,photo:photoUrl,statut:'valide',timestamp:Date.now()
+    });
+    closeM();
+  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
+}
+window.addRecouche=addRecouche;
+
+async function addAudit(){
+  const zone=document.getElementById('a-zone')?.value;
+  const score=Math.round(auditStars.reduce((a,b)=>a+b,0)/25*100);
+  const now=new Date();
+  const dateStr=now.toLocaleDateString('fr-FR');
+  window.fbPushData('audits',{
+    zone,date:dateStr,score,
+    criteres:{proprete:auditStars[0],taille:auditStars[1],irrigation:auditStars[2],etatPlantes:auditStars[3],securite:auditStars[4]},
+    notes:document.getElementById('a-notes')?.value||'—',auditor:currentUser.username,timestamp:Date.now()
+  });
+  closeM();
+}
+window.addAudit=addAudit;
+
+async function addPhytoUse(){
+  const fileInput=document.getElementById('p-photo');
+  if(!fileInput?.files?.length){alert(t('photo_missing'));return;}
+  const btn=document.getElementById('btn-phyto');
+  btn.disabled=true;btn.textContent=t('uploading');
+  try{
+    const photoUrl=await compressImage(fileInput.files[0]);
+    const now=new Date();
+    const dateStr=now.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit'})+' '+now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    window.fbPushData('phyto_hist',{
+      date:dateStr,produit:document.getElementById('p-prod').value,zone:document.getElementById('p-zone').value,
+      dose:document.getElementById('p-dose').value||'—',jardinier:currentUser.username,photo:photoUrl,timestamp:Date.now()
+    });
+    closeM();
+  }catch(e){alert(t('upload_error'));btn.disabled=false;btn.textContent=t('save');}
+}
+window.addPhytoUse=addPhytoUse;
+
+async function addUser(){
+  if(currentUser.role!=='manager'){alert(t('manager_only'));return;}
+  const n=document.getElementById('uu-nom').value.trim();
+  const u=document.getElementById('uu-user').value.trim().toLowerCase();
+  const p=document.getElementById('uu-pass').value;
+  if(!n||!u||!p){alert(t('all_fields_required'));return;}
+  if(USERS[u]){alert(t('username_exists'));return;}
+  const parts=n.split(' ');
+  const avatar=parts.length>1?(parts[0][0]+parts[1][0]).toUpperCase():n[0].toUpperCase();
+  window.fbSetUser(u,{password:p,nom:n,role:document.getElementById('uu-role').value,avatar});
+  closeM();alert(t('account_created'));
+}
+window.addUser=addUser;
+
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',function(){goSec(this.dataset.sec)}));
+document.querySelectorAll('.tab[data-f]').forEach(x=>x.addEventListener('click',function(){
+  document.querySelectorAll('.tab[data-f]').forEach(y=>y.classList.remove('active'));
+  this.classList.add('active');renderTaches(this.dataset.f);
+}));
+document.querySelectorAll('.tab[data-jf]').forEach(x=>x.addEventListener('click',function(){
+  document.querySelectorAll('.tab[data-jf]').forEach(y=>y.classList.remove('active'));
+  this.classList.add('active');renderJournal(this.dataset.jf);
+}));
+document.querySelectorAll('.tab[data-rf]').forEach(x=>x.addEventListener('click',function(){
+  document.querySelectorAll('.tab[data-rf]').forEach(y=>y.classList.remove('active'));
+  this.classList.add('active');renderRecouches(this.dataset.rf);
+}));
+document.getElementById('u-password').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin()});
+</script>
+</body>
+</html>
