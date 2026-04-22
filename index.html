@@ -207,7 +207,7 @@ html[dir=rtl] .fab{right:auto;left:calc(50% - 210px + 8px)}
       <label class="flabel" data-i18n="password">Mot de passe</label>
       <input class="inp" id="u-password" type="password" placeholder="••••••">
     </div>
-    <button class="btn-g" id="btn-login" onclick="doLogin()" data-i18n="login_btn">Se connecter</button>
+    <button class="btn-g" id="btn-login" data-i18n="login_btn">Se connecter</button>
   </div>
   <div id="firebase-config-warning" class="config-msg" style="display:none">
     <strong>⚠ Firebase non configuré</strong><br>
@@ -1663,7 +1663,31 @@ document.querySelectorAll(’.tab[data-rf]’).forEach(x=>x.addEventListener(‘
 document.querySelectorAll(’.tab[data-rf]’).forEach(y=>y.classList.remove(‘active’));
 this.classList.add(‘active’);renderRecouches(this.dataset.rf);
 }));
-document.getElementById(‘u-password’).addEventListener(‘keypress’,e=>{if(e.key===‘Enter’)doLogin()});
+document.getElementById(‘u-password’).addEventListener(‘keypress’,e=>{if(e.key===‘Enter’)doLogin();});
+
+// Bouton login — compatible Safari iPhone
+document.addEventListener(‘DOMContentLoaded’, function(){
+var btn = document.getElementById(‘btn-login’);
+if(btn){
+btn.onclick = null;
+btn.addEventListener(‘click’, function(e){
+e.preventDefault();
+e.stopPropagation();
+doLogin();
+}, false);
+}
+var inp = document.getElementById(‘u-username’);
+if(inp) inp.addEventListener(‘keypress’,e=>{if(e.key===‘Enter’)doLogin();});
+});
+
+// Fallback immédiat aussi
+setTimeout(function(){
+var btn = document.getElementById(‘btn-login’);
+if(btn && !btn._loginAttached){
+btn._loginAttached = true;
+btn.addEventListener(‘click’, function(){doLogin();}, false);
+}
+}, 500);
 </script>
 
 </body>
